@@ -8,7 +8,7 @@
           <li class="breadcrumb-item active">Actualizar registro</li>
         </ol>
         <div class="panel-body">
-          {!! Form:: model($diplomado,['route'=>['diplomado.update',$diplomado->id],'method'=>'PUT']) !!}
+          {!! Form:: model($diplomado,['route'=>['diplomado.update',$diplomado->id_dcn_dip],'method'=>'PUT']) !!}
             @include('PerfilDocente.Catalogos.Diplomados.forms.formCreate')
             <div class="row">
               <div class="form-group col-sm-6">

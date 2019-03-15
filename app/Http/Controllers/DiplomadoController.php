@@ -8,6 +8,8 @@ use Session;
 use Redirect;
 use \App\dcn_dip_diplomadosModel;
 use \App\cat_ins_institucionModel;
+use \App\cat_mod_modalidadModel;
+//use \App\cat_pa_pais;
 use \App\pdg_dcn_docenteModel;
 
 class DiplomadoController extends Controller
@@ -31,8 +33,9 @@ class DiplomadoController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function create(){
-      $institucion = cat_ins_institucionModel::pluck('nombre_ins','id');//se cambiara el id
-      return view('PerfilDocente.Catalogos.Diplomados.create',compact('instituciones'));
+      $instituciones = cat_ins_institucionModel::pluck('nombre_ins','id_cat_inst');
+      $modalidades = cat_mod_modalidadModel::pluck('nombre_modalidad','id_cat_mod');
+      return view('PerfilDocente.Catalogos.Diplomados.create',compact('instituciones','modalidades'));
   }
 
   /**
@@ -45,20 +48,24 @@ class DiplomadoController extends Controller
        $validatedData = $request->validate(
           [
               'nombre_diplomado' => 'required',
-              'descripcion_diplomado' => 'required',
-              'fecha_inicio_diplomado' => 'required',
-              'fecha_fin_diplomado' => 'required',
-              'id_ins' => 'required'
-
+              'descripcion_dip' => 'required',
+              'fecha_inicio_dip' => 'required',
+              'fecha_fin_dip' => 'required',
+              'id_cat_mod' => 'required',
+              'id_cat_inst' => 'required'/*,
+              'id_cat_pa' => 'required'
+*/
 
           ],
           [
             'nombre_diplomado.required' => ' Se require un nombre de diplomado',
-            'descripcion_diplomado.required' => 'Se requiere una descrpcion del diplomado',
-            'fecha_inicio_diplomado.required' => 'Se require una fecha de inicio',
-            'fecha_fin_diplomado.required' => 'Se requiere una fecha de finalización',
-            'id_ins.required' => 'Debe seleccionar una institucion'
-
+            'descripcion_dip.required' => 'Se requiere una descrpcion del diplomado',
+            'fecha_inicio_dip.required' => 'Se require una fecha de inicio',
+            'fecha_fin_dip' => 'Se requiere una fecha de finalización',
+            'id_cat_mod.required' => 'Debe seleccionar una modalidad',
+            'id_cat_inst.required' => 'Debe seleccionar una institucion'/*,
+            'id_cat_pa.required' => 'Debe seleccionar un pais'
+*/
 
           ]
       );
@@ -67,12 +74,14 @@ class DiplomadoController extends Controller
       $idDocente = $docente->id_pdg_dcn;
       $lastId = dcn_dip_diplomadosModel::create
                   ([
-                      'nombre_diplomado'                => $request["nombre_diplomado"],
-                      'descripcion_diplomado'       => $request["descripcion_diplomado"],
-                      'fecha_inicio_diplomado'           => $request["fecha_inicio_diplomado"],
-                      'fecha_fin_diplomado'                    => $request["fecha_fin_diplomado"],
-                      'id_ins'                        => $request["id"],
-                      'id_dcn'                        => $idDocente
+                      'nombre_diplomado'       => $request["nombre_diplomado"],
+                      'descripcion_dip'        => $request["descripcion_dip"],
+                      'fecha_inicio_dip'           => $request["fecha_inicio_dip"],
+                      'fecha_fin_dip'              => $request["fecha_fin_dip"],
+                      'id_cat_mod'             => $request["id_cat_mod"],
+                      'id_cat_inst'            => $request["id_cat_inst"],
+                      'id_cat_pa'              => 1,//se debe tener el CRUD o listado de cat_pa_pais
+                      'id_dcn'                 => $idDocente
 
                   ]);
       Session::flash('apartado','7');
@@ -98,17 +107,18 @@ class DiplomadoController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function edit($id){
-      $institucion = cat_ins_institucionModel::pluck('nombre_ins','id');
+      $instituciones = cat_ins_institucionModel::pluck('nombre_ins','id_cat_inst');
+      $modalidades = cat_mod_modalidadModel::pluck('nombre_modalidad','id_cat_mod');
       $diplomado = dcn_dip_diplomadosModel::find($id);
       $userLogin = Auth::user();
       $docente = pdg_dcn_docenteModel::where("id_gen_usuario","=",$userLogin->id)->first();
       $idDocente = $docente->id_pdg_dcn;
-      if (empty($diplomado->id)){//el id de diplomado se debe cambiar
+      if (empty($diplomado->id_dcn_dip)){
          return Redirect::to('/');
       }else if ($idDocente != $diplomado->id_dcn) {
          return Redirect::to('/');
       }else{
-          return view('PerfilDocente.Catalogos.Diplomados.edit',compact('institucion','diplomado'));
+          return view('PerfilDocente.Catalogos.Diplomados.edit',compact('instituciones','modalidades','diplomado'));
       }
 
   }
@@ -124,32 +134,39 @@ class DiplomadoController extends Controller
       $validatedData = $request->validate(
         [
             'nombre_diplomado' => 'required',
-            'descripcion_diplomado' => 'required',
-            'fecha_inicio_diplomado' => 'required',
-            'fecha_fin_diplomado' => 'required',
-            'id_ins' => 'required'
-
+            'descripcion_dip' => 'required',
+            'fecha_inicio_dip' => 'required',
+            'fecha_fin_dip' => 'required',
+            'id_cat_mod' => 'required',
+            'id_cat_inst' => 'required'/*,
+            'id_cat_pa' => 'required'
+*/
 
         ],
         [
           'nombre_diplomado.required' => ' Se require un nombre de diplomado',
-          'descripcion_diplomado.required' => 'Se requiere una descrpcion del diplomado',
-          'fecha_inicio_diplomado.required' => 'Se require una fecha de inicio',
-          'fecha_fin_diplomado.required' => 'Se requiere una fecha de finalización',
-          'id_ins.required' => 'Debe seleccionar una institucion'
-
+          'descripcion_dip.required' => 'Se requiere una descrpcion del diplomado',
+          'fecha_inicio_dip.required' => 'Se require una fecha de inicio',
+          'fecha_fin_dip.required' => 'Se requiere una fecha de finalización',
+          'id_cat_mod.required' => 'Debe seleccionar una modalidad',
+          'id_cat_inst.required' => 'Debe seleccionar una institucion'/*,
+          'id_cat_pa.required' => 'Debe seleccionar un pais'
+*/
 
         ]
       );
       $userLogin = Auth::user();
       $docente = pdg_dcn_docenteModel::where("id_gen_usuario","=",$userLogin->id)->first();
       $idDocente = $docente->id_pdg_dcn;
+      $pais= 1;//esto despues lo arreglamos
       $diplomado = dcn_dip_diplomadosModel::find($id);
       $diplomado ->nombre_diplomado = $request["nombre_diplomado"];
-      $diplomado ->descripcion_diplomado = $request["descripcion_diplomado"];
-      $diplomado ->fecha_inicio_diplomado = $request["fecha_inicio_diplomado"];
-      $diplomado ->fecha_fin_diplomado = $request["fecha_fin_diplomado"];
-      $diplomado ->id_ins = $request["id_ins"];
+      $diplomado ->descripcion_dip = $request["descripcion_dip"];
+      $diplomado ->fecha_inicio_dip = $request["fecha_inicio_dip"];
+      $diplomado ->fecha_fin_dip = $request["fecha_fin_dip"];
+      $diplomado ->id_cat_mod = $request["id_cat_mod"];
+      $diplomado ->id_cat_inst = $request["id_cat_inst"];
+      //$diplomado ->id_cat_pa = $request["id_cat_pa"];
       $diplomado->save();
       Session::flash('apartado','7');
       Session::flash('message','Registro de diplomado actulizado correctamente!');
@@ -164,7 +181,7 @@ class DiplomadoController extends Controller
    */
   public function destroy($id){
       //
-      dcn_cer_certificacionesModel::destroy($id);
+      dcn_dip_diplomadosModel::destroy($id);
       Session::flash('message','Registro de diplomado  Eliminado Correctamente!');
       Session::flash('apartado','7');
       return Redirect::to('DashboardPerfilDocente');

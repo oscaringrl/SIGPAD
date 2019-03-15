@@ -12,29 +12,33 @@ use \App\dcn_exp_experienciaModel;
 use \App\dcn_his_historial_academicoModel;
 use \App\cat_mat_materiaModel;
 use \App\dcn_cer_certificacionesModel;
+use \App\dcn_dip_diplomadosModel;
 use \App\cat_car_cargo_eisiModel;
 use \App\gen_UsuarioModel;
 use \App\cat_tpo_jrn_dcn_tipo_jornada_docenteModel;
 use \App\cat_ski_skillModel;
 use \App\cat_tpo_doc_tipo_documentoModel;
+use \App\cat_ins_institucionModel;
 use \App\rel_ski_dcn_skill_docenteModel;
 use \App\User;
 use File;;
 use Illuminate\Support\Facades\Storage;
 class GestionDocenteController extends Controller
-{   
+{
     public function __construct(){
         $this->middleware('auth', ['only' => ['index','create','store','downloadPlantilla','actualizarPerfilDocente','updateDocente','listadoDocentes','edit','createUpdateDocente','updateDocenteExcel','downloadPlantillaAdministraDocente','validaPermiso']]);
     }
     function index(){
        $userLogin = Auth::user();
        $docente = pdg_dcn_docenteModel::where("id_gen_usuario","=",$userLogin->id)->first();
-       $idDocente = $docente->id_pdg_dcn; 
+       $idDocente = $docente->id_pdg_dcn;
        $docente = new pdg_dcn_docenteModel();
        $info = $docente->getGeneralInfo($idDocente);
        $academica = $docente->getHistorialAcademico($idDocente);
        $laboral = $docente->getDataExperienciaDocente($idDocente);
        $certificaciones = $docente->getDataCertificacionesDocente($idDocente);
+       $diplomados = $docente->getDataDiplomadosDocente($idDocente);
+       //$diplomados = dcn_dip_diplomadosModel::all();
        $habilidadesSelect = cat_ski_skillModel::pluck("nombre_cat_ski","id_cat_ski");
        $habilidades = $docente->getDataSkillsDocente($idDocente);
        $cargosPrincipal = cat_car_cargo_eisiModel::all();
@@ -51,9 +55,9 @@ class GestionDocenteController extends Controller
                                     '.$principal->nombre_cargo.'
                                     </option>';
             }
-           
+
        }
-       
+
        foreach ($cargosSegundarios as $secundario) {
             if ($secundario->id_cat_car == $info[0]->id_segundo_cargo) {
                  $bodySelectSecundario.='<option value="'.$secundario->id_cat_car.'" selected="selected">
@@ -64,10 +68,10 @@ class GestionDocenteController extends Controller
                     '.$secundario->nombre_cargo.'
                     </option>';
             }
-           
+
        }
        $niveles = cat_ski_skillModel::getNivelesSkills();
-       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles'));
+       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','diplomados','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles'));
     }
     function create(){
         return view('PerfilDocente.create');
@@ -86,13 +90,13 @@ class GestionDocenteController extends Controller
             $reader->setSelectedSheetIndices(array(6)); //5-8
         })->get();
         $dataAcademica = Excel::load($request->file('documentoPerfil'), function ($reader) {
-            $reader->setSelectedSheetIndices(array(7)); 
+            $reader->setSelectedSheetIndices(array(7));
         })->get();
         $dataCertificaciones = Excel::load($request->file('documentoPerfil'), function ($reader) {
-            $reader->setSelectedSheetIndices(array(8)); 
+            $reader->setSelectedSheetIndices(array(8));
         })->get();
         $dataHabilidades = Excel::load($request->file('documentoPerfil'), function ($reader) {
-            $reader->setSelectedSheetIndices(array(5)); 
+            $reader->setSelectedSheetIndices(array(5));
         })->get();
         $experienciaLaboral = $dataLaboral->toArray();
         $experienciaAcademica = $dataAcademica->toArray();
@@ -114,13 +118,13 @@ class GestionDocenteController extends Controller
                         'anio_fin_dcn_exp'      => $laboral["fechafin"],
                         'descripcion_dcn_exp'   => $laboral["descripcion"],
                         'id_cat_idi'            => $laboral["idioma"],
-                        'id_pdg_dcn'            => $idDocente  
-                        
+                        'id_pdg_dcn'            => $idDocente
+
                     ]);
                 }
             }
             $bodyHtml .= '<tr>';
-                        $bodyHtml .= '<td>EXPERIENCIA LABORAL</td>';
+                        $bodyHtml .= '<td>DIPLOMADOS</td>';//esto modifique
                         $bodyHtml .= '<td><span class="badge badge-success">OK</span></td>';
                         $bodyHtml .= '<td>Todos los registros válidos se realizaron exitosamente.</td>';
                         $bodyHtml .= '</tr>';
@@ -150,11 +154,11 @@ class GestionDocenteController extends Controller
                           'id_cat_mat'                => $idMateria,
                           'id_cat_car'                => $academica["cargo"],
                           'anio'                      => $academica["anho"],
-                          'descripcion_adicional'     => $academica["descripcion"] 
-                          
+                          'descripcion_adicional'     => $academica["descripcion"]
+
                       ]);
                   }
-                   
+
                 }
             }
             $bodyHtml .= '<tr>';
@@ -171,18 +175,18 @@ class GestionDocenteController extends Controller
         }
 
         //INSERTANDO CERTIFICACIONES
-         
+
         try {
             foreach ($certificaciones as $certificacion) {
                 if (!is_null($certificacion["nombrecert"]) && !is_null($certificacion["anhocert"]) && !is_null($certificacion["institucioncert"]) && !is_null($certificacion["idiomacert"])) {
-                    
+
                    $lastId = dcn_cer_certificacionesModel::create
                     ([
                         'nombre_dcn_cer'                => $certificacion["nombrecert"],
                         'anio_expedicion_dcn_cer'       => $certificacion["anhocert"],
                         'institucion_dcn_cer'           => $certificacion["institucioncert"],
                         'id_cat_idi'                    => $certificacion["idiomacert"],
-                        'id_dcn'                        => $idDocente               
+                        'id_dcn'                        => $idDocente
                     ]);
                 }
             }
@@ -200,7 +204,7 @@ class GestionDocenteController extends Controller
         }
 
         //INSERTANDO HABILIDADES
-         
+
         try {
             foreach ($habilidades as $habilidad) {
                 if (!is_null($habilidad["idhabilidad"]) && !is_null($habilidad["idnivel"])) {
@@ -214,12 +218,12 @@ class GestionDocenteController extends Controller
                     ([
                         'id_cat_ski' => $habilidad["idhabilidad"],
                         'nivel_ski_dcn'   => $habilidad["idnivel"],
-                        'id_pdg_dcn'      => $idDocente  
-                                
+                        'id_pdg_dcn'      => $idDocente
+
                     ]);
                   }
-                    
-                   
+
+
                 }
             }
             $bodyHtml .= '<tr>';
@@ -243,11 +247,11 @@ class GestionDocenteController extends Controller
              $docenteObjeto->perfilPrivado='1'; //PERFIL DEBE SER PRIVADO
              $docenteObjeto->save();
         }
-       
-        
+
+
         return view('PerfilDocente.resultadoCarga', compact('bodyHtml'));
     }
-	
+
     function getInfoDocente(Request $request){
     	$docente = new pdg_dcn_docenteModel();
     	$info = $docente->getDataGestionDocente($request['docente']);
@@ -262,32 +266,38 @@ class GestionDocenteController extends Controller
     	$docente = new pdg_dcn_docenteModel();
     	$info = $docente->getDataExperienciaDocente($request['docente']);
     	return $info;
-    	
+
     }
     function getCertificaciones(Request $request){
     	$docente = new pdg_dcn_docenteModel();
     	$info = $docente->getDataCertificacionesDocente($request['docente']);
     	return $info;
-    	
+
     }
     function getSkills(Request $request){
     	$docente = new pdg_dcn_docenteModel();
     	$info = $docente->getDataSkillsDocente($request['docente']);
     	return $info;
-    	
+
+    }
+    function getDiploamdos(Request $request){
+    	$docente = new pdg_dcn_docenteModel();
+    	$info = $docente->getDataDiplomadosDocente($request['docente']);
+    	return $info;
+
     }
     function getGeneralInfoDocente(Request $request){
         $docente = new pdg_dcn_docenteModel();
         $info = $docente->getGeneralInfo($request['docente']);
         return $info;
-        
+
     }
 
     function getListadoDocentes(Request $request){
             $docente = new pdg_dcn_docenteModel();
             $info = $docente->getListadoDocenteByJornada($request['jornada']);
             return $info;
-            
+
     }
     function downloadPlantilla(Request $request){
             $path= public_path().$_ENV['PATH_RECURSOS'].'temp-perfil-docente.xlsx';
@@ -329,7 +339,7 @@ class GestionDocenteController extends Controller
           Storage::disk('perfilDocente')->put($nombre, File::get($file));
           $path= url('/').$_ENV['PATH_PERFIL_DOCENTE'];
       }
-     
+
       $usuario->email = $request['email'];
 
       $infoDocente->descripcionDocente=$request['descripcion'];
@@ -348,11 +358,11 @@ class GestionDocenteController extends Controller
       	 $infoDocente->perfilPrivado=0;
       }
       $infoDocente->id_segundo_cargo=$request['cargoSegundario'];
-     
+
       $infoDocente->save();
       $usuario->save();
       Session::flash('message','Actualización  de información general de Perfil Docente realizada con éxito.');
-      return Redirect::to('DashboardPerfilDocente'); 
+      return Redirect::to('DashboardPerfilDocente');
 
     }
     function listadoDocentes (){
@@ -363,15 +373,15 @@ class GestionDocenteController extends Controller
         $docentes = pdg_dcn_docenteModel::all();
         return view('PerfilDocente.listadoDocentes',compact('docentes'));
     }
-    
+
       public function edit($id){
           if(!self::validaPermiso('gestionDocente.edit')){
               Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
-             return Redirect::to('/'); 
+             return Redirect::to('/');
       }
       $docente = pdg_dcn_docenteModel::find($id);
       if (empty($docente->id_pdg_dcn)) {
-        return Redirect::to('/'); 
+        return Redirect::to('/');
       }
       $cargos = cat_car_cargo_eisiModel::all();
       $tipoJornadas = cat_tpo_jrn_dcn_tipo_jornada_docenteModel::all();
@@ -389,9 +399,9 @@ class GestionDocenteController extends Controller
                                     '.$principal->nombre_cargo.'
                                     </option>';
             }
-           
+
        }
-       
+
        foreach ($cargos as $secundario) {
             if ($secundario->id_cat_car == $docente->id_segundo_cargo) {
                  $bodySelectSecundario.='<option value="'.$secundario->id_cat_car.'" selected="selected">
@@ -402,7 +412,7 @@ class GestionDocenteController extends Controller
                     '.$secundario->nombre_cargo.'
                     </option>';
             }
-           
+
        }
 
        foreach ($tipoJornadas as $jornada) {
@@ -415,7 +425,7 @@ class GestionDocenteController extends Controller
                     '.$jornada->descripcion_cat_tpo_jrn_dcn.'
                     </option>';
             }
-           
+
        }
        /*if ($docente->tipoJornada == 1) {
          $bodySelectJornada ='
@@ -493,7 +503,7 @@ class GestionDocenteController extends Controller
         );
        $docente = pdg_dcn_docenteModel::find($request['docente']);
        if (empty($docente->id_pdg_dcn)) {
-         return Redirect::to('/'); 
+         return Redirect::to('/');
        }
        $docente->id_cargo_actual    = $request['cargoPrincipal'];
        if ( $request['cargoSegundario']!="" &&  $request['cargoSegundario']!=NULL &&  isset($request['cargoSegundario'])) {
@@ -507,7 +517,7 @@ class GestionDocenteController extends Controller
        $docente->pdg_dcn_prioridad  = $request['orden'];
        $docente->save();
       Session::flash('message','Actualización  de información de Docente realizada con éxito.');
-      return Redirect::to('listadoDocentes'); 
+      return Redirect::to('listadoDocentes');
     }
 
 
@@ -535,7 +545,7 @@ class GestionDocenteController extends Controller
           foreach ($docentes as $docente) {
             //return var_dump($usuario);
             if (!is_null($docente["usuario"])) {
-              //Verificamos si el docente se encuentra registrado 
+              //Verificamos si el docente se encuentra registrado
               $user  = User::where('user','=',$docente["usuario"])->first();
               if (!empty($user->id)){
               	if ($docente["cargo1"] == $docente["cargo2"]) {
@@ -585,7 +595,7 @@ class GestionDocenteController extends Controller
                 $bodyHtml .= '<td><span class="badge badge-danger">Error</span></td>';
                 $bodyHtml .= '<td>El Docente que esta intentando actualizar no se encuentra registrado.</td>';
                 $bodyHtml .= '</tr>';
-               
+
               }
 
                 }
