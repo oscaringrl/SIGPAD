@@ -8,7 +8,7 @@
           <li class="breadcrumb-item active">Actualizar registro</li>
         </ol>
     		<div class="panel-body">
-      		{!! Form:: model($catInstitucion,['route'=>['catInstitucion.update',$catInstitucion->id],'method'=>'PUT']) !!}
+      		{!! Form:: model($catInstitucion,['route'=>['catInstitucion.update',$catInstitucion->id_cat_inst],'method'=>'PUT']) !!}
       			@include('catInstitucion.forms.formCreate')
             <div class="row">
               <div class="form-group col-sm-6">

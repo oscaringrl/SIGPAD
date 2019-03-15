@@ -101,12 +101,12 @@
                             <div class="row">
                                 @can('catInstitucion.edit')
                                     <div class="col-6">
-                                        <a class="btn " style="background-color:  #102359;color: white" href="{{route('catInstitucion.edit',$catInst->id)}}"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn " style="background-color:  #102359;color: white" href="{{route('catInstitucion.edit',$catInst->id_cat_inst)}}"><i class="fa fa-pencil"></i></a>
                                     </div>
                                 @endcan
                                 @can('cargoEisi.destroy')
                                     <div class="col-6">
-                                        {!! Form::open(['route'=>['catInstitucion.destroy',$catInst->id],'method'=>'DELETE','class' => 'deleteButton']) !!}
+                                        {!! Form::open(['route'=>['catInstitucion.destroy',$catInst->id_cat_inst],'method'=>'DELETE','class' => 'deleteButton']) !!}
                                         <div class="btn-group">
                                             <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                         </div>

@@ -6,7 +6,7 @@
   			$( document ).ready(function() {
     			swal("", "{{Session::get('message')}}", "success");
 			});
-  		</script>		
+  		</script>
 @endif
 <script type="text/javascript">
 	$( document ).ready(function() {
@@ -16,7 +16,7 @@
               e.preventDefault();
         	}
       	});
-		
+
     	$("#listTable").DataTable({
             language: {
                 url: 'es-ar.json' //Ubicacion del archivo con el json del idioma.
@@ -62,7 +62,7 @@
         order: [ 0, 'asc' ],
     	});
 	});
-	
+
 </script>
 		<ol class="breadcrumb"  style="text-align: center; margin-top: 1em">
 	        <li class="breadcrumb-item">
@@ -79,7 +79,7 @@
       <a class="btn btn-primary" href="{{route('catModalidad.create')}}" ><i class="fa fa-plus"></i> Nueva Modalidad</a>
     </div>
   @endcan
-  </div> 
+  </div>
 
 		<br>
   		<div class="table-responsive">
@@ -101,12 +101,12 @@
                             <div class="row">
                                 @can('catModalidad.edit')
                                     <div class="col-6">
-                                        <a class="btn " style="background-color:  #102359;color: white" href="{{route('catModalidad.edit',$catMod->id)}}"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn " style="background-color:  #102359;color: white" href="{{route('catModalidad.edit',$catMod->id_cat_mod)}}"><i class="fa fa-pencil"></i></a>
                                     </div>
                                 @endcan
                                 @can('cargoEisi.destroy')
                                     <div class="col-6">
-                                        {!! Form::open(['route'=>['catModalidad.destroy',$catMod->id],'method'=>'DELETE','class' => 'deleteButton']) !!}
+                                        {!! Form::open(['route'=>['catModalidad.destroy',$catMod->id_cat_mod],'method'=>'DELETE','class' => 'deleteButton']) !!}
                                         <div class="btn-group">
                                             <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                         </div>
@@ -116,7 +116,7 @@
                             </div>
                         </td>
 					</tr>
-				@endforeach 
+				@endforeach
 				</tbody>
 			</table>
 	   </div>
