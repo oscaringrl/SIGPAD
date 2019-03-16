@@ -73,9 +73,9 @@ class pdg_dcn_docenteModel extends Model
         //->whereNotIn('pdg_tri_gru_tribunal_grupo.id_pdg_gru',)
         ->select('gen_usuario.name','gen_usuario.email','pdg_dcn_docente.id_pdg_dcn',
             DB::raw('count(
-                        if(pdg_tri_gru_tribunal_grupo.id_pdg_tri_rol=1 
+                        if(pdg_tri_gru_tribunal_grupo.id_pdg_tri_rol=1
                             AND pdg_tri_gru_tribunal_grupo.id_pdg_gru NOT IN '.$finalizadosStr.' ,1,null)
-                        ) as asigned_as_A, 
+                        ) as asigned_as_A,
                     count(
                         if(pdg_tri_gru_tribunal_grupo.id_pdg_tri_rol=3
                             AND pdg_tri_gru_tribunal_grupo.id_pdg_gru NOT IN '.$finalizadosStr.' ,1,null)
@@ -95,12 +95,12 @@ class pdg_dcn_docenteModel extends Model
             $where = " ";
         }
         $query = "select distinct x.NumGrupo, x.Carnet, x.Lider, x.finalizo
-            from (select gru.numero_pdg_gru as NumGrupo, 
+            from (select gru.numero_pdg_gru as NumGrupo,
             UPPER(est.carnet_gen_est) as Carnet,
-            est.nombre_gen_est as Lider, 
+            est.nombre_gen_est as Lider,
             triR.nombre_tri_rol as TribunalRol,
             usr.name  as Docente,
-			IFNULL((select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra = 
+			IFNULL((select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra =
             (SELECT id_pdg_tra_gra from pdg_tra_gra_trabajo_graduacion where id_pdg_gru = gru.id_pdg_gru )),0) as finalizo
             from pdg_tri_gru_tribunal_grupo triG
              join pdg_gru_est_grupo_estudiante gruE on triG.id_pdg_gru=gruE.id_pdg_gru and gruE.eslider_pdg_gru_est=1
@@ -122,7 +122,7 @@ class pdg_dcn_docenteModel extends Model
     }
     public static function getTribunales($anio,$estado){
         if ($estado == 0 || $estado == 1 ) {
-            $where = " where ifnull(x.finalizo,0) =:estado "; 
+            $where = " where ifnull(x.finalizo,0) =:estado ";
         }elseif ($estado == 2) {
            $where = " ";
         }
@@ -132,7 +132,7 @@ class pdg_dcn_docenteModel extends Model
             est.nombre_gen_est as Lider,
             triR.nombre_tri_rol as TribunalRol,
             usr.name  as Docente,
-            (select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra = 
+            (select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra =
             (SELECT id_pdg_tra_gra from pdg_tra_gra_trabajo_graduacion where id_pdg_gru = gru.id_pdg_gru )) as finalizo
             from pdg_tri_gru_tribunal_grupo triG
              join pdg_gru_est_grupo_estudiante gruE on triG.id_pdg_gru=gruE.id_pdg_gru and gruE.eslider_pdg_gru_est=1
@@ -149,8 +149,8 @@ class pdg_dcn_docenteModel extends Model
             $trib = DB::select($select,array($anio,$estado));
         }elseif ($estado == 2) {
            $trib = DB::select($select,array($anio));
-        }        
-        
+        }
+
         return $trib;
     }
     public static function getDocentes($anio,$estado){
@@ -166,7 +166,7 @@ class pdg_dcn_docenteModel extends Model
             triR.nombre_tri_rol as TribunalRol,
             usr.name  as Docente,
             usr.user as CarnetDoc,
-            (select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra = 
+            (select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra =
             (SELECT id_pdg_tra_gra from pdg_tra_gra_trabajo_graduacion where id_pdg_gru = gru.id_pdg_gru )) as finalizo
             from pdg_tri_gru_tribunal_grupo triG
              join pdg_gru_est_grupo_estudiante gruE on triG.id_pdg_gru=gruE.id_pdg_gru and gruE.eslider_pdg_gru_est=1
@@ -198,7 +198,7 @@ class pdg_dcn_docenteModel extends Model
             triR.nombre_tri_rol as TribunalRol,
             usr.name  as Docente,
             usr.user as CarnetDoc,
-            IFNULL((select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra = 
+            IFNULL((select aprobo from pdg_apr_eta_tra_aprobador_etapa_trabajo where id_cat_eta_eva = 999 AND id_pdg_tra_gra =
             (SELECT id_pdg_tra_gra from pdg_tra_gra_trabajo_graduacion where id_pdg_gru = gru.id_pdg_gru )),0) as finalizo
             from pdg_tri_gru_tribunal_grupo triG
              join pdg_gru_est_grupo_estudiante gruE on triG.id_pdg_gru=gruE.id_pdg_gru and gruE.eslider_pdg_gru_est=1
@@ -270,6 +270,28 @@ class pdg_dcn_docenteModel extends Model
         return $data;
     }
 
+    public function getDataPostgradosDocente($idDocente){
+
+        $data = DB::select("select distinct
+                            IFNULL(	id_dcn_post,'') as 	id_dcn_post,
+                            IFNULL(abreviatura,'') as abreviatura,
+                            IFNULL(nombre_p_grado,'') as nombre_p_grado,
+                            IFNULL(descripcion_p_grado,'') as descripcion_p_grado,
+                            IFNULL(fecha_inicio,'') as fecha_inicio,
+                            IFNULL(fecha_fin,'') fecha_fin,
+                            IFNULL(id_cat_inst_post,'') as id_cat_inst_post,
+                            IFNULL(nombre_ins_post,'') as nombre_ins_post,
+                            IFNULL(id_cat_pa_post,'') as id_cat_pa_post,
+                            IFNULL(nombre_pais_post,'') as nombre_pais_post
+                            from view_dcn_perfildocente
+                            where id_pdg_dcn = :idDocente",
+            array(
+                $idDocente
+            )
+        );
+        return $data;
+    }
+
     public function getDataSkillsDocente($idDocente){
 
         $data = DB::select("select distinct
@@ -285,7 +307,7 @@ class pdg_dcn_docenteModel extends Model
         return $data;
     }
      public function getGeneralInfo($idDocente){
-         $data = DB::select("select 
+         $data = DB::select("select
                             IFNULL(usuario.name,'') as name,
                             IFNULL(usuario.primer_nombre,'') as primer_nombre,
                             IFNULL(usuario.segundo_nombre,'') as segundo_nombre,
@@ -307,9 +329,9 @@ class pdg_dcn_docenteModel extends Model
                             ,IFNULL(docente.display_name,'') as display_name,
                             IFNULL(docente.perfilPrivado,'') as perfilPrivado,
                             IFNULL(docente.id_pdg_dcn,'') as id_pdg_dcn
-                            
+
                             from  pdg_dcn_docente docente
-                            inner join gen_usuario usuario on usuario.id = docente.id_gen_usuario 
+                            inner join gen_usuario usuario on usuario.id = docente.id_gen_usuario
                             left join cat_car_cargo_eisi cargo on cargo.id_cat_car=docente.id_cargo_actual
                             left join cat_car_cargo_eisi cargo2 on cargo2.id_cat_car=docente.id_segundo_cargo
                             where docente.id_pdg_dcn=:idDocente",
@@ -318,16 +340,16 @@ class pdg_dcn_docenteModel extends Model
             )
         );
         return $data;
-      
+
     }
 
     public static function getListadoDocenteByJornada($jornada){
-        $docentes = DB::select("select 
+        $docentes = DB::select("select
             dcn.id_pdg_dcn,
             usr.primer_nombre,
             COALESCE(usr.segundo_nombre, '') as segundo_nombre ,
             usr.primer_apellido,
-            COALESCE(usr.segundo_apellido, '') as segundo_apellido ,            
+            COALESCE(usr.segundo_apellido, '') as segundo_apellido ,
             car.nombre_cargo,
             IFNULL(car2.nombre_cargo,'') AS nombre_cargo2,
             COALESCE(dcn.dcn_profileFoto ,'default.jpg') as dcn_profileFoto,
@@ -335,8 +357,8 @@ class pdg_dcn_docenteModel extends Model
             dcn.perfilPrivado
             ,COALESCE(dcn.display_name,usr.primer_nombre||' '||usr.primer_apellido) as display_name
             ,jrnd.descripcion_cat_tpo_jrn_dcn AS emp_clasif
-            from pdg_dcn_docente dcn 
-            inner join gen_usuario usr on usr.id=dcn.id_gen_usuario 
+            from pdg_dcn_docente dcn
+            inner join gen_usuario usr on usr.id=dcn.id_gen_usuario
             left join cat_car_cargo_eisi car on car.id_cat_car=dcn.id_cargo_actual
             LEFT JOIN cat_car_cargo_eisi car2 ON car2.id_cat_car=dcn.id_segundo_cargo
             INNER JOIN cat_tpo_jrn_dcn_tipo_jornada_docente jrnd ON dcn.tipoJornada = jrnd.id_cat_tpo_jrn_dcn
@@ -348,10 +370,10 @@ class pdg_dcn_docenteModel extends Model
         );
         return $docentes;
     }
-  
+
     private static function getDocentesCoordinadores(){
-        $query = "SELECT 
-                        dcn.id_pdg_dcn 
+        $query = "SELECT
+                        dcn.id_pdg_dcn
                     FROM pdg_dcn_docente dcn
                         INNER JOIN role_user rlusr 	ON rlusr.user_id = dcn.id_gen_usuario
                         INNER JOIN roles	rl		ON rl.id = rlusr.role_id

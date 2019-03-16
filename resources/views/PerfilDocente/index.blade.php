@@ -24,24 +24,29 @@
     				$("#laboral-tab").removeClass('active');
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").removeClass('active');
+            $("#post-tab").removeClass('active');
 
     				$("#general").addClass('show active');
     				$("#academica").removeClass('show active');
     				$("#laboral").removeClass(' show active');
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").removeClass('show active');
+            $("#post").removeClass('show active');
+
   				}else if ({{Session::get('apartado')}} == '2') {
   					$("#general-tab").removeClass('active');
     				$("#academica-tab").addClass('active');
     				$("#laboral-tab").removeClass('active');
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").removeClass('active');
+            $("#post-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").addClass('show active');
     				$("#laboral").removeClass(' show active');
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").removeClass('show active');
+            $("#post").removeClass('show active');
 
   				}else if ({{Session::get('apartado')}} == '3') {
   					$("#general-tab").removeClass('active');
@@ -49,12 +54,14 @@
     				$("#laboral-tab").addClass('active');
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").removeClass('active');
+            $("#post-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").removeClass('show active');
     				$("#laboral").addClass('show active');
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").removeClass('show active');
+            $("#post").removeClass('show active');
 
   				}else if ({{Session::get('apartado')}} == '4') {
   					$("#general-tab").removeClass('active');
@@ -62,12 +69,14 @@
     				$("#laboral-tab").removeClass('active');
     				$("#certificaciones-tab").addClass('active');
     				$("#habilidades-tab").removeClass('active');
+            $("#post-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").removeClass('show active');
     				$("#laboral").removeClass('show active');
     				$("#certificaciones").addClass(' show active');
     				$("#habilidades").removeClass('show active');
+            $("#post").removeClass('show active');
   				}
     			else if ({{Session::get('apartado')}} == '5') {
     				$("#general-tab").removeClass('active');
@@ -75,12 +84,29 @@
     				$("#laboral-tab-tab").removeClass('active');
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").addClass('active');
+            $("#post-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").removeClass('show active');
     				$("#laboral").removeClass(' show active');
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").addClass('show active');
+            $("#post").removeClass('show active');
+    			}
+          else if ({{Session::get('apartado')}} == '6') {
+    				$("#general-tab").removeClass('active');
+    				$("#academica-tab").removeClass('active');
+    				$("#laboral-tab-tab").removeClass('active');
+    				$("#certificaciones-tab").removeClass('active');
+    				$("#habilidades-tab").removeClass('active');
+            $("#post-tab").addClass('active');
+
+    				$("#general").removeClass('show active');
+    				$("#academica").removeClass('show active');
+    				$("#laboral").removeClass(' show active');
+    				$("#certificaciones").removeClass(' show active');
+    				$("#habilidades").removeClass('show active');
+            $("#post").addClass('show active');
     			}
 			});
   		</script>
@@ -169,9 +195,11 @@
    				titulo ="Eliminar Registro de experiencia Laboral";
    			}else if (this.id == "CERT"){
    				titulo ="Eliminar Registro de Certificaciones";
-   			}else{
+   			}else if{
    				titulo ="Eliminar Registro de Habilidades";
-   			}
+   			}else {
+           titulo="Eliminar Registro de Postgrados";
+        }
 
 	        swal({
 	            title: titulo,
@@ -225,7 +253,7 @@
 		    <a class="nav-link text-danger" id="habilidades-tab" data-toggle="tab" href="#habilidades" role="tab" aria-controls="habilidades" aria-selected="false">Habilidades</a>
 		  </li>
       <li class="nav-item">
-       <a class="nav-link text-danger" id="postgrados-tab" data-toggle="tab" href="#postgrados" role="tab" aria-controls="postgrados" aria-selected="false">Postgrados</a>
+       <a class="nav-link text-danger" id="post-tab" data-toggle="tab" href="#post" role="tab" aria-controls="post" aria-selected="false">Postgrados</a>
      </li>
      <li class="nav-item">
       <a class="nav-link text-danger" id="diplomados-tab" data-toggle="tab" href="#diplomados" role="tab" aria-controls="diplomados" aria-selected="false">Diplomados</a>
@@ -677,6 +705,68 @@
 			</table>
 	   </div>
   </div>
+
+    <div class="tab-pane fade" id="post" role="tabpanel" aria-labelledby="post-tab">
+      <br>
+      <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      @can('perfilDocente.create')
+        <div class="col-sm-3">
+          <a class="btn btn-primary" href="{{route('postgrado.create')}}" ><i class="fa fa-plus"></i> Nuevo Registro</a>
+        </div>
+      @endcan
+      </div>
+      <br>
+    <div class="table-responsive">
+          <table class="table table-hover table-striped">
+
+            <thead class="bg-danger text-white">
+            <th>Abreviatura</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Año Inicio</th>
+            <th>Año Fin</th>
+            <th>Institucion</th>
+            <th>Pais</th>
+            <th>Acciones</th>
+            </thead>
+            <tbody>
+            @if(empty($postgrados[0]->nombre_p_grado))
+            <tr><td colspan="5">NO SE ENCONTRARON REGISTROS DE POSTGRADOS</td></tr>
+            @else
+              @foreach($postgrados as $postgrado)
+                <tr>
+                  <td>{{ $postgrado->abreviatura }}</td>
+                  <td>{{ $postgrado->nombre_p_grado }}</td>
+                  <td>{{ $postgrado->descripcion_p_grado }}</td>
+                  <td>{{ $postgrado->fecha_inicio }}</td>
+                  <td>{{ $postgrado->fecha_fin }}</td>
+                  <td>{{ $postgrado->nombre_ins_post }}</td>
+                  <td>{{ $postgrado->nombre_pais_post }}</td>
+              @can('perfilDocente.edit','perfilDocenteDestroy')
+                    <td>
+                      <fieldset>
+                        {!! Form::open(['route'=>['postgrado.destroy',$postgrado->id_dcn_post],'method'=>'DELETE','class' => 'deleteButton','id'=>'CERT']) !!}
+                          @can('perfilDocente.edit')
+                            <a class="btn " style="background-color:  #102359;color: white" href="{{route('postgrado.edit',$postgrado->id_dcn_post)}}"><i class="fa fa-pencil"></i></a>
+                          @endcan
+                          @can('perfilDocente.destroy')
+                            <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
+                          @endcan
+                      {!! Form:: close() !!}
+                      </fieldset>
+
+                    </td>
+                @endcan
+              </tr>
+            @endforeach
+            @endif
+          </tbody>
+        </table>
+       </div>
+    </div>
 </div>
 
 

@@ -14,12 +14,12 @@
     <!-- Custom fonts for this template -->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-    
+
     <!-- Bootstrap core CSS -->
     {!!Html::style('PerfilDocente/vendor/fontawesome-free/css/all.min.css')!!}
     {!!Html::style('PerfilDocente/vendor/bootstrap/css/bootstrap.min.css')!!}
     {!!Html::style('PerfilDocente/css/resume.css')!!}
-    
+
   </head>
 
   <body id="page-top">
@@ -50,6 +50,9 @@
 		   <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#skills">Habilidades</a>
           </li>
+          <li class="nav-item">
+               <a class="nav-link js-scroll-trigger" href="#skills">Postgrados</a>
+             </li>
         </ul>
       </div>
     </nav>
@@ -104,15 +107,23 @@
 
         </div>
       </section>
-		
+
       <hr class="m-0">
 
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
         <div class="my-auto" id="seccionSkills">
           <h2 class="mb-5">Habilidades</h2>
 
-          
-          
+        </div>
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
+        <div class="my-auto" id="seccionSkills">
+          <h2 class="mb-5">Postgrados</h2>
+
+
         </div>
       </section>
 
@@ -120,7 +131,7 @@
 
 
 
-      
+
 
     </div>
 
@@ -130,7 +141,7 @@
 	 {!!Html::script('PerfilDocente/js/main.js')!!}
         <!-- Custom scripts for this template -->
     {!!Html::script('PerfilDocente/js/resume.js')!!}        <!-- Plugin JavaScript -->
-   
+
 
 	<script>
 	$( document ).ready(function() {
@@ -138,6 +149,7 @@
 		getHistorialAcademico({{$idDocente}});
 		getExperienciaDocente({{$idDocente}});
 		getCertificacionesDocente({{$idDocente}});
+    getDataPostgradosDocente({{$idDocente}});
 		getSkillsDocente({{$idDocente}});
     getInformacionDocente({{$idDocente}});
 	});
