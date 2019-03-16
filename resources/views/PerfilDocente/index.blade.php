@@ -122,6 +122,7 @@
             $("#investigaciones").removeClass('show active');
             $("#representaciones").removeClass('show active');
     			}
+          /* GP04-2019 activacion y desactivacion de los tabs*/
           else if ({{Session::get('apartado')}} == '6') {
             $("#general-tab").removeClass('active');
             $("#academica-tab").removeClass('active');
@@ -205,6 +206,7 @@
             $("#diplomados").removeClass('show active');
             $("#investigaciones").removeClass('show active');
             $("#representaciones").addClass('show active');
+            /* end GP04-2019 activacion y desactivacion de los tabs*/
           }
 			});
   		</script>
@@ -294,9 +296,9 @@
    			}else if (this.id == "CERT"){
    				titulo ="Eliminar Registro de Certificaciones";
    			}
-        else if (this.id == "DIP"){
-   				titulo ="Eliminar Registro de Diplomados";
-   			}else{
+        else if (this.id == "DIP"){//GP04-2019
+   				titulo ="Eliminar Registro de Diplomados";//GP04-2019
+   			}else{//GP04-2019
    				titulo ="Eliminar Registro de Habilidades";
    			}
 
@@ -351,6 +353,7 @@
 		   <li class="nav-item">
 		    <a class="nav-link text-danger" id="habilidades-tab" data-toggle="tab" href="#habilidades" role="tab" aria-controls="habilidades" aria-selected="false">Habilidades</a>
 		  </li>
+    <!--GP04-2019-->
       <li class="nav-item">
         <a class="nav-link text-danger" id="postgrados-tab" data-toggle="tab" href="#postgrados" role="tab" aria-controls="postgrados" aria-selected="false">Postgrados</a>
       </li>
@@ -363,6 +366,7 @@
       <li class="nav-item">
         <a class="nav-link text-danger" id="representaciones-tab" data-toggle="tab" href="#representaciones" role="tab" aria-controls="representaciones" aria-selected="false">Representacion UES</a>
       </li>
+      <!--end GP04-2019-->
 </ul>
 
 
@@ -743,70 +747,6 @@
 			</table>
 	   </div>
   </div>
-<!--div del tab diplomado-->
-<div class="tab-pane fade" id="diplomados" role="tabpanel" aria-labelledby="diplomados-tab">
-  <br>
-  <div class="row">
-  <div class="col-sm-3"></div>
-  <div class="col-sm-3"></div>
-  <div class="col-sm-3"></div>
-  @can('perfilDocente.create')
-    <div class="col-sm-3">
-      <a class="btn btn-primary" href="{{route('diplomado.create')}}" ><i class="fa fa-plus"></i> Nuevo Registro</a>
-    </div>
-  @endcan
-  </div>
-  <br>
-<div class="table-responsive">
-      <table class="table table-hover table-striped">
-
-        <thead class="bg-danger text-white">
-          <th>Nombre</th>
-          <th>Modalidad</th>
-        <th>Descripcion</th>
-        <th>Desde</th>
-        <th>Hasta</th>
-        <th>Institucion</th>
-        <th>Pais</th>
-        <th>Acciones</th>
-        </thead>
-        <tbody>
-        @if(empty($diplomados[0]->nombre_diplomado))
-        <tr><td colspan="5">NO SE ENCONTRARON REGISTROS DE DIPLOMADOS</td></tr>
-        @else
-          @foreach($diplomados as $diplomado)
-            <tr>
-            <td>{{ $diplomado->nombre_diplomado }}</td>
-            <td>{{ $diplomado->nombre_modalidad}}</td>
-          <td>{{ $diplomado->descripcion_dip }}</td>
-          <td>{{ $diplomado->fecha_inicio_dip}}</td>
-          <td>{{ $diplomado->fecha_fin_dip}}</td>
-          <td>{{ $diplomado->nombre_ins}}</td>
-          <td>{{ $diplomado->nombre_pais}}</td>
-          @can('perfilDocente.edit','perfilDocenteDestroy')
-                <td>
-                  <fieldset>
-                    {!! Form::open(['route'=>['diplomado.destroy',$diplomado->id_dcn_dip],'method'=>'DELETE','class' => 'deleteButton','id'=>'DIP']) !!}
-                      @can('perfilDocente.edit')
-                        <a class="btn " style="background-color:  #102359;color: white" href="{{route('diplomado.edit',$diplomado->id_dcn_dip)}}"><i class="fa fa-pencil"></i></a>
-                      @endcan
-                      @can('perfilDocente.destroy')
-                        <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
-                      @endcan
-                  {!! Form:: close() !!}
-                  </fieldset>
-
-                </td>
-            @endcan
-          </tr>
-        @endforeach
-        @endif
-      </tbody>
-    </table>
-   </div>
-</div>
-
-<!--end diplomado-->
 
   <div class="tab-pane fade" id="habilidades" role="tabpanel" aria-labelledby="habilidades-tab">
   	<br>
@@ -869,7 +809,75 @@
 			</table>
 	   </div>
   </div>
+
+  <!--div del tab diplomado GP04-2019-->
+  <div class="tab-pane fade" id="diplomados" role="tabpanel" aria-labelledby="diplomados-tab">
+    <br>
+    <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    @can('perfilDocente.create')
+      <div class="col-sm-3">
+        <a class="btn btn-primary" href="{{route('diplomado.create')}}" ><i class="fa fa-plus"></i> Nuevo Registro</a>
+      </div>
+    @endcan
+    </div>
+    <br>
+  <div class="table-responsive">
+        <table class="table table-hover table-striped">
+
+          <thead class="bg-danger text-white">
+            <th>Nombre</th>
+            <th>Modalidad</th>
+          <th>Descripcion</th>
+          <th>Desde</th>
+          <th>Hasta</th>
+          <th>Institucion</th>
+          <th>Pais</th>
+          <th>Acciones</th>
+          </thead>
+          <tbody>
+          @if(empty($diplomados[0]->nombre_diplomado))
+          <tr><td colspan="5">NO SE ENCONTRARON REGISTROS DE DIPLOMADOS</td></tr>
+          @else
+            @foreach($diplomados as $diplomado)
+              <tr>
+              <td>{{ $diplomado->nombre_diplomado }}</td>
+              <td>{{ $diplomado->nombre_modalidad}}</td>
+            <td>{{ $diplomado->descripcion_dip }}</td>
+            <td>{{ $diplomado->fecha_inicio_dip}}</td>
+            <td>{{ $diplomado->fecha_fin_dip}}</td>
+            <td>{{ $diplomado->nombre_ins}}</td>
+            <td>{{ $diplomado->nombre_pais}}</td>
+            @can('perfilDocente.edit','perfilDocenteDestroy')
+                  <td>
+                    <fieldset>
+                      {!! Form::open(['route'=>['diplomado.destroy',$diplomado->id_dcn_dip],'method'=>'DELETE','class' => 'deleteButton','id'=>'DIP']) !!}
+                        @can('perfilDocente.edit')
+                          <a class="btn " style="background-color:  #102359;color: white" href="{{route('diplomado.edit',$diplomado->id_dcn_dip)}}"><i class="fa fa-pencil"></i></a>
+                        @endcan
+                        @can('perfilDocente.destroy')
+                          <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
+                        @endcan
+                    {!! Form:: close() !!}
+                    </fieldset>
+
+                  </td>
+              @endcan
+            </tr>
+          @endforeach
+          @endif
+        </tbody>
+      </table>
+     </div>
+  </div>
+
+  <!--end diplomado-->
+
 </div>
+
+
 
 
 

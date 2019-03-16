@@ -12,15 +12,16 @@ use \App\dcn_exp_experienciaModel;
 use \App\dcn_his_historial_academicoModel;
 use \App\cat_mat_materiaModel;
 use \App\dcn_cer_certificacionesModel;
-use \App\dcn_dip_diplomadosModel;
 use \App\cat_car_cargo_eisiModel;
 use \App\gen_UsuarioModel;
 use \App\cat_tpo_jrn_dcn_tipo_jornada_docenteModel;
 use \App\cat_ski_skillModel;
 use \App\cat_tpo_doc_tipo_documentoModel;
-use \App\cat_ins_institucionModel;
 use \App\rel_ski_dcn_skill_docenteModel;
 use \App\User;
+use \App\cat_ins_institucionModel;//GP04-2019
+use \App\cat_mod_modalidadModel;//GP04-2019
+use \App\dcn_dip_diplomadosModel;//GP04-2019
 use File;;
 use Illuminate\Support\Facades\Storage;
 class GestionDocenteController extends Controller
@@ -37,8 +38,7 @@ class GestionDocenteController extends Controller
        $academica = $docente->getHistorialAcademico($idDocente);
        $laboral = $docente->getDataExperienciaDocente($idDocente);
        $certificaciones = $docente->getDataCertificacionesDocente($idDocente);
-       $diplomados = $docente->getDataDiplomadosDocente($idDocente);
-       //$diplomados = dcn_dip_diplomadosModel::all();
+       $diplomados = $docente->getDataDiplomadosDocente($idDocente);//GP04-2019
        $habilidadesSelect = cat_ski_skillModel::pluck("nombre_cat_ski","id_cat_ski");
        $habilidades = $docente->getDataSkillsDocente($idDocente);
        $cargosPrincipal = cat_car_cargo_eisiModel::all();
@@ -71,7 +71,7 @@ class GestionDocenteController extends Controller
 
        }
        $niveles = cat_ski_skillModel::getNivelesSkills();
-       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','diplomados','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles'));
+       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','diplomados','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles'));//GP04-2019
     }
     function create(){
         return view('PerfilDocente.create');
@@ -124,7 +124,7 @@ class GestionDocenteController extends Controller
                 }
             }
             $bodyHtml .= '<tr>';
-                        $bodyHtml .= '<td>DIPLOMADOS</td>';//esto modifique
+                        $bodyHtml .= '<td>EXPERIENCIA LABORAL</td>';
                         $bodyHtml .= '<td><span class="badge badge-success">OK</span></td>';
                         $bodyHtml .= '<td>Todos los registros válidos se realizaron exitosamente.</td>';
                         $bodyHtml .= '</tr>';
@@ -248,6 +248,50 @@ class GestionDocenteController extends Controller
              $docenteObjeto->save();
         }
 
+        //INSERTANDO DIPLOMADO GP04-2019
+
+        try {
+            foreach ($diplomados as $diplomado) {
+                if (!is_null($diplomado["nombre_diplomado"]) && !is_null($diplomado["descripcion_dip"]) && !is_null($diplomado["fecha_inicio_dip"]) && !is_null($diplomado["fecha_fin_dip"]) && !is_null($diplomado["id_cat_mod"]) && !is_null($diplomado["id_cat_inst"]) && !is_null($diplomado["id_cat_pa"])) {
+
+                  $lastId = dcn_cer_certificacionesModel::create
+                   ([
+                     'nombre_diplomado'       => $request["nombre_diplomado"],
+                     'descripcion_dip'        => $request["descripcion_dip"],
+                     'fecha_inicio_dip'           => $request["fecha_inicio_dip"],
+                     'fecha_fin_dip'              => $request["fecha_fin_dip"],
+                     'id_cat_mod'             => $request["id_cat_mod"],
+                     'id_cat_inst'            => $request["id_cat_inst"],
+                     'id_cat_pa'              => 1,//se debe tener el CRUD o listado de cat_pa_pais
+                     'id_dcn'                 => $idDocente
+                   ]);
+               }
+           }
+           $bodyHtml .= '<tr>';
+                       $bodyHtml .= '<td>DIPLOMADOS</td>';
+                       $bodyHtml .= '<td><span class="badge badge-success">OK</span></td>';
+                       $bodyHtml .= '<td>Todos los registros válidos se realizaron exitosamente.</td>';
+                       $bodyHtml .= '</tr>';
+       } catch (\Exception $e) {
+          $bodyHtml .= '<tr>';
+                       $bodyHtml .= '<td>DIPLOMADOS</td>';
+                       $bodyHtml .= '<td><span class="badge badge-danger">Error</span></td>';
+                       $bodyHtml .= '<td>Ocurrió un problema en alguno de los registros de los diplomados</td>';
+                       $bodyHtml .= '</tr>';
+       }
+// end INSERTANDO DIPLOMADO GP04-2019
+
+        $docenteObjeto = pdg_dcn_docenteModel::find($idDocente);
+        if (isset($request["perfilPrivado"])) {
+            $docenteObjeto->perfilPrivado='0'; //PERFIL DEBE SER PUBLICO
+            $docenteObjeto->save();
+        }else{
+             $docenteObjeto->perfilPrivado='1'; //PERFIL DEBE SER PRIVADO
+             $docenteObjeto->save();
+        }
+
+
+
 
         return view('PerfilDocente.resultadoCarga', compact('bodyHtml'));
     }
@@ -277,12 +321,6 @@ class GestionDocenteController extends Controller
     function getSkills(Request $request){
     	$docente = new pdg_dcn_docenteModel();
     	$info = $docente->getDataSkillsDocente($request['docente']);
-    	return $info;
-
-    }
-    function getDiploamdos(Request $request){
-    	$docente = new pdg_dcn_docenteModel();
-    	$info = $docente->getDataDiplomadosDocente($request['docente']);
     	return $info;
 
     }
@@ -621,5 +659,12 @@ class GestionDocenteController extends Controller
 
   private static function validaPermiso($slug){
         return Auth::user()->can([$slug]);
+  }
+  //Funciones nuevos tabs GP04-2019
+  function getDiplomados(Request $request){
+    $docente = new pdg_dcn_docenteModel();
+    $info = $docente->getDataDiplomadosDocente($request['docente']);
+    return $info;
+
   }
 }

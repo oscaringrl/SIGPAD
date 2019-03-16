@@ -11,7 +11,7 @@ function getHistorialAcademico(idDcn){
                 $("#seccionHistorial").append("<b>NO SE HAN REGISTRADO DATOS DE EXPERIENCIA ACADEMICA</b>");
              }else{
                 var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Cargo</th><th scope="col">Código</th><th scope="col">Materia</th><th scope="col">Ciclo</th><th scope="col">Año</th> </tr></thead><tbody>';
- 
+
                for (var i = 0;i<data.length;i++) {
                 body="";
                 body+='<tr><th scope="row">'+(i+1)+'</th>';
@@ -26,14 +26,14 @@ function getHistorialAcademico(idDcn){
                html+=' </tbody></table>';
                $("#seccionHistorial").append(html)
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 function getExperienciaDocente(idDcn){
@@ -60,14 +60,14 @@ function getExperienciaDocente(idDcn){
                 $("#seccionExperiencia").append(html);
                }
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obtener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 function getCertificacionesDocente(idDcn){
@@ -81,7 +81,7 @@ function getCertificacionesDocente(idDcn){
                 $("#seccionCertificaciones").append("<b>NO SE HAN REGISTRADO  CERTIFICACIONES</b>");
              }else{
                 var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Año</th><th scope="col">Institución</th><th scope="col">Idioma</th></tr></thead><tbody>';
- 
+
                for (var i = 0;i<data.length;i++) {
                 body="";
                 body+='<tr><th scope="row">'+(i+1)+'</th>';
@@ -95,16 +95,16 @@ function getCertificacionesDocente(idDcn){
              html+=' </tbody></table>';
              $("#seccionCertificaciones").append(html)
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
-  
+
 function getSkillsDocente(idDcn){
   $.ajax({
            type:'POST',
@@ -125,14 +125,14 @@ function getSkillsDocente(idDcn){
                html+='</ul>';
                $("#seccionSkills").append(html)
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 
@@ -161,13 +161,13 @@ function getInformacionDocente(idDcn){
             $("#linkFb_").attr("href",docente["link_fb"]);
 
 
-            
+
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 
@@ -246,5 +246,43 @@ function distribuirData(data) {
     }
     return sectionData;
 }
+// NUEVAS FUNCIONES DE AJAX PARA EL PERFIL PUBLICO GP04-2019
+function getDiplomadosDocente(idDcn){
+  $.ajax({
+           type:'POST',
+           url:ip+'/getDiplomados',
+           data:{'docente':idDcn},
+           success:function(data){
+           console.log(data);
 
-  
+         if (data.length == 1 && data[0]['id_dcn_dip'] == '') {
+                $("#seccionDiplomados").append("<b>NO SE HAN REGISTRADO  DIPLOMADOS</b>");
+             }else{
+                var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Descripción</th><th scope="col">Desde</th><th scope="col">Hasta</th><th scope="col">Institucion</th><th scope="col">Modalidad</th><th scope="col">Pais</th></tr></thead><tbody>';
+
+               for (var i = 0;i<data.length;i++) {
+                body="";
+                body+='<tr><th scope="row">'+(i+1)+'</th>';
+                body+='<td>'+data[i]['nombre_diplomado']+'</td>';
+                body+='<td>'+data[i]['descripcion_dip']+'</td>';
+                body+='<td>'+data[i]['fecha_inicio_dip']+'</td>';
+                body+='<td>'+data[i]['fecha_fin_dip']+'</td>';
+                body+='<td>'+data[i]['nombre_inst']+'</td>';
+                body+='<td>'+data[i]['nombre_modalidad']+'</td>';
+                body+='<td>'+data[i]['nombre_pais']+'</td>';
+
+                html+=body;
+               }
+
+             html+=' </tbody></table>';
+             $("#seccionDiplomados").append(html)
+           }
+
+
+           },
+        error : function(xhr, status) {
+            alert("Hubo un problema al momento de obetener los datos de Docente");
+
+        }
+        });
+}

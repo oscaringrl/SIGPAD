@@ -269,30 +269,6 @@ class pdg_dcn_docenteModel extends Model
         );
         return $data;
     }
-    //nueva seccion
-    public function getDataDiplomadosDocente($idDocente){
-
-        $data = DB::select("select distinct
-                            IFNULL(id_dcn_dip,'') as id_dcn_dip,
-                            IFNULL(nombre_diplomado,'') as nombre_diplomado,
-                            IFNULL(descripcion_dip,'') as descripcion_dip,
-                            IFNULL(fecha_inicio_dip,'') as fecha_inicio_dip,
-                            IFNULL(fecha_fin_dip,'') as fecha_fin_dip,
-                            IFNULL(id_cat_mod,'') as id_cat_mod,
-                            IFNULL(nombre_modalidad,'') as nombre_modalidad,
-                            IFNULL(id_cat_inst,'') as id_cat_inst,
-                            IFNULL(nombre_ins,'') as nombre_ins,
-                            IFNULL(id_cat_pa,'') as id_cat_pa,
-                            IFNULL(nombre_pais,'') as nombre_pais
-                            from view_dcn_perfildocente
-                            where id_pdg_dcn = :idDocente",
-            array(
-                $idDocente
-            )
-        );
-        return $data;
-    }
-    //end
 
     public function getDataSkillsDocente($idDocente){
 
@@ -384,4 +360,29 @@ class pdg_dcn_docenteModel extends Model
         $coordinadores = DB::select($query);
         return $coordinadores;
     }
+
+//nueva seccion Query Diplomados GP04-2019
+    public function getDataDiplomadosDocente($idDocente){
+
+        $data = DB::select("select distinct
+                            IFNULL(id_dcn_dip,'') as id_dcn_dip,
+                            IFNULL(nombre_diplomado,'') as nombre_diplomado,
+                            IFNULL(descripcion_dip,'') as descripcion_dip,
+                            IFNULL(fecha_inicio_dip,'') as fecha_inicio_dip,
+                            IFNULL(fecha_fin_dip,'') as fecha_fin_dip,
+                            IFNULL(id_cat_mod,'') as id_cat_mod,
+                            IFNULL(nombre_modalidad,'') as nombre_modalidad,
+                            IFNULL(id_cat_inst,'') as id_cat_inst,
+                            IFNULL(nombre_ins,'') as nombre_ins,
+                            IFNULL(id_cat_pa,'') as id_cat_pa,
+                            IFNULL(nombre_pais,'') as nombre_pais
+                            from view_dcn_perfildocente
+                            where id_pdg_dcn = :idDocente",
+            array(
+                $idDocente
+            )
+        );
+        return $data;
+    }
+//end seccion Query Diplomados GP04-2019
 }

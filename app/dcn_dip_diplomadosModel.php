@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+//
 use Illuminate\Database\Eloquent\Model;
 
 class dcn_dip_diplomadosModel extends Model

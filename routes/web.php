@@ -151,7 +151,6 @@ Route::post('getInfoDocente', 'GestionDocenteController@getInfoDocente')->name('
 Route::post('getHistorial', 'GestionDocenteController@getHistorial')->name('getHistorial');
 Route::post('getExperiencia', 'GestionDocenteController@getExperiencia')->name('getExperiencia');
 Route::post('getCertificaciones', 'GestionDocenteController@getCertificaciones')->name('getCertificaciones');
-Route::post('getDiplomados', 'GestionDocenteController@getDiplomados')->name('getDiplomados');
 Route::post('getSkills', 'GestionDocenteController@getSkills')->name('getSkills');
 Route::post('getGeneralInfo', 'GestionDocenteController@getGeneralInfoDocente')->name('getGeneralInfo');
 
@@ -173,7 +172,8 @@ Route::post('actualizarDocente','GestionDocenteController@updateDocente')->name(
 Route::get('cargarActualizacionDocente', 'GestionDocenteController@createUpdateDocente')->name('cargarActualizacionDocente');
 Route::post('actualizarDocenteExcel','GestionDocenteController@updateDocenteExcel')->name('actualizarDocenteExcel');
 Route::post('plantillaAdministraDocente','GestionDocenteController@downloadPlantillaAdministraDocente')->name('plantillaAdministraDocente');
-Route::resource('diplomado', 'DiplomadoController');
+Route::resource('diplomado', 'DiplomadoController');//GP04-2019
+Route::post('getDiplomados', 'GestionDocenteController@getDiplomados')->name('getDiplomados');//GP04-2019
 //------------------------------------------------------------------------------------------------------------------------
 //------------------UESPLAY--------------------------------------------------------------------------------------
 Route::post('storeUsersUplay', 'gen_UsuarioController@storeUsuariosUesplay')->name('storeUsersUplay');
@@ -209,5 +209,5 @@ Route::resource ('catCriterios','cat_cri_eva_criterio_evaluacionController');
 Route::resource ('parParametros','gen_par_parametrosController');
 Route::resource ('catJornada','cat_tpo_jrn_dcn_tipo_jornada_docenteController');
 Route::post('sortCatJornada','cat_tpo_jrn_dcn_tipo_jornada_docenteController@sort')->name('sortCatJornada');
-Route::resource ('catModalidad','cat_mod_modalidadController');
-Route::resource ('catInstitucion','cat_ins_institucionController');
+Route::resource ('catModalidad','cat_mod_modalidadController');//GP04-2019
+Route::resource ('catInstitucion','cat_ins_institucionController');//GP04-2019
