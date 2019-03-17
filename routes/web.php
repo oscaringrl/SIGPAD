@@ -153,7 +153,7 @@ Route::post('getExperiencia', 'GestionDocenteController@getExperiencia')->name('
 Route::post('getCertificaciones', 'GestionDocenteController@getCertificaciones')->name('getCertificaciones');
 Route::post('getSkills', 'GestionDocenteController@getSkills')->name('getSkills');
 Route::post('getGeneralInfo', 'GestionDocenteController@getGeneralInfoDocente')->name('getGeneralInfo');
-Route::post('getPostgrados', 'GestionDocenteController@getPostgrados')->name('getPostgrados');
+Route::post('getPostgrados', 'GestionDocenteController@getPostgrados')->name('getPostgrados'); //Grupo 04
 
 Route::get('perfilDocente/{idDocente}', 'PerfilDocentePublicoController@index')->name('perfilDocente');
 Route::get('TiempoCompleto/{jornada}', 'PerfilDocentePublicoController@index2')->name('listadoDocentes');

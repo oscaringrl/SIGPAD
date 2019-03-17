@@ -119,8 +119,8 @@
 
         <hr class="m-0">
 
-        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
-        <div class="my-auto" id="seccionSkills">
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="postgrados">
+        <div class="my-auto" id="seccionPostgrados">
           <h2 class="mb-5">Postgrados</h2>
 
 
@@ -135,10 +135,15 @@
 
     </div>
 
-  {!!Html::script('PerfilDocente/vendor/jquery/jquery.min.js')!!}
+<!--{!!Html::script('PerfilDocente/vendor/jquery/jquery.min.js')!!}
   {!!Html::script('PerfilDocente/vendor/bootstrap/js/bootstrap.bundle.min.js')!!}
    {!!Html::script('PerfilDocente/vendor/jquery-easing/jquery.easing.min.js')!!}
-	 {!!Html::script('PerfilDocente/js/main.js')!!}
+   -->
+   {!!Html::script('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/jquery/jquery.min.js')!!}
+   {!!Html::script('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/bootstrap/js/bootstrap.bundle.min.js')!!}
+   {!!Html::script('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/jquery-easing/jquery.easing.min.js')!!}
+
+   {!!Html::script('PerfilDocente/js/main.js')!!}
         <!-- Custom scripts for this template -->
     {!!Html::script('PerfilDocente/js/resume.js')!!}        <!-- Plugin JavaScript -->
 
@@ -149,7 +154,7 @@
 		getHistorialAcademico({{$idDocente}});
 		getExperienciaDocente({{$idDocente}});
 		getCertificacionesDocente({{$idDocente}});
-    getDataPostgradosDocente({{$idDocente}});
+    getPostgradosDocente({{$idDocente}});
 		getSkillsDocente({{$idDocente}});
     getInformacionDocente({{$idDocente}});
 	});

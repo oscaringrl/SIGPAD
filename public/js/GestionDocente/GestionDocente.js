@@ -7,7 +7,7 @@ function getHistorialAcademico(idDcn){
            success:function(data){
             console.log(data.length);
              var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Cargo</th><th scope="col">´Código</th><th scope="col">Materia</th><th scope="col">Ciclo</th><th scope="col">Año</th> </tr></thead><tbody>';
- 
+
              for (var i = 0;i<data.length;i++) {
            		body="";
              	body+='<tr><th scope="row">'+(i+1)+'</th>';
@@ -25,9 +25,9 @@ function getHistorialAcademico(idDcn){
            },
     		error : function(xhr, status) {
         		alert("Hubo un problema al momento de obetener los datos de Docente");
-        		
+
     		}
-        });      
+        });
 }
 
 function getExperienciaDocente(idDcn){
@@ -54,9 +54,9 @@ function getExperienciaDocente(idDcn){
            },
     		error : function(xhr, status) {
         		alert("Hubo un problema al momento de obetener los datos de Docente");
-        		
+
     		}
-        });      
+        });
 }
 
 function getCertificacionesDocente(idDcn){
@@ -67,7 +67,7 @@ function getCertificacionesDocente(idDcn){
            success:function(data){
             console.log(data.length);
              var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Año</th><th scope="col">Institución</th><th scope="col">Idioma</th></tr></thead><tbody>';
- 
+
              for (var i = 0;i<data.length;i++) {
            		body="";
              	body+='<tr><th scope="row">'+(i+1)+'</th>';
@@ -84,11 +84,11 @@ function getCertificacionesDocente(idDcn){
            },
     		error : function(xhr, status) {
         		alert("Hubo un problema al momento de obetener los datos de Docente");
-        		
+
     		}
-        });      
+        });
 }
-	
+
 function getSkillsDocente(idDcn){
 	$.ajax({
            type:'POST',
@@ -109,11 +109,11 @@ function getSkillsDocente(idDcn){
            },
     		error : function(xhr, status) {
         		alert("Hubo un problema al momento de obetener los datos de Docente");
-        		
+
     		}
-        });      
+        });
 }
-	
+
 function getListadoDocente(idJornada){
   $.ajax({
            type:'POST',
@@ -134,9 +134,9 @@ function getListadoDocente(idJornada){
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 //Administracion de perfil docente
@@ -145,7 +145,7 @@ $( document ).ready(function() {
     //CREAR REGISTRO ACADEMICO
     $("#datepicker").datepicker( {
     format: " yyyy", // Notice the Extra space at the beginning
-    viewMode: "years", 
+    viewMode: "years",
     minViewMode: "years"
     }).on('changeDate', function(e){
     $(this).datepicker('hide');
@@ -157,7 +157,7 @@ $( document ).ready(function() {
         format: 'yyyy',
         autoclose: 1,
         locale:'es',
-        viewMode: "years", 
+        viewMode: "years",
         minViewMode: "years",
         todayHighlight: false,
         //endDate: new Date()
@@ -170,7 +170,7 @@ $( document ).ready(function() {
         format: 'yyyy',
         autoclose: 1,
         locale:'es',
-        viewMode: "years", 
+        viewMode: "years",
         minViewMode: "years",
         todayHighlight: false,
         //endDate: new Date()
@@ -184,7 +184,7 @@ $( document ).ready(function() {
     $("#toFin").datepicker({
         format: 'yyyy',
         todayHighlight: true,
-        locale:'es',viewMode: "years", 
+        locale:'es',viewMode: "years",
         minViewMode: "years"
     }).on('changeDate', function (selected) {
         $(this).datepicker('hide');
@@ -207,7 +207,7 @@ $( document ).ready(function() {
     }
     $('#btnChangePicture').on('click', function () {
       /*if (!$('#btnChangePicture').hasClass('changing')) {
-          
+
       }else {
          // change
       }*/
@@ -215,7 +215,7 @@ $( document ).ready(function() {
     });
 
       $('#profilePicture').on('change', function () {
-      
+
       var sizeByte = this.files[0].size;
       var siezekiloByte = parseInt(sizeByte / 1024);
       var nombre = $(this).val();
@@ -234,7 +234,7 @@ $( document ).ready(function() {
       $('#btnDiscard').removeClass('d-none');
     }
 
-     
+
     });
 
     $('#btnDiscard').on('click', function () {
@@ -256,10 +256,10 @@ $( document ).ready(function() {
             } else {
               return;
             }
-            
-          });   
-     
-           
+
+          });
+
+
     });
 
      $('#btnEdit').on('click', function () {
@@ -296,10 +296,41 @@ $( document ).ready(function() {
             } else {
               return;
             }
-            
-          });   
+
+          });
     });
   });
 
+//Grupo 04
+	function getPostgradosDocente(idDcn){
+		$.ajax({
+	           type:'POST',
+	           url:ip+'/getPostgrados',
+	           data:{'docente':idDcn},
+	           success:function(data){
+	            console.log(data.length);
+	             var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
 
+	             for (var i = 0;i<data.length;i++) {
+	           		body="";
+	             	body+='<tr><th scope="row">'+(i+1)+'</th>';
+								body+='<td>'+data[i]['abreviatura']+'</td>';
+	             	body+='<td>'+data[i]['nombre_p_grado']+'</td>';
+								body+='<td>'+data[i]['descripcion_p_grado']+'</td>';
+	             	body+='<td>'+data[i]['fecha_inicio']+'</td>';
+								body+='<td>'+data[i]['fecha_fin']+'</td>';
+	             	body+='<td>'+data[i]['nombre_ins_post']+'</td>';
+	             	body+='<td>'+data[i]['nombre_pais_post']+'</td>';
+	             	html+=body;
+	             }
 
+	             html+=' </tbody></table>';
+	             $("#seccionPostgrados").append(html)
+
+	           },
+	    		error : function(xhr, status) {
+	        		alert("Hubo un problema al momento de obetener los datos de Docente");
+
+	    		}
+	        });
+	}

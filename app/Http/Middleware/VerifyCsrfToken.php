@@ -16,7 +16,7 @@ class VerifyCsrfToken extends Middleware
         '/getHistorial',
         '/getExperiencia',
         '/getCertificaciones',
-        '/getPostgrados',
+        '/getPostgrados', //Grupo 04
         '/getSkills',
         '/getGeneralInfo',
         '/getListadoDocentes'
