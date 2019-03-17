@@ -13,11 +13,11 @@
 					</div>
 					<div class="form-group col-sm-4">
 						{!! Form::label('Fecha de Inicio de Postgrado') !!}
-						{!!Form::text('fecha_inicio',null,['class'=>'form-control ','placeholder'=>'Ingrese la fecha de inicio de Postgrado'])  !!}
+						{!!Form::date('fecha_inicio',null,['class'=>'form-control ','placeholder'=>'Ingrese la fecha de inicio de Postgrado'])  !!}
 					</div>
 					<div class="form-group col-sm-4">
 						{!! Form::label('Fecha de Finalizacion de Postgrado') !!}
-						{!!Form::text('fecha_fin',null,['class'=>'form-control ','placeholder'=>'Ingrese la fecha de finalizacion de Postgrado'])  !!}
+						{!!Form::date('fecha_fin',null,['class'=>'form-control ','placeholder'=>'Ingrese la fecha de finalizacion de Postgrado'])  !!}
 					</div>
 					<div class="form-group col-sm-4">
 						{!! Form::label('Paises') !!}
@@ -25,9 +25,9 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col-sm-4">
+					<div class="form-group col-sm-8">
 						{!! Form::label('Descripcion de Postgrado') !!}
 
-						{!!Form::textarea('descripcion_p_grado',null,['class'=>'form-control ','placeholder'=>'Ingrese una breve descripcion de Postgrado'])  !!}
+						{!!Form::textarea('descripcion_p_grado',null,['rows'=>'3','class'=>'form-control ','placeholder'=>'Ingrese una breve descripcion de Postgrado'])  !!}
 					</div>
 				</div>

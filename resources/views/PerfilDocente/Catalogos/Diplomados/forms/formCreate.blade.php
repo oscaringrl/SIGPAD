@@ -20,6 +20,10 @@
 </div>
 <div class="row">
 	<div class="form-group col-sm-4">
+		{!! Form::label('Pais') !!}
+		{!!Form::select('id_cat_pa', $paises, null, ['class' => 'form-control'])!!}
+	</div>
+	<div class="form-group col-sm-4">
 		{!! Form::label('Institucion') !!}
 		{{ Form::select('id_cat_inst', $instituciones, null, ['class' => 'form-control']) }}
 	</div>
@@ -28,3 +32,4 @@
 		{{ Form::select('id_cat_mod', $modalidades, null, ['class' => 'form-control']) }}
 	</div>
 </div>
+<br>
