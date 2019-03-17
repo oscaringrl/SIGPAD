@@ -298,7 +298,11 @@
    			}
         else if (this.id == "DIP"){//GP04-2019
    				titulo ="Eliminar Registro de Diplomados";//GP04-2019
-   			}else{//GP04-2019
+   			}
+        else if (this.id == "POS"){//GP04-2019
+          titulo ="Eliminar Registro de Postgrados";//GP04-2019
+        }
+        else{//GP04-2019
    				titulo ="Eliminar Registro de Habilidades";
    			}
 
@@ -809,7 +813,69 @@
 			</table>
 	   </div>
   </div>
+<!--div del tab postgrado GP04-2019-->
+  <div class="tab-pane fade" id="postgrados" role="tabpanel" aria-labelledby="postgrados-tab">
+    <br>
+    <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    @can('perfilDocente.create')
+      <div class="col-sm-3">
+        <a class="btn btn-primary" href="{{route('postgrado.create')}}" ><i class="fa fa-plus"></i> Nuevo Registro</a>
+      </div>
+    @endcan
+    </div>
+    <br>
+  <div class="table-responsive">
+        <table class="table table-hover table-striped">
 
+          <thead class="bg-danger text-white">
+          <th>Abreviatura</th>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Año Inicio</th>
+          <th>Año Fin</th>
+          <th>Institucion</th>
+          <th>Pais</th>
+          <th>Acciones</th>
+          </thead>
+          <tbody>
+          @if(empty($postgrados[0]->nombre_p_grado))
+          <tr><td colspan="5">NO SE ENCONTRARON REGISTROS DE POSTGRADOS</td></tr>
+          @else
+            @foreach($postgrados as $postgrado)
+              <tr>
+                <td>{{ $postgrado->abreviatura }}</td>
+                <td>{{ $postgrado->nombre_p_grado }}</td>
+                <td>{{ $postgrado->descripcion_p_grado }}</td>
+                <td>{{ $postgrado->fecha_inicio }}</td>
+                <td>{{ $postgrado->fecha_fin }}</td>
+                <td>{{ $postgrado->nombre_ins_post }}</td>
+                <td>{{ $postgrado->nombre_pais_post }}</td>
+            @can('perfilDocente.edit','perfilDocenteDestroy')
+                  <td>
+                    <fieldset>
+                      {!! Form::open(['route'=>['postgrado.destroy',$postgrado->id_dcn_post],'method'=>'DELETE','class' => 'deleteButton','id'=>'POS']) !!}
+                        @can('perfilDocente.edit')
+                          <a class="btn " style="background-color:  #102359;color: white" href="{{route('postgrado.edit',$postgrado->id_dcn_post)}}"><i class="fa fa-pencil"></i></a>
+                        @endcan
+                        @can('perfilDocente.destroy')
+                          <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
+                        @endcan
+                    {!! Form:: close() !!}
+                    </fieldset>
+
+                  </td>
+              @endcan
+            </tr>
+          @endforeach
+          @endif
+        </tbody>
+      </table>
+     </div>
+  </div>
+<!--end div del tab postgrado GP04-2019-->
   <!--div del tab diplomado GP04-2019-->
   <div class="tab-pane fade" id="diplomados" role="tabpanel" aria-labelledby="diplomados-tab">
     <br>
@@ -876,9 +942,6 @@
   <!--end diplomado-->
 
 </div>
-
-
-
 
 
 

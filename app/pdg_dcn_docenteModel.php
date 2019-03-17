@@ -270,7 +270,7 @@ class pdg_dcn_docenteModel extends Model
         return $data;
     }
 
-    public function getDataSkillsDocente($idDocente){
+  public function getDataSkillsDocente($idDocente){
 
         $data = DB::select("select distinct
                             IFNULL(Nivel,'') as Nivel,
@@ -385,4 +385,28 @@ class pdg_dcn_docenteModel extends Model
         return $data;
     }
 //end seccion Query Diplomados GP04-2019
+//end seccion Query Postgrados GP04-2019
+public function getDataPostgradosDocente($idDocente){
+
+    $data = DB::select("select distinct
+                        IFNULL(	id_dcn_post,'') as 	id_dcn_post,
+                        IFNULL(abreviatura,'') as abreviatura,
+                        IFNULL(nombre_p_grado,'') as nombre_p_grado,
+                        IFNULL(descripcion_p_grado,'') as descripcion_p_grado,
+                        IFNULL(fecha_inicio,'') as fecha_inicio,
+                        IFNULL(fecha_fin,'') fecha_fin,
+                        IFNULL(id_cat_inst_post,'') as id_cat_inst_post,
+                        IFNULL(nombre_ins_post,'') as nombre_ins_post,
+                        IFNULL(id_cat_pa_post,'') as id_cat_pa_post,
+                        IFNULL(nombre_pais_post,'') as nombre_pais_post
+                        from view_dcn_perfildocente
+                        where id_pdg_dcn = :idDocente",
+        array(
+            $idDocente
+        )
+    );
+    return $data;
+}
+//end seccion Query Postgrados GP04-2019
+
 }

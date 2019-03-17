@@ -12,6 +12,7 @@ use \App\dcn_exp_experienciaModel;
 use \App\dcn_his_historial_academicoModel;
 use \App\cat_mat_materiaModel;
 use \App\dcn_cer_certificacionesModel;
+use \App\dcn_postg_postgradoModel;
 use \App\cat_car_cargo_eisiModel;
 use \App\gen_UsuarioModel;
 use \App\cat_tpo_jrn_dcn_tipo_jornada_docenteModel;
@@ -38,6 +39,7 @@ class GestionDocenteController extends Controller
        $academica = $docente->getHistorialAcademico($idDocente);
        $laboral = $docente->getDataExperienciaDocente($idDocente);
        $certificaciones = $docente->getDataCertificacionesDocente($idDocente);
+       $postgrados = $docente->getDataPostgradosDocente($idDocente);//GP04-2019
        $diplomados = $docente->getDataDiplomadosDocente($idDocente);//GP04-2019
        $habilidadesSelect = cat_ski_skillModel::pluck("nombre_cat_ski","id_cat_ski");
        $habilidades = $docente->getDataSkillsDocente($idDocente);
@@ -71,7 +73,7 @@ class GestionDocenteController extends Controller
 
        }
        $niveles = cat_ski_skillModel::getNivelesSkills();
-       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','diplomados','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles'));//GP04-2019
+       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles','postgrados','diplomados'));//GP04-2019
     }
     function create(){
         return view('PerfilDocente.create');
@@ -97,11 +99,15 @@ class GestionDocenteController extends Controller
         })->get();
         $dataHabilidades = Excel::load($request->file('documentoPerfil'), function ($reader) {
             $reader->setSelectedSheetIndices(array(5));
+        })->get();//G04
+        $dataPostgrados = Excel::load($request->file('documentoPerfil'), function ($reader) {//G04
+            $reader->setSelectedSheetIndices(array(5));//G04
         })->get();
         $experienciaLaboral = $dataLaboral->toArray();
         $experienciaAcademica = $dataAcademica->toArray();
         $certificaciones = $dataCertificaciones->toArray();
         $habilidades = $dataHabilidades->toArray();
+        $postgrados = $dataPostgrados->toArray();
         //return var_dump($habilidades[0]);
         //INSERTANDO LA EXPERIENCIA LABORAL
         try {
@@ -239,6 +245,38 @@ class GestionDocenteController extends Controller
                         $bodyHtml .= '</tr>';
         }
 
+        //INSERTANDO POSTGRADOS
+        //Grupo 04-2019
+        try {
+            foreach ($postgrados as $postgrado) {
+                if (!is_null($postgrado["abrevipost"]) && !is_null($postgrado["nombpost"]) && !is_null($postgrado["descripost"]) && !is_null($postgrado["fechaipost"]) && !is_null($postgrado["fechafpost"]) && !is_null($postgrado["instpost"]) && !is_null($postgrado["paispost"])) {
+
+                   $lastId = dcn_postg_postgradoModel::create
+                    ([
+                        'abreviatura'                   => $postgrado["abrevipost"],
+                        'nombre_p_grado'                => $postgrado["nombpost"],
+                        'descripcion_p_grado'           => $postgrado["descripost"],
+                        'fecha_inicio'                  => $postgrado["fechaipost"],
+                        'fecha_fin'                     => $postgrado["fechafpost"],
+                        'id_cat_inst'                   => $postgrado["instpost"],
+                        'id_cat_pa'                     => $postgrado["paispost"],
+                        'id_dcn'                        => $idDocente
+                    ]);
+                }
+            }
+            $bodyHtml .= '<tr>';
+                        $bodyHtml .= '<td>POSTGRADOS</td>';
+                        $bodyHtml .= '<td><span class="badge badge-success">OK</span></td>';
+                        $bodyHtml .= '<td>Todos los registros válidos se realizaron exitosamente.</td>';
+                        $bodyHtml .= '</tr>';
+        } catch (\Exception $e) {
+           $bodyHtml .= '<tr>';
+                        $bodyHtml .= '<td>POSTGRADOS</td>';
+                        $bodyHtml .= '<td><span class="badge badge-danger">Error</span></td>';
+                        $bodyHtml .= '<td>Ocurrió un problema en alguno de los registros de los postgrados</td>';
+                        $bodyHtml .= '</tr>';
+        }
+
         $docenteObjeto = pdg_dcn_docenteModel::find($idDocente);
         if (isset($request["perfilPrivado"])) {
             $docenteObjeto->perfilPrivado='0'; //PERFIL DEBE SER PUBLICO
@@ -318,6 +356,7 @@ class GestionDocenteController extends Controller
     	return $info;
 
     }
+
     function getSkills(Request $request){
     	$docente = new pdg_dcn_docenteModel();
     	$info = $docente->getDataSkillsDocente($request['docente']);
@@ -667,4 +706,12 @@ class GestionDocenteController extends Controller
     return $info;
 
   }
+  //Grupo 04
+    function getPostgrados(Request $request){
+      $docente = new pdg_dcn_docenteModel();
+      $info = $docente->getDataPostgradosDocente($request['docente']);
+      return $info;
+
+    }
+    //END G04-2019
 }

@@ -286,3 +286,42 @@ function getDiplomadosDocente(idDcn){
         }
         });
 }
+
+//Grupo 04
+function getPostgradosDocente(idDcn){
+  $.ajax({
+           type:'POST',
+           url:ip+'/getPostgrados',
+           data:{'docente':idDcn},
+           success:function(data){
+            //console.log(data.length);
+            if (data.length == 1 && data[0]['id_dcn_cer'] == '') {
+                $("#seccionPostgrados").append("<b>NO SE HAN REGISTRADO  POSTGRADOS</b>");
+             }else{
+                var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
+
+               for (var i = 0;i<data.length;i++) {
+                body="";
+                body+='<tr><th scope="row">'+(i+1)+'</th>';
+                body+='<td>'+data[i]['abreviatura']+'</td>';
+	             	body+='<td>'+data[i]['nombre_p_grado']+'</td>';
+								body+='<td>'+data[i]['descripcion_p_grado']+'</td>';
+	             	body+='<td>'+data[i]['fecha_inicio']+'</td>';
+								body+='<td>'+data[i]['fecha_fin']+'</td>';
+	             	body+='<td>'+data[i]['nombre_ins_post']+'</td>';
+	             	body+='<td>'+data[i]['nombre_pais_post']+'</td>';
+	             	html+=body;
+               }
+
+             html+=' </tbody></table>';
+             $("#seccionPostgrados").append(html)
+             }
+
+
+           },
+        error : function(xhr, status) {
+            alert("Hubo un problema al momento de obetener los datos de Docente");
+
+        }
+        });
+}
