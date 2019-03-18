@@ -980,7 +980,13 @@
                 <tr>
                   <td>{{ $representacion->evento_re_ues }}</td>
                   <td>{{ $representacion->descripcion_re_ues }}</td>
-                  <td>{{ $representacion->mision_oficial }}</td>
+                  @if($representacion->mision_oficial !=1)
+                  <!--<td><i class="fa fa-times fa-2x" style="color:#dc3545;"></i></td>-->
+                  <td>NO</td>
+                  @else
+                  <!--<td><i class="fa fa-check fa-2x" style="color:green;"></i></td>-->
+                  <td>SI</td>
+                  @endif
                   <td>{{ $representacion->fecha_inicio_rep }}</td>
                   <td>{{ $representacion->fecha_fin_rep }}</td>
                   <td>{{ $representacion->nombre_ins_rep }}</td>

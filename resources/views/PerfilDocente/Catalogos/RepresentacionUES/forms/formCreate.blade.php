@@ -20,21 +20,20 @@
 						{!! Form::label('Fecha de Finalizacion de Representacion') !!}
 						{!!Form::date('fecha_fin_rep',null,['class'=>'form-control ','placeholder'=>'Ingrese la fecha de finalizacion de Postgrado'])  !!}
 					</div>
-				</div>
-					<div class="row">
 					<div class="form-group col-sm-4">
-						{!! Form::label('Mision Oficial') !!}
-						{!!Form::checkbox('mision_oficial',null,['class'=>'togglebutton ','placeholder'=>'Ingrese mision oficial'])  !!}
+						{!! Form::label('Mision Oficial',null,['class'=>'text-secondary']) !!}
+						{!!Form::checkbox('mision_oficial',1,['checked'=>'checked','class'=>'form-control','placeholder'=>'Ingrese mision oficial'])  !!}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group col-sm-8">
+						{!! Form::label('Descripcion de la Participación') !!}
+
+						{!!Form::textarea('descripcion_re_ues',null,['rows'=>'3','class'=>'form-control ','placeholder'=>'Ingrese una breve descripcion de la Participacion'])  !!}
 					</div>
 					<div class="form-group col-sm-4">
 						{!! Form::label('Tipo de Participacion') !!}
 						{!!Form::select('id_cat_tip_rep', $tipos, null, ['class' => 'form-control'])!!}
 					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-sm-10">
-						{!! Form::label('Descripcion de la Participación') !!}
-
-						{!!Form::textarea('descripcion_re_ues',null,['rows'=>'3','class'=>'form-control ','placeholder'=>'Ingrese una breve descripcion de la Participacion'])  !!}
-					</div>
-				</div>
+				</div></br>

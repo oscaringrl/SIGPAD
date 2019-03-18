@@ -33,9 +33,14 @@ class RepresentacionUESController extends Controller
        * @return \Illuminate\Http\Response
        */
       public function create(){
+          $userLogin = Auth::user();
+          $docente = pdg_dcn_docenteModel::where("id_gen_usuario","=",$userLogin->id)->first();
+          $idDocente = $docente->id_pdg_dcn;
           $instituciones = cat_ins_institucionModel::pluck('nombre_ins','id_cat_inst');
           $paises = cat_pa_paisModel::pluck('nombre_pais','id_cat_pa');
           $tipos = cat_tip_rep_tipo_representacionModel::pluck('nombre_tip_repre', 'id_cat_tip_rep');
+
+
           return view('PerfilDocente.Catalogos.RepresentacionUES.create',compact('instituciones','paises','tipos'));
       }
 
@@ -72,11 +77,21 @@ class RepresentacionUESController extends Controller
           $userLogin = Auth::user();
           $docente = pdg_dcn_docenteModel::where("id_gen_usuario","=",$userLogin->id)->first();
           $idDocente = $docente->id_pdg_dcn;
+
+
+          if (isset($request["mision_oficial"])) {
+              $mision_oficial='1'; //Mision  Oficial
+
+          }else{
+               $mision_oficial='0'; //misison no Oficial
+
+          }
+
           $lastId = dcn_rep_ues_representacion_uesModel::create
                       ([
                           'evento_re_ues'                     => $request["evento_re_ues"],
                           'descripcion_re_ues'                => $request["descripcion_re_ues"],
-                          'mision_oficial'                    => $request["mision_oficial"],
+                          'mision_oficial'                    => $mision_oficial,
                           'fecha_inicio_rep'                  => $request["fecha_inicio_rep"],
                           'fecha_fin_rep'                     => $request["fecha_fin_rep"],
                           'id_cat_inst'                       => $request["id_cat_inst"],
@@ -161,7 +176,14 @@ class RepresentacionUESController extends Controller
           $representacion = dcn_rep_ues_representacion_uesModel::find($id);
           $representacion ->evento_re_ues = $request["evento_re_ues"];
           $representacion ->descripcion_re_ues = $request["descripcion_re_ues"];
-          $representacion ->mision_oficial = $request["mision_oficial"];
+          if (isset($request["mision_oficial"])) {
+                $representacion ->mision_oficial='1'; //Mision  Oficial
+
+          }else{
+               $representacion ->mision_oficial='0'; //misison no Oficial
+
+          }
+          
           $representacion ->fecha_inicio_rep = $request["fecha_inicio_rep"];
           $representacion ->fecha_fin_rep = $request["fecha_fin_rep"];
           $representacion ->id_cat_inst = $request["id_cat_inst"];

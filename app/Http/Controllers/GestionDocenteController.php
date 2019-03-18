@@ -316,14 +316,7 @@ class GestionDocenteController extends Controller
                         $bodyHtml .= '</tr>';
         }
 
-        $docenteObjeto = pdg_dcn_docenteModel::find($idDocente);
-        if (isset($request["perfilPrivado"])) {
-            $docenteObjeto->perfilPrivado='0'; //PERFIL DEBE SER PUBLICO
-            $docenteObjeto->save();
-        }else{
-             $docenteObjeto->perfilPrivado='1'; //PERFIL DEBE SER PRIVADO
-             $docenteObjeto->save();
-        }
+      
 
         //INSERTANDO DIPLOMADO GP04-2019
 
@@ -339,7 +332,7 @@ class GestionDocenteController extends Controller
                      'fecha_fin_dip'              => $request["fecha_fin_dip"],
                      'id_cat_mod'             => $request["id_cat_mod"],
                      'id_cat_inst'            => $request["id_cat_inst"],
-                     'id_cat_pa'              => 1,//se debe tener el CRUD o listado de cat_pa_pais
+                     'id_cat_pa'              => $request["id_cat_pa"],//se debe tener el CRUD o listado de cat_pa_pais
                      'id_dcn'                 => $idDocente
                    ]);
                }
