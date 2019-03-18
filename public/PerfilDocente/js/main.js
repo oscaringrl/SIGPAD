@@ -264,8 +264,8 @@ function getDiplomadosDocente(idDcn){
                for (var i = 0;i<data.length;i++) {
                 startD= new Date (data[i]['fecha_inicio_dip']);
                 endD= new Date (data[i]['fecha_fin_dip']);
-                d1= monthNames[startD.getMonth()]+' '+startD.getDay()+' del '+startD.getFullYear();
-                d2= monthNames[endD.getMonth()]+' '+endD.getDay()+' del '+endD.getFullYear();
+                d1= monthNames[startD.getMonth()]+' '+startD.getDate()+' del '+startD.getFullYear();
+                d2= monthNames[endD.getMonth()]+' '+endD.getDate()+' del '+endD.getFullYear();
                 body="";
                 body+='<div>';
                 body+='<h4>'+data[i]['nombre_diplomado']+'</h4>';
@@ -357,8 +357,8 @@ function getRepresentacionesDocente(idDcn){
 
               startR= new Date (data[i]['fecha_inicio_rep']);
               endR= new Date (data[i]['fecha_fin_rep']);
-              dt1= monthNames[startR.getMonth()]+' '+startR.getDay()+' del '+startR.getFullYear();
-              dt2= monthNames[endR.getMonth()]+' '+endR.getDay()+' del '+endR.getFullYear();
+              dt1= monthNames[startR.getMonth()]+' '+startR.getDate()+' del '+startR.getFullYear();
+              dt2= monthNames[endR.getMonth()]+' '+endR.getDate()+' del '+endR.getFullYear();
               body="";
               body+='<div>';
               body+='<h4>'+data[i]['evento_re_ues']+'</h4>';
