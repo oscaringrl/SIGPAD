@@ -258,23 +258,31 @@ function getDiplomadosDocente(idDcn){
          if (data.length == 1 && data[0]['id_dcn_dip'] == '') {
                 $("#seccionDiplomados").append("<b>NO SE HAN REGISTRADO  DIPLOMADOS</b>");
              }else{
-                var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Descripción</th><th scope="col">Desde</th><th scope="col">Hasta</th><th scope="col">Institucion</th><th scope="col">Modalidad</th><th scope="col">Pais</th></tr></thead><tbody>';
-
+              //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Descripción</th><th scope="col">Desde</th><th scope="col">Hasta</th><th scope="col">Institucion</th><th scope="col">Modalidad</th><th scope="col">Pais</th></tr></thead><tbody>';
+               var html= '<div class="col-md-12">'
                for (var i = 0;i<data.length;i++) {
                 body="";
-                body+='<tr><th scope="row">'+(i+1)+'</th>';
+                body+='<div>';
+                /*body+='<tr><th scope="row">'+(i+1)+'</th>';
                 body+='<td>'+data[i]['nombre_diplomado']+'</td>';
                 body+='<td>'+data[i]['descripcion_dip']+'</td>';
                 body+='<td>'+data[i]['fecha_inicio_dip']+'</td>';
                 body+='<td>'+data[i]['fecha_fin_dip']+'</td>';
                 body+='<td>'+data[i]['nombre_inst']+'</td>';
                 body+='<td>'+data[i]['nombre_modalidad']+'</td>';
-                body+='<td>'+data[i]['nombre_pais']+'</td>';
-
+                body+='<td>'+data[i]['nombre_pais']+'</td>';*/
+                body+='<h4>'+data[i]['nombre_diplomado']+'</h4>';
+                body+='<span>'+data[i]['nombre_ins']+'</span>'+'</br>';
+                body+='<span>Modalidad: '+data[i]['nombre_modalidad']+'</span>'+'</br>'+'</br>';
+                body+='<p style="text-align:justify">'+data[i]['descripcion_dip']+'</p>';
+                body+='<div align="right"><span>'+data[i]['fecha_inicio_dip']+' - '+data[i]['fecha_fin_dip']+'</span></div>';
+                body+='</div>';
+                body+='<hr>';
                 html+=body;
                }
 
-             html+=' </tbody></table>';
+             //html+=' </tbody></table>';
+             html+='</div>';
              $("#seccionDiplomados").append(html)
            }
 

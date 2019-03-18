@@ -53,9 +53,9 @@ class DiplomadoController extends Controller
               'fecha_inicio_dip' => 'required',
               'fecha_fin_dip' => 'required',
               'id_cat_mod' => 'required',
-              'id_cat_inst' => 'required'/*,
+              'id_cat_inst' => 'required',
               'id_cat_pa' => 'required'
-*/
+
 
           ],
           [
