@@ -259,25 +259,24 @@ function getDiplomadosDocente(idDcn){
                 $("#seccionDiplomados").append("<b>NO SE HAN REGISTRADO  DIPLOMADOS</b>");
              }else{
               //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Descripción</th><th scope="col">Desde</th><th scope="col">Hasta</th><th scope="col">Institucion</th><th scope="col">Modalidad</th><th scope="col">Pais</th></tr></thead><tbody>';
-               var html= '<div class="col-md-12">'
+               var html= '<div class="col-md-12">';
+
                for (var i = 0;i<data.length;i++) {
+                startD= new Date (data[i]['fecha_inicio_dip']);
+                endD= new Date (data[i]['fecha_fin_dip']);
+                d1= monthNames[startD.getMonth()]+' '+startD.getDay()+' del '+startD.getFullYear();
+                d2= monthNames[endD.getMonth()]+' '+endD.getDay()+' del '+endD.getFullYear();
                 body="";
                 body+='<div>';
-                /*body+='<tr><th scope="row">'+(i+1)+'</th>';
-                body+='<td>'+data[i]['nombre_diplomado']+'</td>';
-                body+='<td>'+data[i]['descripcion_dip']+'</td>';
-                body+='<td>'+data[i]['fecha_inicio_dip']+'</td>';
-                body+='<td>'+data[i]['fecha_fin_dip']+'</td>';
-                body+='<td>'+data[i]['nombre_inst']+'</td>';
-                body+='<td>'+data[i]['nombre_modalidad']+'</td>';
-                body+='<td>'+data[i]['nombre_pais']+'</td>';*/
                 body+='<h4>'+data[i]['nombre_diplomado']+'</h4>';
-                body+='<span>'+data[i]['nombre_ins']+'</span>'+'</br>';
-                body+='<span>Modalidad: '+data[i]['nombre_modalidad']+'</span>'+'</br>'+'</br>';
+                body+='<span>'+data[i]['nombre_ins']+', '+data[i]['nombre_pais']+'</span>'+'</br>';
+                body+='<span><b>Modalidad:</b> '+data[i]['nombre_modalidad']+'</span>'+'</br>'+'</br>';
                 body+='<p style="text-align:justify">'+data[i]['descripcion_dip']+'</p>';
-                body+='<div align="right"><span>'+data[i]['fecha_inicio_dip']+' - '+data[i]['fecha_fin_dip']+'</span></div>';
+                body+='<div align="right"><span>'+d1+' - '+d2+'</span></div>';
                 body+='</div>';
+                if(i < data.length-1){
                 body+='<hr>';
+                }
                 html+=body;
                }
 
@@ -303,25 +302,31 @@ function getPostgradosDocente(idDcn){
            data:{'docente':idDcn},
            success:function(data){
             //console.log(data.length);
-            if (data.length == 1 && data[0]['id_dcn_cer'] == '') {
+            if (data.length == 1 && data[0]['id_dcn_post'] == '') {
                 $("#seccionPostgrados").append("<b>NO SE HAN REGISTRADO  POSTGRADOS</b>");
              }else{
-                var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
+              //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
+              var html= '<div class="col-md-12">';
 
                for (var i = 0;i<data.length;i++) {
                 body="";
-                body+='<tr><th scope="row">'+(i+1)+'</th>';
-                body+='<td>'+data[i]['abreviatura']+'</td>';
-	             	body+='<td>'+data[i]['nombre_p_grado']+'</td>';
-								body+='<td>'+data[i]['descripcion_p_grado']+'</td>';
-	             	body+='<td>'+data[i]['fecha_inicio']+'</td>';
-								body+='<td>'+data[i]['fecha_fin']+'</td>';
-	             	body+='<td>'+data[i]['nombre_ins_post']+'</td>';
-	             	body+='<td>'+data[i]['nombre_pais_post']+'</td>';
-	             	html+=body;
+                start= new Date(data[i]['fecha_inicio']);
+                end= new Date(data[i]['fecha_fin']);
+                body+='<div>';
+                body+='<h4 style="display:inline;">'+data[i]['nombre_p_grado']+'</h4>'+'  <b>('+data[i]['abreviatura']+')</b>';
+                body+='</br><span>'+data[i]['nombre_ins_post']+', '+data[i]['nombre_pais_post']+'</span>'+'</br>';
+           //NO MOSTRAR LA DESCRIPCION DEL POSTGRADO
+                //body+='<p style="text-align:justify">'+data[i]['descripcion_p_grado']+'</p>';
+                body+='<span>'+start.getFullYear() +' - '+end.getFullYear()+'</span>';
+                body+='</div>';
+                if( i < data.length-1){
+                body+='<hr>';
+                }
+                html+=body;
                }
 
-             html+=' </tbody></table>';
+            // html+=' </tbody></table>';
+            html+='</div>';
              $("#seccionPostgrados").append(html)
              }
 
@@ -345,23 +350,36 @@ function getRepresentacionesDocente(idDcn){
             if (data.length == 1 && data[0]['id_dcn_cer'] == '') {
                 $("#seccionPostgrados").append("<b>NO SE HAN REGISTRADO REPRESENTACIONES</b>");
              }else{
-                var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Evento</th><th scope="col">Descripción</th><th scope="col">Mision Oficial</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th><th scope="col">Tipo Representacion</th></tr></thead><tbody>';
+               //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
+               var html= '<div class="col-md-12">';
 
                for (var i = 0;i<data.length;i++) {
-                body="";
-                body+='<tr><th scope="row">'+(i+1)+'</th>';
-                body+='<td>'+data[i]['evento_re_ues']+'</td>';
-                body+='<td>'+data[i]['descripcion_re_ues']+'</td>';
-                body+='<td>'+data[i]['mision_oficial']+'</td>';
-                body+='<td>'+data[i]['fecha_inicio_rep']+'</td>';
-                body+='<td>'+data[i]['fecha_fin_rep']+'</td>';
-                body+='<td>'+data[i]['nombre_ins_rep']+'</td>';
-                body+='<td>'+data[i]['nombre_pais_rep']+'</td>';
-                body+='<td>'+data[i]['nombre_tip_repre_rep']+'</td>';
-                html+=body;
-               }
 
-             html+=' </tbody></table>';
+              startR= new Date (data[i]['fecha_inicio_rep']);
+              endR= new Date (data[i]['fecha_fin_rep']);
+              dt1= monthNames[startR.getMonth()]+' '+startR.getDay()+' del '+startR.getFullYear();
+              dt2= monthNames[endR.getMonth()]+' '+endR.getDay()+' del '+endR.getFullYear();
+              body="";
+              body+='<div>';
+              body+='<h4>'+data[i]['evento_re_ues']+'</h4>';
+              body+='<span>'+data[i]['nombre_ins_rep']+', '+data[i]['nombre_pais_rep']+'</span>'+'</br>';
+              body+='<span><b>Tipo de Participación:</b> '+data[i]['nombre_tip_repre_rep']+'</span>'+'</br>';
+              if(data[i]['mision_oficial']!=1){
+              body+='<span><b>Mision Oficial:</b> NO</span>'+'</br>'+'</br>';
+              }
+              else
+              body+='<span><b>Mision Oficial:</b> SI</span>'+'</br>'+'</br>';
+              body+='<p style="text-align:justify">'+data[i]['descripcion_re_ues']+'</p>';
+              body+='<div align="right"><span>'+dt1+' - '+dt2+'</span></div>';
+              body+='</div>';
+              if(i < data.length-1){
+              body+='<hr>';
+              }
+              html+=body;
+             }
+
+           //html+=' </tbody></table>';
+           html+='</div>';
              $("#seccionRepresentaciones").append(html)
              }
 
@@ -372,4 +390,9 @@ function getRepresentacionesDocente(idDcn){
 
         }
         });
+
+
 }
+const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                     "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+                   ];
