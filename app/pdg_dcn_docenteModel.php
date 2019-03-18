@@ -270,28 +270,6 @@ class pdg_dcn_docenteModel extends Model
         return $data;
     }
 
-    public function getDataPostgradosDocente($idDocente){
-
-        $data = DB::select("select distinct
-                            IFNULL(	id_dcn_post,'') as 	id_dcn_post,
-                            IFNULL(abreviatura,'') as abreviatura,
-                            IFNULL(nombre_p_grado,'') as nombre_p_grado,
-                            IFNULL(descripcion_p_grado,'') as descripcion_p_grado,
-                            IFNULL(fecha_inicio,'') as fecha_inicio,
-                            IFNULL(fecha_fin,'') fecha_fin,
-                            IFNULL(id_cat_inst_post,'') as id_cat_inst_post,
-                            IFNULL(nombre_ins_post,'') as nombre_ins_post,
-                            IFNULL(id_cat_pa_post,'') as id_cat_pa_post,
-                            IFNULL(nombre_pais_post,'') as nombre_pais_post
-                            from view_dcn_perfildocente
-                            where id_pdg_dcn = :idDocente",
-            array(
-                $idDocente
-            )
-        );
-        return $data;
-    }
-
     public function getDataSkillsDocente($idDocente){
 
         $data = DB::select("select distinct
@@ -382,4 +360,52 @@ class pdg_dcn_docenteModel extends Model
         $coordinadores = DB::select($query);
         return $coordinadores;
     }
+
+    //Grupo 04
+        public function getDataPostgradosDocente($idDocente){
+
+            $data = DB::select("select distinct
+                                IFNULL(	id_dcn_post,'') as 	id_dcn_post,
+                                IFNULL(abreviatura,'') as abreviatura,
+                                IFNULL(nombre_p_grado,'') as nombre_p_grado,
+                                IFNULL(descripcion_p_grado,'') as descripcion_p_grado,
+                                IFNULL(fecha_inicio,'') as fecha_inicio,
+                                IFNULL(fecha_fin,'') fecha_fin,
+                                IFNULL(id_cat_inst_post,'') as id_cat_inst_post,
+                                IFNULL(nombre_ins_post,'') as nombre_ins_post,
+                                IFNULL(id_cat_pa_post,'') as id_cat_pa_post,
+                                IFNULL(nombre_pais_post,'') as nombre_pais_post
+                                from view_dcn_perfildocente
+                                where id_pdg_dcn = :idDocente",
+                array(
+                    $idDocente
+                )
+            );
+            return $data;
+        }
+
+        //Grupo 04
+            public function getDataRepresentacionesDocente($idDocente){
+
+                $data = DB::select("select distinct
+                                    IFNULL(	id_dcn_rep,'') as 	id_dcn_rep,
+                                    IFNULL(evento_re_ues,'') as evento_re_ues,
+                                    IFNULL(descripcion_re_ues,'') as descripcion_re_ues,
+                                    IFNULL(mision_oficial,'') as mision_oficial,
+                                    IFNULL(fecha_inicio_rep,'') as fecha_inicio_rep,
+                                    IFNULL(fecha_fin_rep,'') fecha_fin_rep,
+                                    IFNULL(id_cat_inst_rep,'') as id_cat_inst_rep,
+                                    IFNULL(nombre_ins_rep,'') as nombre_ins_rep,
+                                    IFNULL(id_cat_pa_rep,'') as id_cat_pa_rep,
+                                    IFNULL(nombre_pais_rep,'') as nombre_pais_rep,
+                                    IFNULL(id_cat_tip_rep,'') as id_cat_tip_rep,
+                                    IFNULL(nombre_tip_repre_rep,'') as nombre_tip_repre_rep
+                                    from view_dcn_perfildocente
+                                    where id_pdg_dcn = :idDocente",
+                    array(
+                        $idDocente
+                    )
+                );
+                return $data;
+            }
 }

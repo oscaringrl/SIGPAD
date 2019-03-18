@@ -12,7 +12,8 @@ use \App\dcn_exp_experienciaModel;
 use \App\dcn_his_historial_academicoModel;
 use \App\cat_mat_materiaModel;
 use \App\dcn_cer_certificacionesModel;
-use \App\dcn_postg_postgradoModel;
+use \App\dcn_postg_postgradoModel; //Grupo 04
+use \App\dcn_rep_ues_representacion_uesModel; //Grupo 04
 use \App\cat_car_cargo_eisiModel;
 use \App\gen_UsuarioModel;
 use \App\cat_tpo_jrn_dcn_tipo_jornada_docenteModel;
@@ -36,8 +37,9 @@ class GestionDocenteController extends Controller
        $academica = $docente->getHistorialAcademico($idDocente);
        $laboral = $docente->getDataExperienciaDocente($idDocente);
        $certificaciones = $docente->getDataCertificacionesDocente($idDocente);
-       //$postgrados = dcn_postg_postgradoModel::all();
-       $postgrados = $docente->getDataPostgradosDocente($idDocente);
+       //$postgrados = dcn_postg_postgradoModel::all(); // Grupo 04
+       $postgrados = $docente->getDataPostgradosDocente($idDocente); //Grupo 04
+       $representaciones = $docente->getDataRepresentacionesDocente($idDocente); //Grupo 04
        $habilidadesSelect = cat_ski_skillModel::pluck("nombre_cat_ski","id_cat_ski");
        $habilidades = $docente->getDataSkillsDocente($idDocente);
        $cargosPrincipal = cat_car_cargo_eisiModel::all();
@@ -70,7 +72,7 @@ class GestionDocenteController extends Controller
 
        }
        $niveles = cat_ski_skillModel::getNivelesSkills();
-       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles','postgrados'));
+       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles','postgrados','representaciones'));
     }
     function create(){
         return view('PerfilDocente.create');
@@ -100,11 +102,15 @@ class GestionDocenteController extends Controller
         $dataPostgrados = Excel::load($request->file('documentoPerfil'), function ($reader) {
             $reader->setSelectedSheetIndices(array(5));
         })->get();
+        $dataRepresentaciones = Excel::load($request->file('documentoPerfil'), function ($reader) {
+            $reader->setSelectedSheetIndices(array(5));
+        })->get();
         $experienciaLaboral = $dataLaboral->toArray();
         $experienciaAcademica = $dataAcademica->toArray();
         $certificaciones = $dataCertificaciones->toArray();
         $habilidades = $dataHabilidades->toArray();
         $postgrados = $dataPostgrados->toArray();
+        $representaciones = $dataRepresentaciones->toArray();
         //return var_dump($habilidades[0]);
         //INSERTANDO LA EXPERIENCIA LABORAL
         try {
@@ -271,6 +277,39 @@ class GestionDocenteController extends Controller
                         $bodyHtml .= '<td>POSTGRADOS</td>';
                         $bodyHtml .= '<td><span class="badge badge-danger">Error</span></td>';
                         $bodyHtml .= '<td>Ocurrió un problema en alguno de los registros de los postgrados</td>';
+                        $bodyHtml .= '</tr>';
+        }
+
+        //INSERTANDO REPRESENTACIONES
+        //Grupo 04
+        try {
+            foreach ($representaciones as $representacion) {
+                if (!is_null($representacion["everep"]) && !is_null($representacion["descrep"]) && !is_null($representacion["misorep"]) && !is_null($representacion["fechairep"]) && !is_null($representacion["fechafrep"]) && !is_null($representacion["instrep"]) && !is_null($representacion["paisrep"]) && !is_null($representacion["tiprep"])) {
+
+                   $lastId = dcn_rep_ues_representacion_uesModel::create
+                    ([
+                        'evento_re_ues'                 => $representacion["everep"],
+                        'descripcion_re_ues'            => $representacion["descrep"],
+                        'mision_oficial'                => $representacion["misorep"],
+                        'fecha_inicio_rep'              => $representacion["fechairep"],
+                        'fecha_fin_rep'                 => $representacion["fechafrep"],
+                        'id_cat_inst'                   => $representacion["instrep"],
+                        'id_cat_pa'                     => $representacion["paisrep"],
+                        'id_cat_tip_rep'                => $representacion["tiprep"],
+                        'id_dcn'                        => $idDocente
+                    ]);
+                }
+            }
+            $bodyHtml .= '<tr>';
+                        $bodyHtml .= '<td>REPRESENTACIONES</td>';
+                        $bodyHtml .= '<td><span class="badge badge-success">OK</span></td>';
+                        $bodyHtml .= '<td>Todos los registros válidos se realizaron exitosamente.</td>';
+                        $bodyHtml .= '</tr>';
+        } catch (\Exception $e) {
+           $bodyHtml .= '<tr>';
+                        $bodyHtml .= '<td>REPRESENTACIONES</td>';
+                        $bodyHtml .= '<td><span class="badge badge-danger">Error</span></td>';
+                        $bodyHtml .= '<td>Ocurrió un problema en alguno de los registros de las representaciones</td>';
                         $bodyHtml .= '</tr>';
         }
 
@@ -659,4 +698,12 @@ class GestionDocenteController extends Controller
       return $info;
 
     }
+
+    //Grupo 04
+      function getRepresentaciones(Request $request){
+        $docente = new pdg_dcn_docenteModel();
+        $info = $docente->getDataRepresentacionesDocente($request['docente']);
+        return $info;
+
+      }
 }

@@ -25,6 +25,7 @@
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").removeClass('active');
             $("#post-tab").removeClass('active');
+            $("#representacion-tab").removeClass('active');
 
     				$("#general").addClass('show active');
     				$("#academica").removeClass('show active');
@@ -32,6 +33,7 @@
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").removeClass('show active');
             $("#post").removeClass('show active');
+            $("#representacion").removeClass('show active');
 
   				}else if ({{Session::get('apartado')}} == '2') {
   					$("#general-tab").removeClass('active');
@@ -40,6 +42,7 @@
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").removeClass('active');
             $("#post-tab").removeClass('active');
+            $("#representacion-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").addClass('show active');
@@ -47,6 +50,7 @@
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").removeClass('show active');
             $("#post").removeClass('show active');
+            $("#representacion").removeClass('show active');
 
   				}else if ({{Session::get('apartado')}} == '3') {
   					$("#general-tab").removeClass('active');
@@ -55,6 +59,7 @@
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").removeClass('active');
             $("#post-tab").removeClass('active');
+            $("#representacion-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").removeClass('show active');
@@ -62,6 +67,7 @@
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").removeClass('show active');
             $("#post").removeClass('show active');
+            $("#representacion").removeClass('show active');
 
   				}else if ({{Session::get('apartado')}} == '4') {
   					$("#general-tab").removeClass('active');
@@ -70,6 +76,7 @@
     				$("#certificaciones-tab").addClass('active');
     				$("#habilidades-tab").removeClass('active');
             $("#post-tab").removeClass('active');
+            $("#representacion-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").removeClass('show active');
@@ -77,6 +84,7 @@
     				$("#certificaciones").addClass(' show active');
     				$("#habilidades").removeClass('show active');
             $("#post").removeClass('show active');
+            $("#representacion").removeClass('show active');
   				}
     			else if ({{Session::get('apartado')}} == '5') {
     				$("#general-tab").removeClass('active');
@@ -85,6 +93,7 @@
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").addClass('active');
             $("#post-tab").removeClass('active');
+            $("#representacion-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").removeClass('show active');
@@ -92,14 +101,16 @@
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").addClass('show active');
             $("#post").removeClass('show active');
+            $("#representacion").removeClass('show active');
     			}
-          else if ({{Session::get('apartado')}} == '6') {
+          else if ({{Session::get('apartado')}} == '6'){
     				$("#general-tab").removeClass('active');
     				$("#academica-tab").removeClass('active');
     				$("#laboral-tab-tab").removeClass('active');
     				$("#certificaciones-tab").removeClass('active');
     				$("#habilidades-tab").removeClass('active');
             $("#post-tab").addClass('active');
+            $("#representacion-tab").removeClass('active');
 
     				$("#general").removeClass('show active');
     				$("#academica").removeClass('show active');
@@ -107,7 +118,25 @@
     				$("#certificaciones").removeClass(' show active');
     				$("#habilidades").removeClass('show active');
             $("#post").addClass('show active');
+            $("#representacion").removeClass('show active');
     			}
+          else if ({{Session::get('apartado')}} == '9'){
+            $("#general-tab").removeClass('active');
+            $("#academica-tab").removeClass('active');
+            $("#laboral-tab-tab").removeClass('active');
+            $("#certificaciones-tab").removeClass('active');
+            $("#habilidades-tab").removeClass('active');
+            $("#post-tab").removeClass('active');
+            $("#representacion-tab").addClass('active');
+
+            $("#general").removeClass('show active');
+            $("#academica").removeClass('show active');
+            $("#laboral").removeClass(' show active');
+            $("#certificaciones").removeClass(' show active');
+            $("#habilidades").removeClass('show active');
+            $("#post").removeClass('show active');
+            $("#representacion").addClass('show active');
+          }
 			});
   		</script>
 @endif
@@ -195,10 +224,12 @@
    				titulo ="Eliminar Registro de experiencia Laboral";
    			}else if (this.id == "CERT"){
    				titulo ="Eliminar Registro de Certificaciones";
-   			}else if{
+   			}else if(this.id == "HAB"){
    				titulo ="Eliminar Registro de Habilidades";
-   			}else {
+   			}else if(this.id == "POST"){
            titulo="Eliminar Registro de Postgrados";
+        }else {
+          titulo="Eliminar Registro de Representaciones";
         }
 
 	        swal({
@@ -262,7 +293,7 @@
      <a class="nav-link text-danger" id="investigaciones-tab" data-toggle="tab" href="#investigaciones" role="tab" aria-controls="investigaciones" aria-selected="false">Investigaciones</a>
    </li>
    <li class="nav-item">
-    <a class="nav-link text-danger" id="representaciones-tab" data-toggle="tab" href="#representaciones" role="tab" aria-controls="representaciones" aria-selected="false">Representacion UES</a>
+    <a class="nav-link text-danger" id="representacion-tab" data-toggle="tab" href="#representacion" role="tab" aria-controls="representacion" aria-selected="false">Representacion UES</a>
   </li>
 </ul>
 
@@ -748,9 +779,73 @@
               @can('perfilDocente.edit','perfilDocenteDestroy')
                     <td>
                       <fieldset>
-                        {!! Form::open(['route'=>['postgrado.destroy',$postgrado->id_dcn_post],'method'=>'DELETE','class' => 'deleteButton','id'=>'CERT']) !!}
+                        {!! Form::open(['route'=>['postgrado.destroy',$postgrado->id_dcn_post],'method'=>'DELETE','class' => 'deleteButton','id'=>'POST']) !!}
                           @can('perfilDocente.edit')
                             <a class="btn " style="background-color:  #102359;color: white" href="{{route('postgrado.edit',$postgrado->id_dcn_post)}}"><i class="fa fa-pencil"></i></a>
+                          @endcan
+                          @can('perfilDocente.destroy')
+                            <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
+                          @endcan
+                      {!! Form:: close() !!}
+                      </fieldset>
+
+                    </td>
+                @endcan
+              </tr>
+            @endforeach
+            @endif
+          </tbody>
+        </table>
+       </div>
+    </div>
+
+    <div class="tab-pane fade" id="representacion" role="tabpanel" aria-labelledby="representacion-tab">
+      <br>
+      <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      @can('perfilDocente.create')
+        <div class="col-sm-3">
+          <a class="btn btn-primary" href="{{route('representacion.create')}}" ><i class="fa fa-plus"></i> Nuevo Registro</a>
+        </div>
+      @endcan
+      </div>
+      <br>
+    <div class="table-responsive">
+          <table class="table table-hover table-striped">
+
+            <thead class="bg-danger text-white">
+            <th>Evento</th>
+            <th>Descripcion</th>
+            <th>Mision Oficial</th>
+            <th>Año Inicio</th>
+            <th>Año Fin</th>
+            <th>Institucion</th>
+            <th>Pais</th>
+            <th>Tipo Representacion</th>
+            <th>Acciones</th>
+            </thead>
+            <tbody>
+            @if(empty($representaciones[0]->evento_re_ues))
+            <tr><td colspan="5">NO SE ENCONTRARON REGISTROS DE REPRESENTACIONES</td></tr>
+            @else
+              @foreach($representaciones as $representacion)
+                <tr>
+                  <td>{{ $representacion->evento_re_ues }}</td>
+                  <td>{{ $representacion->descripcion_re_ues }}</td>
+                  <td>{{ $representacion->mision_oficial }}</td>
+                  <td>{{ $representacion->fecha_inicio_rep }}</td>
+                  <td>{{ $representacion->fecha_fin_rep }}</td>
+                  <td>{{ $representacion->nombre_ins_rep }}</td>
+                  <td>{{ $representacion->nombre_pais_rep }}</td>
+                  <td>{{ $representacion->nombre_tip_repre_rep }}</td>
+              @can('perfilDocente.edit','perfilDocenteDestroy')
+                    <td>
+                      <fieldset>
+                        {!! Form::open(['route'=>['representacion.destroy',$representacion->id_dcn_rep],'method'=>'DELETE','class' => 'deleteButton','id'=>'REP']) !!}
+                          @can('perfilDocente.edit')
+                            <a class="btn " style="background-color:  #102359;color: white" href="{{route('representacion.edit',$representacion->id_dcn_rep)}}"><i class="fa fa-pencil"></i></a>
                           @endcan
                           @can('perfilDocente.destroy')
                             <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>

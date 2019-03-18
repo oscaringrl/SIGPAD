@@ -285,3 +285,43 @@ function getPostgradosDocente(idDcn){
         }
         });
 }
+
+//Grupo 04
+function getRepresentacionesDocente(idDcn){
+  $.ajax({
+           type:'POST',
+           url:ip+'/getRepresentaciones',
+           data:{'docente':idDcn},
+           success:function(data){
+            //console.log(data.length);
+            if (data.length == 1 && data[0]['id_dcn_cer'] == '') {
+                $("#seccionPostgrados").append("<b>NO SE HAN REGISTRADO REPRESENTACIONES</b>");
+             }else{
+                var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Evento</th><th scope="col">Descripción</th><th scope="col">Mision Oficial</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th><th scope="col">Tipo Representacion</th></tr></thead><tbody>';
+
+               for (var i = 0;i<data.length;i++) {
+                body="";
+                body+='<tr><th scope="row">'+(i+1)+'</th>';
+                body+='<td>'+data[i]['evento_re_ues']+'</td>';
+                body+='<td>'+data[i]['descripcion_re_ues']+'</td>';
+                body+='<td>'+data[i]['mision_oficial']+'</td>';
+                body+='<td>'+data[i]['fecha_inicio_rep']+'</td>';
+                body+='<td>'+data[i]['fecha_fin_rep']+'</td>';
+                body+='<td>'+data[i]['nombre_ins_rep']+'</td>';
+                body+='<td>'+data[i]['nombre_pais_rep']+'</td>';
+                body+='<td>'+data[i]['nombre_tip_repre_rep']+'</td>';
+                html+=body;
+               }
+
+             html+=' </tbody></table>';
+             $("#seccionRepresentaciones").append(html)
+             }
+
+
+           },
+        error : function(xhr, status) {
+            alert("Hubo un problema al momento de obetener los datos de Docente");
+
+        }
+        });
+}
