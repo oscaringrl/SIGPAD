@@ -50,7 +50,7 @@ class PostgradoController extends Controller
                   'nombre_p_grado' => 'required',
                   'descripcion_p_grado' => 'required',
                   'fecha_inicio' => 'required',
-                  'fecha_fin' => 'required',
+                  'fecha_fin' => 'required|after:fecha_inicio',
                   'id_cat_inst' => 'required',
                   'id_cat_pa' => 'required'
               ],
@@ -58,8 +58,9 @@ class PostgradoController extends Controller
                   'abreviatura.required' => 'Debe ingresar la abreviatura del postgrado',
                   'nombre_p_grado.required' => 'Debe ingresar un nombre del postgrado',
                   'descripcion_p_grado' => 'Ingrese una breve descripcion del postgrado',
-                  'fecha_inicio' => 'Ingrese la fecha de inicio en que realizo el postgrado',
-                  'fecha_fin' => 'Ingrese la fecha de finalizacion del postgrado',
+                  'fecha_inicio.required' => 'Ingrese la fecha de inicio en que realizo el postgrado',
+                  'fecha_fin.required' => 'Ingrese la fecha de finalizacion del postgrado',
+                  'fecha_fin.after' => 'La fecha de finalizacion del postgrado debe ser mayor a la fecha inicio',
                   'id_cat_inst.required' => 'Debe seleccionar una institucion',
                   'id_cat_pa.required' => 'Debe seleccionar un pais'
               ]

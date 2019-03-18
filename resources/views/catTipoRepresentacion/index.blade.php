@@ -6,17 +6,17 @@
   			$( document ).ready(function() {
     			swal("", "{{Session::get('message')}}", "success");
 			});
-  		</script>		
+  		</script>
 @endif
 <script type="text/javascript">
 	$( document ).ready(function() {
 		 $('.deleteButton').on('submit',function(e){
-        if(!confirm('Estas seguro que deseas eliminar idioma')){
+        if(!confirm('Estas seguro que deseas eliminar tipo de participación en Congresos/Talleres/otros')){
 
               e.preventDefault();
         	}
       	});
-		
+
     	$("#listTable").DataTable({
             language: {
                 url: 'es-ar.json' //Ubicacion del archivo con el json del idioma.
@@ -28,28 +28,28 @@
                 exportOptions: {
                     columns: [ 0]
                 },
-                title: 'Listado de idiomas'
+                title: 'Listado de tipo de participación en Congresos/Talleres/otros'
             },
             {
                 extend: 'pdfHtml5',
                 exportOptions: {
                     columns: [ 0]
                 },
-                title: 'Listado de idiomas'
+                title: 'Listado de tipo de participación en Congresos/Talleres/otros'
             },
              {
                 extend: 'csvHtml5',
                 exportOptions: {
                     columns: [ 0]
                 },
-                title: 'Listado de idiomas'
+                title: 'Listado de tipo de participación en Congresos/Talleres/otros'
             },
             {
                 extend: 'print',
                 exportOptions: {
                     columns: [ 0]
                 },
-                title: 'Listado de idiomas'
+                title: 'Listado de tipo de participación en Congresos/Talleres/otros'
             }
 
 
@@ -62,24 +62,24 @@
         order: [ 0, 'asc' ],
     	});
 	});
-	
+
 </script>
 		<ol class="breadcrumb"  style="text-align: center; margin-top: 1em">
 	        <li class="breadcrumb-item">
-	          <h5><a href="{{ route('catCatalogo.index') }}" style="margin-left: 0em"><i class="fa fa-arrow-left fa-lg" style="z-index: 1;margin-top: 0em;margin-right: 0.5em; color: black"></i></a>     IDIOMAS</h5>
+	          <h5><a href="{{ route('catCatalogo.index') }}" style="margin-left: 0em"><i class="fa fa-arrow-left fa-lg" style="z-index: 1;margin-top: 0em;margin-right: 0.5em; color: black"></i></a>     Tipo de Participación en Congresos/Talleres/otros</h5>
 	        </li>
-	        <li class="breadcrumb-item active">Listado Idiomas</li>
+	        <li class="breadcrumb-item active">Listado Tipo de Participación en Congresos/Talleres/otros</li>
 		</ol>
 		 <div class="row">
   <div class="col-sm-3"></div>
   <div class="col-sm-3"></div>
    <div class="col-sm-3"></div>
-  @can('catIdioma.create')
+  @can('catTipoRepresentacion.create')
     <div class="col-sm-3">
-      <a class="btn btn-primary" href="{{route('catIdioma.create')}}" ><i class="fa fa-plus"></i> Nuevo Idioma</a>
+      <a class="btn btn-primary" href="{{route('catTipoRepresentacion.create')}}" ><i class="fa fa-plus"></i> Nuevo Tipo de Participación</a>
     </div>
   @endcan
-  </div> 
+  </div>
 
 		<br>
   		<div class="table-responsive">
@@ -87,27 +87,27 @@
 
   				<thead>
 					<th>Idioma</th>
-                     @can('catIdioma.edit')
+                     @can('catTipoRepresentacion.edit')
                     <th style="text-align: center;">Acciones</th>
 
                     @endcan
-                    @can('catIdioma.destroy')
+                    @can('catTipoRepresentacion.destroy')
                     @endcan
   				</thead>
   				<tbody>
-  				@foreach($catIdioma as $catIdiom)
+  				@foreach($catTipoRepresentacion as $catTipoRep)
 					<tr>
-						<td>{{ $catIdiom->nombre_cat_idi}}</td>
+						<td>{{ $catTipoRep->nombre_tip_repre}}</td>
                         <td style="width: 160px">
                             <div class="row">
-                                @can('catIdioma.edit')
+                                @can('catTipoRepresentacion.edit')
                                 <div class="col-6">
-                                    <a class="btn " style="background-color:  #102359;color: white" href="{{route('catIdioma.edit',$catIdiom->id_cat_idi)}}"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn " style="background-color:  #102359;color: white" href="{{route('catTipoRepresentacion.edit',$catTipoRep->id_cat_tip_rep)}}"><i class="fa fa-pencil"></i></a>
                                 </div>
                                 @endcan
-                                @can('catIdioma.destroy')
+                                @can('catTipoRepresentacion.destroy')
                                     <div class="col-6">
-                                        {!! Form::open(['route'=>['catIdioma.destroy',$catIdiom->id_cat_idi],'method'=>'DELETE','class' => 'deleteButton']) !!}
+                                        {!! Form::open(['route'=>['catTipoRepresentacion.destroy',$catTipoRep->id_cat_tip_rep],'method'=>'DELETE','class' => 'deleteButton']) !!}
                                         <div class="btn-group">
                                             <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                         </div>
@@ -117,7 +117,7 @@
                             </div>
                         </td>
                     </tr>
-				@endforeach 
+				@endforeach
 				</tbody>
 			</table>
 	   </div>

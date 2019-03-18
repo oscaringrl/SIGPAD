@@ -51,7 +51,7 @@ class DiplomadoController extends Controller
               'nombre_diplomado' => 'required',
               'descripcion_dip' => 'required',
               'fecha_inicio_dip' => 'required',
-              'fecha_fin_dip' => 'required',
+              'fecha_fin_dip' => 'required|after:fecha_inicio_dip',
               'id_cat_mod' => 'required',
               'id_cat_inst' => 'required',
               'id_cat_pa' => 'required'
@@ -62,7 +62,8 @@ class DiplomadoController extends Controller
             'nombre_diplomado.required' => ' Se require un nombre de diplomado',
             'descripcion_dip.required' => 'Se requiere una descrpcion del diplomado',
             'fecha_inicio_dip.required' => 'Se require una fecha de inicio',
-            'fecha_fin_dip' => 'Se requiere una fecha de finalización',
+            'fecha_fin_dip.required' => 'Se requiere una fecha de finalización',
+            'fecha_fin_dip.after' => 'La fecha de finalización debe ser mayor a fecha de inicio',
             'id_cat_mod.required' => 'Debe seleccionar una modalidad',
             'id_cat_inst.required' => 'Debe seleccionar una institucion',
             'id_cat_pa.required' => 'Debe seleccionar un pais'
@@ -138,7 +139,7 @@ class DiplomadoController extends Controller
             'nombre_diplomado' => 'required',
             'descripcion_dip' => 'required',
             'fecha_inicio_dip' => 'required',
-            'fecha_fin_dip' => 'required',
+            'fecha_fin_dip' => 'required|after:fecha_inicio_dip',
             'id_cat_mod' => 'required',
             'id_cat_inst' => 'required',
             'id_cat_pa' => 'required'
@@ -150,6 +151,7 @@ class DiplomadoController extends Controller
           'descripcion_dip.required' => 'Se requiere una descrpcion del diplomado',
           'fecha_inicio_dip.required' => 'Se require una fecha de inicio',
           'fecha_fin_dip.required' => 'Se requiere una fecha de finalización',
+          'fecha_fin_dip.after' => 'La fecha de finalización debe ser mayor a fecha de inicio',
           'id_cat_mod.required' => 'Debe seleccionar una modalidad',
           'id_cat_inst.required' => 'Debe seleccionar una institucion',
           'id_cat_pa.required' => 'Debe seleccionar un pais'

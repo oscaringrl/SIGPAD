@@ -104,7 +104,7 @@
                                         <a class="btn " style="background-color:  #102359;color: white" href="{{route('catInstitucion.edit',$catInst->id_cat_inst)}}"><i class="fa fa-pencil"></i></a>
                                     </div>
                                 @endcan
-                                @can('cargoEisi.destroy')
+                                @can('catInstitucion.destroy')
                                     <div class="col-6">
                                         {!! Form::open(['route'=>['catInstitucion.destroy',$catInst->id_cat_inst],'method'=>'DELETE','class' => 'deleteButton']) !!}
                                         <div class="btn-group">

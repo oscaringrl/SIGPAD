@@ -4,7 +4,7 @@
 						{!!Form::text('evento_re_ues',null,['class'=>'form-control ','placeholder'=>'Ingrese el nombre del Evento en el que participo'])  !!}
 					</div>
 					<div class="form-group col-sm-4">
-						{!! Form::label('Paises') !!}
+						{!! Form::label('Pais') !!}
 						{!!Form::select('id_cat_pa', $paises, null, ['class' => 'form-control'])!!}
 					</div>
 

@@ -18,8 +18,8 @@ class cat_tip_rep_tipo_representacionController extends Controller
   {
       $userLogin=Auth::user();
       if ($userLogin->can(['catTipoRepresentacion.index'])) {
-          $catTipo = cat_tip_rep_tipo_representacionModel::all();
-          return view('catTipoRepresentacion.index',compact('catTipo'));
+          $catTipoRepresentacion = cat_tip_rep_tipo_representacionModel::all();
+          return view('catTipoRepresentacion.index',compact('catTipoRepresentacion'));
 
       }else{
           Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
@@ -65,7 +65,7 @@ class cat_tip_rep_tipo_representacionController extends Controller
           'nombre_tip_repre'=> $request['nombre_tip_repre']
       ]);
 
-      Return redirect('catTipoRepresentacion')->with('message','Representacion Registrada correctamente!') ;
+      Return redirect('catTipoRepresentacion')->with('message','Tipo de Participación Registrada correctamente!') ;
   }
 
   /**
@@ -89,9 +89,9 @@ class cat_tip_rep_tipo_representacionController extends Controller
   {
       $userLogin=Auth::user();
       if ($userLogin->can(['catTipoRepresentacion.edit'])) {
-          $catTipo=cat_tip_rep_tipo_representacionModel::find($id);
+          $catTipoRepresentacion=cat_tip_rep_tipo_representacionModel::find($id);
 
-          return view('catTipoRepresentacion.edit',compact(['catTipo']));
+          return view('catTipoRepresentacion.edit',compact(['catTipoRepresentacion']));
       }else{
           Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
           return  view('template');
@@ -111,7 +111,7 @@ class cat_tip_rep_tipo_representacionController extends Controller
 
       $catTipo->fill($request->all());
       $catTipo->save();
-      Session::flash('message','Representacion Modificada correctamente!');
+      Session::flash('message','Tipo de Participación Modificada correctamente!');
       return Redirect::to('catTipoRepresentacion');
   }
 
@@ -133,7 +133,7 @@ class cat_tip_rep_tipo_representacionController extends Controller
               Session::flash('message-error', 'No es posible eliminar este registro, está siendo usado.');
               return Redirect::to('catTipoRepresentacion');
           }
-              Session::flash('message','Representacion Eliminada Correctamente!');
+              Session::flash('message','Tipo de Participación  Eliminada Correctamente!');
               return Redirect::to('catTipoRepresentacion');
 
       }else{
