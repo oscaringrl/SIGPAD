@@ -50,19 +50,20 @@ class RepresentacionUESController extends Controller
               [
                   'evento_re_ues' => 'required',
                   'descripcion_re_ues' => 'required',
-                  'mision_oficial' => 'required',
+                //  'mision_oficial' => 'required',
                   'fecha_inicio_rep' => 'required',
-                  'fecha_fin_rep' => 'required',
+                  'fecha_fin_rep' => 'required|after:fecha_inicio_rep',
                   'id_cat_inst' => 'required',
                   'id_cat_pa' => 'required',
                   'id_cat_tip_rep' => 'required'
               ],
               [
-                  'evento_re_ues.required' => 'Debe ingresar el evento a representar',
-                  'descripcion_re_ues' => 'Debe ingresar una breve descripcion de representacion',
-                  'mision_oficial' => 'Ingrese mision oficial de representacion',
-                  'fecha_inicio_rep' => 'Ingrese la fecha de inicio de la representacion',
-                  'fecha_fin_rep' => 'Ingrese la fecha de finalizacion de la representacion',
+                  'evento_re_ues.required' => 'Debe ingresar el Congreso/Taller/otros en el que participo',
+                  'descripcion_re_ues.required' => 'Debe ingresar una breve descripcion de la participación',
+                //  'mision_oficial.required' => 'Ingrese mision oficial de participación',
+                  'fecha_inicio_rep.required' => 'Ingrese la fecha de inicio de la participación',
+                  'fecha_fin_rep.required' => 'Ingrese la fecha de finalizacion de la participación',
+                  'fecha_fin_rep.after' => 'La fecha fin debe ser despues a al fecha inicio',
                   'id_cat_inst.required' => 'Debe seleccionar una institucion',
                   'id_cat_pa.required' => 'Debe seleccionar un pais',
                   'id_cat_tip_rep.required' => 'Debe seleccionar un tipo'
@@ -84,7 +85,7 @@ class RepresentacionUESController extends Controller
                           'id_dcn'                            => $idDocente
                       ]);
           Session::flash('apartado','9');
-          Session::flash('message','Registro de representacion realizado correctamente!');
+          Session::flash('message','Registro de Participación en Congreso/Talleres/otros realizado correctamente!');
           return Redirect::to('DashboardPerfilDocente');
       }
 
@@ -135,19 +136,20 @@ class RepresentacionUESController extends Controller
           [
               'evento_re_ues' => 'required',
               'descripcion_re_ues' => 'required',
-              'mision_oficial' => 'required',
+            //  'mision_oficial' => 'required',
               'fecha_inicio_rep' => 'required',
-              'fecha_fin_rep' => 'required',
+              'fecha_fin_rep' => 'required|after:fecha_inicio_rep',
               'id_cat_inst' => 'required',
               'id_cat_pa' => 'required',
               'id_cat_tip_rep' => 'required'
           ],
           [
-              'evento_re_ues.required' => 'Debe ingresar el evento a representar',
-              'descripcion_re_ues' => 'Debe ingresar una breve descripcion de representacion',
-              'mision_oficial' => 'Ingrese mision oficial de representacion',
-              'fecha_inicio_rep' => 'Ingrese la fecha de inicio de la representacion',
-              'fecha_fin_rep' => 'Ingrese la fecha de finalizacion de la representacion',
+              'evento_re_ues.required' => 'Debe ingresar el Congreso/Taller/otros en el que participo',
+              'descripcion_re_ues.required' => 'Debe ingresar una breve descripcion de la participación',
+            //  'mision_oficial.required' => 'Ingrese mision oficial de participación',
+              'fecha_inicio_rep.required' => 'Ingrese la fecha de inicio de la participación',
+              'fecha_fin_rep.required' => 'Ingrese la fecha de finalizacion de la participación',
+              'fecha_fin_rep.after' => 'La fecha fin debe ser despues a al fecha inicio',
               'id_cat_inst.required' => 'Debe seleccionar una institucion',
               'id_cat_pa.required' => 'Debe seleccionar un pais',
               'id_cat_tip_rep.required' => 'Debe seleccionar un tipo'
@@ -167,7 +169,7 @@ class RepresentacionUESController extends Controller
           $representacion ->id_cat_tip_rep = $request["id_cat_tip_rep"];
           $representacion->save();
           Session::flash('apartado','9');
-          Session::flash('message','Registro de representacion actulizado correctamente!');
+          Session::flash('message','Registro de Participación en Congreso/Talleres/otros actulizado correctamente!');
           return Redirect::to('DashboardPerfilDocente');
       }
 
@@ -180,7 +182,7 @@ class RepresentacionUESController extends Controller
       public function destroy($id){
           //
           dcn_rep_ues_representacion_uesModel::destroy($id);
-          Session::flash('message','Registro de representacion Eliminado Correctamente!');
+          Session::flash('message','Registro de Participación en Congreso/Talleres/otros Eliminado Correctamente!');
           Session::flash('apartado','9');
           return Redirect::to('DashboardPerfilDocente');
       }

@@ -371,7 +371,7 @@
         <a class="nav-link text-danger" id="investigaciones-tab" data-toggle="tab" href="#investigaciones" role="tab" aria-controls="investigaciones" aria-selected="false">Investigaciones</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-danger" id="representaciones-tab" data-toggle="tab" href="#representaciones" role="tab" aria-controls="representaciones" aria-selected="false">Representacion UES</a>
+        <a class="nav-link text-danger" id="representaciones-tab" data-toggle="tab" href="#representaciones" role="tab" aria-controls="representaciones" aria-selected="false">Participación en Congreso/Talleres/otros</a>
       </li>
       <!--end GP04-2019-->
 </ul>
