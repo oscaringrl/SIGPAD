@@ -20,7 +20,8 @@ class VerifyCsrfToken extends Middleware
         '/getGeneralInfo',
         '/getListadoDocentes',
         '/getPostgrados', //Grupo 04
-        '/getDiplomados'//GP04-2019
+        '/getDiplomados',//GP04-2019
+        '/getRepresentaciones' //Grupo 04
 
 
     ];

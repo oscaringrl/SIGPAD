@@ -153,7 +153,8 @@ Route::post('getExperiencia', 'GestionDocenteController@getExperiencia')->name('
 Route::post('getCertificaciones', 'GestionDocenteController@getCertificaciones')->name('getCertificaciones');
 Route::post('getSkills', 'GestionDocenteController@getSkills')->name('getSkills');
 Route::post('getGeneralInfo', 'GestionDocenteController@getGeneralInfoDocente')->name('getGeneralInfo');
-Route::post('getPostgrados', 'GestionDocenteController@getPostgrados')->name('getPostgrados'); //GP04-2019
+Route::post('getPostgrados', 'GestionDocenteController@getPostgrados')->name('getPostgrados'); //Grupo 04
+Route::post('getRepresentaciones', 'GestionDocenteController@getRepresentaciones')->name('getRepresentaciones'); //Grupo 04
 
 Route::get('perfilDocente/{idDocente}', 'PerfilDocentePublicoController@index')->name('perfilDocente');
 Route::get('TiempoCompleto/{jornada}', 'PerfilDocentePublicoController@index2')->name('listadoDocentes');
@@ -166,7 +167,8 @@ Route::resource('academico', 'HistorialAcademicoController');
 Route::resource('laboral', 'ExperienciaLaboralController');
 Route::resource('certificacion', 'CertificacionController');
 Route::resource('habilidad', 'HabilidadController');
-Route::resource('postgrado','PostgradoController');//GP04-2019
+Route::resource('postgrado','PostgradoController'); //Grupo 04
+Route::resource('representacion','RepresentacionUESController'); //Grupo 04
 Route::post('actualizarPerfilDocente','GestionDocenteController@actualizarPerfilDocente')->name('actualizarPerfilDocente');
 Route::get('listadoDocentes', 'GestionDocenteController@listadoDocentes')->name('listadoDocentes');
 Route::get('docenteEdit/{idDocente}', 'GestionDocenteController@edit')->name('docenteEdit');
@@ -215,3 +217,4 @@ Route::resource ('catModalidad','cat_mod_modalidadController');//GP04-2019
 Route::resource ('catInstitucion','cat_ins_institucionController');//GP04-2019
 Route::resource ('catGrado','cat_gra_gradoController');//GP04-2019
 Route::resource ('catPais','cat_pa_paisController');//GP04-2019
+Route::resource ('catTipoRepresentacion','cat_tip_rep_tipo_representacionController'); //Grupo 04

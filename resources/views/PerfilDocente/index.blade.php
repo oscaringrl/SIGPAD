@@ -302,6 +302,9 @@
         else if (this.id == "POS"){//GP04-2019
           titulo ="Eliminar Registro de Postgrados";//GP04-2019
         }
+        else if (this.id == "REP"){//GP04-2019
+          titulo ="Eliminar Registro de Participaciones en Congreso/Talleres/otros";//GP04-2019
+        }
         else{//GP04-2019
    				titulo ="Eliminar Registro de Habilidades";
    			}
@@ -940,6 +943,73 @@
   </div>
 
   <!--end diplomado-->
+
+
+    <div class="tab-pane fade" id="representaciones" role="tabpanel" aria-labelledby="representaciones-tab">
+      <br>
+      <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      @can('perfilDocente.create')
+        <div class="col-sm-3">
+          <a class="btn btn-primary" href="{{route('representacion.create')}}" ><i class="fa fa-plus"></i> Nuevo Registro</a>
+        </div>
+      @endcan
+      </div>
+      <br>
+    <div class="table-responsive">
+          <table class="table table-hover table-striped">
+
+            <thead class="bg-danger text-white">
+            <th>Evento</th>
+            <th>Descripcion</th>
+            <th>Mision Oficial</th>
+            <th>Año Inicio</th>
+            <th>Año Fin</th>
+            <th>Institucion</th>
+            <th>Pais</th>
+            <th>Tipo Representacion</th>
+            <th>Acciones</th>
+            </thead>
+            <tbody>
+            @if(empty($representaciones[0]->evento_re_ues))
+            <tr><td colspan="5">NO SE ENCONTRARON REGISTROS DE PARTICIPACION EN CONGRESOS/TALLERES/OTROS</td></tr>
+            @else
+              @foreach($representaciones as $representacion)
+                <tr>
+                  <td>{{ $representacion->evento_re_ues }}</td>
+                  <td>{{ $representacion->descripcion_re_ues }}</td>
+                  <td>{{ $representacion->mision_oficial }}</td>
+                  <td>{{ $representacion->fecha_inicio_rep }}</td>
+                  <td>{{ $representacion->fecha_fin_rep }}</td>
+                  <td>{{ $representacion->nombre_ins_rep }}</td>
+                  <td>{{ $representacion->nombre_pais_rep }}</td>
+                  <td>{{ $representacion->nombre_tip_repre_rep }}</td>
+              @can('perfilDocente.edit','perfilDocenteDestroy')
+                    <td>
+                      <fieldset>
+                        {!! Form::open(['route'=>['representacion.destroy',$representacion->id_dcn_rep],'method'=>'DELETE','class' => 'deleteButton','id'=>'REP']) !!}
+                          @can('perfilDocente.edit')
+                            <a class="btn " style="background-color:  #102359;color: white" href="{{route('representacion.edit',$representacion->id_dcn_rep)}}"><i class="fa fa-pencil"></i></a>
+                          @endcan
+                          @can('perfilDocente.destroy')
+                            <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
+                          @endcan
+                      {!! Form:: close() !!}
+                      </fieldset>
+
+                    </td>
+                @endcan
+              </tr>
+            @endforeach
+            @endif
+          </tbody>
+        </table>
+       </div>
+    </div>
+</div>
+<!--end participacion en Congresos/Talleres/otross->
 
 </div>
 

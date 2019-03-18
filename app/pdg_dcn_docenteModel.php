@@ -408,5 +408,29 @@ public function getDataPostgradosDocente($idDocente){
     return $data;
 }
 //end seccion Query Postgrados GP04-2019
+//Grupo 04
+    public function getDataRepresentacionesDocente($idDocente){
+
+        $data = DB::select("select distinct
+                            IFNULL(	id_dcn_rep,'') as 	id_dcn_rep,
+                            IFNULL(evento_re_ues,'') as evento_re_ues,
+                            IFNULL(descripcion_re_ues,'') as descripcion_re_ues,
+                            IFNULL(mision_oficial,'') as mision_oficial,
+                            IFNULL(fecha_inicio_rep,'') as fecha_inicio_rep,
+                            IFNULL(fecha_fin_rep,'') fecha_fin_rep,
+                            IFNULL(id_cat_inst_rep,'') as id_cat_inst_rep,
+                            IFNULL(nombre_ins_rep,'') as nombre_ins_rep,
+                            IFNULL(id_cat_pa_rep,'') as id_cat_pa_rep,
+                            IFNULL(nombre_pais_rep,'') as nombre_pais_rep,
+                            IFNULL(id_cat_tip_rep,'') as id_cat_tip_rep,
+                            IFNULL(nombre_tip_repre_rep,'') as nombre_tip_repre_rep
+                            from view_dcn_perfildocente
+                            where id_pdg_dcn = :idDocente",
+            array(
+                $idDocente
+            )
+        );
+        return $data;
+    }
 
 }

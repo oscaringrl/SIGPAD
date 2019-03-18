@@ -65,6 +65,10 @@
            <a class="nav-link js-scroll-trigger" href="#diplomados">Diplomados</a>
          </li>
      <!--end Menú Diplomado GP04-2019-->
+     <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#representaciones">Participación en Congresos/Talleres/otros</a>
+        </li>
+        <!--end Menú Diplomado GP04-2019-->
         </ul>
       </div>
     </nav>
@@ -139,6 +143,7 @@
         </div>
       </section>
 
+
       <hr class="m-0">
 
       <!--seccion Diplomado GP04-2019-->
@@ -151,7 +156,14 @@
 
       <hr class="m-0">
 <!--end seccion Diplomado GP04-2019-->
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="representaciones">
+      <div class="my-auto" id="seccionRepresentaciones">
+        <h2 class="mb-5">Participación en Congresos/Talleres/otros</h2>
 
+
+      </div>
+      </section>
+<!--end seccion Representaciones GP04-2019-->
 
 
 
@@ -177,6 +189,7 @@
 		getExperienciaDocente({{$idDocente}});
 		getCertificacionesDocente({{$idDocente}});
     getPostgradosDocente({{$idDocente}});
+    getRepresentacionesDocente({{$idDocente}});
 		getSkillsDocente({{$idDocente}});
     getInformacionDocente({{$idDocente}});
     getDiplomadosDocente({{$idDocente}});//GP04-2019
