@@ -11,7 +11,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.deleteButton').on('submit', function (e) {
-                if (!confirm('¿Estas seguro que deseas eliminar esta modalidad?')) {
+                if (!confirm('¿Esta seguro que desea eliminar este registro?')) {
 
                     e.preventDefault();
                 }
@@ -26,30 +26,30 @@
                     {
                         extend: 'excelHtml5',
                         exportOptions: {
-                            columns: [0, 1, 2, 3]
+                            columns: [0]
                         },
-                        title: 'Listado de modalidades'
+                        title: 'Listado de Investigaciones'
                     },
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [0, 1, 2, 3]
+                            columns: [0]
                         },
-                        title: 'Listado de modalidades'
+                        title: 'Listado de Investigaciones'
                     },
                     {
                         extend: 'csvHtml5',
                         exportOptions: {
-                            columns: [0, 1, 2, 3]
+                            columns: [0]
                         },
-                        title: 'Listado de modalidades'
+                        title: 'Listado de Investigaciones'
                     },
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [0, 1, 2]
+                            columns: [0]
                         },
-                        title: 'Listado de modalidades'
+                        title: 'Listado de Investigaciones'
                     }
 
 
@@ -68,7 +68,7 @@
         <li class="breadcrumb-item">
             <h5><a href="{{ route('catCatalogo.index') }}" style="margin-left: 0em"><i class="fa fa-arrow-left fa-lg"
                                                                                        style="z-index: 1;margin-top: 0em;margin-right: 0.5em; color: black"></i></a>
-                Modalidades</h5>
+                Investigaciones</h5>
         </li>
         <li class="breadcrumb-item active">Listado</li>
     </ol>
@@ -76,10 +76,10 @@
         <div class="col-sm-3"></div>
         <div class="col-sm-3"></div>
         <div class="col-sm-3"></div>
-        @can('catModalidad.create')
+        @can('permiso.create')
             <div class="col-sm-3">
-                <a class="btn btn-primary" href="{{route('catModalidad.create')}}"><i class="fa fa-plus"></i> Nueva
-                    Modalidad</a>
+                <a class="btn btn-primary" href="{{route('dcnInv.create')}}"><i class="fa fa-plus"></i> Nueva
+                    Investigacion</a>
             </div>
         @endcan
     </div>
@@ -89,34 +89,40 @@
         <table class="table table-hover table-striped  display" id="listTable">
 
             <thead>
-            <th>Nombre de Modalidad</th>
-            @can('catModalidad.edit')
+            <th>Tema</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+
+
+            @can('dcnInv.edit')
                 <th style="text-align: center;">Acciones</th>
             @endcan
-            @can('catModalidad.destroy')
+            @can('dcnInv.destroy')
             @endcan
             </thead>
             <tbody>
-            @foreach($catModalidad as $catMod)
+            @foreach($dcnInv as $inv)
                 <tr>
-                    <td>{{ $catMod->nombre_modalidad }}</td>
+                    <td>{{ $inv->tema}}</td>
+                    <td>{{ $inv->fecha_inicio_inv}}</td>
+                    <td>{{ $inv->fecha_fin_inv}}</td>
                     <td style="width: 160px">
                         <div class="row">
-                            @can('catModalidad.edit')
+                            @can('dcnInv.edit')
                                 <div class="col-6">
                                     <a class="btn " style="background-color:  #102359;color: white"
-                                       href="{{route('catModalidad.edit',$catMod->id_cat_mod)}}"><i
+                                       href="{{route('dcnInv.edit',$inv->id_dcn_inv)}}"><i
                                                 class="fa fa-pencil"></i></a>
                                 </div>
                             @endcan
-                            @can('catModalidad.destroy')
+                            @can('catSki.destroy')
                                 <div class="col-6">
-                                    {!! Form::open(['route'=>['catModalidad.destroy',$catMod->id_cat_mod],'method'=>'DELETE','class' => 'deleteButton']) !!}
+                                    {!! Form::open(['route'=>['dcnInv.destroy',$inv->id_dcn_inv],'method'=>'DELETE','class' => 'deleteButton']) !!}
                                     <div class="btn-group">
                                         <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>
                                         </button>
                                     </div>
-                                    {!! Form::close() !!}
+                                    {!! Form:: close() !!}
                                 </div>
                             @endcan
                         </div>

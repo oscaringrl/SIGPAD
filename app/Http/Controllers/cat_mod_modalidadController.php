@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class cat_mod_modalidadController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,13 +22,13 @@ class cat_mod_modalidadController extends Controller
      */
     public function index()
     {
-        $userLogin=Auth::user();
+        $userLogin = Auth::user();
         if ($userLogin->can(['catModalidad.index'])) {
-            $catModalidad =cat_mod_modalidadModel::all();
-            return view('catModalidad.index',compact('catModalidad'));
-        }else{
+            $catModalidad = cat_mod_modalidadModel::all();
+            return view('catModalidad.index', compact('catModalidad'));
+        } else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
-            return  view('template');
+            return view('template');
         }
     }
 
@@ -37,19 +39,19 @@ class cat_mod_modalidadController extends Controller
      */
     public function create()
     {
-        $userLogin=Auth::user();
+        $userLogin = Auth::user();
         if ($userLogin->can(['catModalidad.create'])) {
             return view('catModalidad.create');
-        }else{
+        } else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
-            return  view('template');
+            return view('template');
         }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -65,21 +67,20 @@ class cat_mod_modalidadController extends Controller
         );
 
 
-
         cat_mod_modalidadModel::create
         ([
-            'nombre_modalidad'       	 => $request['nombre_modalidad']
+            'nombre_modalidad' => $request['nombre_modalidad']
 
         ]);
 
-        Return redirect('catModalidad')->with('message','Modalidad Registrada correctamente!') ;
+        Return redirect('catModalidad')->with('message', 'Modalidad Registrada correctamente!');
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -90,32 +91,32 @@ class cat_mod_modalidadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $userLogin=Auth::user();
+        $userLogin = Auth::user();
         if ($userLogin->can(['catModalidad.edit'])) {
-            $catModalidad= cat_mod_modalidadModel::find($id);
+            $catModalidad = cat_mod_modalidadModel::find($id);
 
-            return view('catModalidad.edit',compact(['catModalidad']));
-        }else{
+            return view('catModalidad.edit', compact(['catModalidad']));
+        } else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
-            return  view('template');
+            return view('template');
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $catModalidad=cat_mod_modalidadModel::find($id);
+        $catModalidad = cat_mod_modalidadModel::find($id);
 
         $catModalidad->fill($request->all());
         $catModalidad->save();
@@ -127,28 +128,26 @@ class cat_mod_modalidadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $userLogin=Auth::user();
-    if ($userLogin->can(['catModalidad.destroy']))
-    {
+        $userLogin = Auth::user();
+        if ($userLogin->can(['catModalidad.destroy'])) {
             try {
                 cat_mod_modalidadModel::destroy($id);
 
-            } catch (\PDOException $e)
-            {
+            } catch (\PDOException $e) {
                 Session::flash('message-error', 'No es posible eliminar este registro, está siendo usado.');
                 return Redirect::to('catModalidad');
             }
-        Session::flash('message','Modalidad Eliminada Correctamente!');
-        return Redirect::to('catModalidad');
+            Session::flash('message', 'Modalidad Eliminada Correctamente!');
+            return Redirect::to('catModalidad');
 
-    }else{
+        } else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
-            return  view('template');
+            return view('template');
         }
 
     }
