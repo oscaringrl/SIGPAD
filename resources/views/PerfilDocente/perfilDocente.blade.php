@@ -14,12 +14,17 @@
     <!-- Custom fonts for this template -->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-    
-    <!-- Bootstrap core CSS -->
+
+    <!-- Bootstrap core CSS
     {!!Html::style('PerfilDocente/vendor/fontawesome-free/css/all.min.css')!!}
     {!!Html::style('PerfilDocente/vendor/bootstrap/css/bootstrap.min.css')!!}
     {!!Html::style('PerfilDocente/css/resume.css')!!}
-    
+    -->
+    {!!Html::style('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/fontawesome-free/css/all.min.css')!!}
+    {!!Html::style('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/bootstrap/css/bootstrap.min.css')!!}
+    {!!Html::style('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/css/resume.css')!!}
+
+
   </head>
 
   <body id="page-top">
@@ -50,6 +55,20 @@
 		   <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#skills">Habilidades</a>
           </li>
+          <!--Menú Postgrado GP04-2019-->
+          <li class="nav-item">
+               <a class="nav-link js-scroll-trigger" href="#postgrados">Postgrados</a>
+             </li>
+         <!--end Menú Postgrado GP04-2019-->
+      <!--Menú Diplomado GP04-2019-->
+      <li class="nav-item">
+           <a class="nav-link js-scroll-trigger" href="#diplomados">Diplomados</a>
+         </li>
+     <!--end Menú Diplomado GP04-2019-->
+     <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#representaciones">Participación en Congresos/Talleres/otros</a>
+        </li>
+        <!--end Menú Diplomado GP04-2019-->
         </ul>
       </div>
     </nav>
@@ -104,42 +123,76 @@
 
         </div>
       </section>
-		
+
       <hr class="m-0">
 
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
         <div class="my-auto" id="seccionSkills">
           <h2 class="mb-5">Habilidades</h2>
 
-          
-          
+        </div>
+        </section>
+
+        <hr class="m-0">
+
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="postgrados">
+        <div class="my-auto" id="seccionPostgrados">
+          <h2 class="mb-5">Postgrados</h2>
+
+
+        </div>
+      </section>
+
+
+      <hr class="m-0">
+
+      <!--seccion Diplomado GP04-2019-->
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="diplomados">
+        <div class="my-auto" id="seccionDiplomados">
+          <h2 class="mb-5">Diplomados</h2>
+
         </div>
       </section>
 
       <hr class="m-0">
+<!--end seccion Diplomado GP04-2019-->
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="representaciones">
+      <div class="my-auto" id="seccionRepresentaciones">
+        <h2 class="mb-5">Participación en Congresos/Talleres/otros</h2>
 
 
+      </div>
+      </section>
+<!--end seccion Representaciones GP04-2019-->
 
-      
+
 
     </div>
 
-  {!!Html::script('PerfilDocente/vendor/jquery/jquery.min.js')!!}
+<!--{!!Html::script('PerfilDocente/vendor/jquery/jquery.min.js')!!}
   {!!Html::script('PerfilDocente/vendor/bootstrap/js/bootstrap.bundle.min.js')!!}
    {!!Html::script('PerfilDocente/vendor/jquery-easing/jquery.easing.min.js')!!}
-	 {!!Html::script('PerfilDocente/js/main.js')!!}
+   -->
+   {!!Html::script('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/jquery/jquery.min.js')!!}
+   {!!Html::script('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/bootstrap/js/bootstrap.bundle.min.js')!!}
+   {!!Html::script('https://eisi.fia.ues.edu.sv/SIGPAD/public/PerfilDocente/vendor/jquery-easing/jquery.easing.min.js')!!}
+
+   {!!Html::script('PerfilDocente/js/main.js')!!}
         <!-- Custom scripts for this template -->
     {!!Html::script('PerfilDocente/js/resume.js')!!}        <!-- Plugin JavaScript -->
-   
+
 
 	<script>
 	$( document ).ready(function() {
     console.log( "ready!" );
-		getHistorialAcademico({{$idDocente}});
+    getHistorialAcademico({{$idDocente}});
 		getExperienciaDocente({{$idDocente}});
 		getCertificacionesDocente({{$idDocente}});
+    getPostgradosDocente({{$idDocente}});
+    getRepresentacionesDocente({{$idDocente}});
 		getSkillsDocente({{$idDocente}});
     getInformacionDocente({{$idDocente}});
+    getDiplomadosDocente({{$idDocente}});//GP04-2019
 	});
 	</script>
   </body>

@@ -153,6 +153,8 @@ Route::post('getExperiencia', 'GestionDocenteController@getExperiencia')->name('
 Route::post('getCertificaciones', 'GestionDocenteController@getCertificaciones')->name('getCertificaciones');
 Route::post('getSkills', 'GestionDocenteController@getSkills')->name('getSkills');
 Route::post('getGeneralInfo', 'GestionDocenteController@getGeneralInfoDocente')->name('getGeneralInfo');
+Route::post('getPostgrados', 'GestionDocenteController@getPostgrados')->name('getPostgrados'); //Grupo 04
+Route::post('getRepresentaciones', 'GestionDocenteController@getRepresentaciones')->name('getRepresentaciones'); //Grupo 04
 
 Route::get('perfilDocente/{idDocente}', 'PerfilDocentePublicoController@index')->name('perfilDocente');
 Route::get('TiempoCompleto/{jornada}', 'PerfilDocentePublicoController@index2')->name('listadoDocentes');
@@ -165,6 +167,8 @@ Route::resource('academico', 'HistorialAcademicoController');
 Route::resource('laboral', 'ExperienciaLaboralController');
 Route::resource('certificacion', 'CertificacionController');
 Route::resource('habilidad', 'HabilidadController');
+Route::resource('postgrado','PostgradoController'); //Grupo 04
+Route::resource('representacion','RepresentacionUESController'); //Grupo 04
 Route::post('actualizarPerfilDocente','GestionDocenteController@actualizarPerfilDocente')->name('actualizarPerfilDocente');
 Route::get('listadoDocentes', 'GestionDocenteController@listadoDocentes')->name('listadoDocentes');
 Route::get('docenteEdit/{idDocente}', 'GestionDocenteController@edit')->name('docenteEdit');
@@ -172,7 +176,8 @@ Route::post('actualizarDocente','GestionDocenteController@updateDocente')->name(
 Route::get('cargarActualizacionDocente', 'GestionDocenteController@createUpdateDocente')->name('cargarActualizacionDocente');
 Route::post('actualizarDocenteExcel','GestionDocenteController@updateDocenteExcel')->name('actualizarDocenteExcel');
 Route::post('plantillaAdministraDocente','GestionDocenteController@downloadPlantillaAdministraDocente')->name('plantillaAdministraDocente');
-
+Route::resource('diplomado', 'DiplomadoController');//GP04-2019
+Route::post('getDiplomados', 'GestionDocenteController@getDiplomados')->name('getDiplomados');//GP04-2019
 //------------------------------------------------------------------------------------------------------------------------
 //------------------UESPLAY--------------------------------------------------------------------------------------
 Route::post('storeUsersUplay', 'gen_UsuarioController@storeUsuariosUesplay')->name('storeUsersUplay');
@@ -208,5 +213,13 @@ Route::resource ('catCriterios','cat_cri_eva_criterio_evaluacionController');
 Route::resource ('parParametros','gen_par_parametrosController');
 Route::resource ('catJornada','cat_tpo_jrn_dcn_tipo_jornada_docenteController');
 Route::post('sortCatJornada','cat_tpo_jrn_dcn_tipo_jornada_docenteController@sort')->name('sortCatJornada');
+<<<<<<< HEAD
 Route::resource ('catModalidad','cat_mod_modalidadController');
 Route::resource ('dcnInv','dcn_inv_investigacionController');
+=======
+Route::resource ('catModalidad','cat_mod_modalidadController');//GP04-2019
+Route::resource ('catInstitucion','cat_ins_institucionController');//GP04-2019
+Route::resource ('catGrado','cat_gra_gradoController');//GP04-2019
+Route::resource ('catPais','cat_pa_paisController');//GP04-2019
+Route::resource ('catTipoRepresentacion','cat_tip_rep_tipo_representacionController'); //Grupo 04
+>>>>>>> origin/OscarM

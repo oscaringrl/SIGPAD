@@ -11,7 +11,7 @@ function getHistorialAcademico(idDcn){
                 $("#seccionHistorial").append("<b>NO SE HAN REGISTRADO DATOS DE EXPERIENCIA ACADEMICA</b>");
              }else{
                 var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Cargo</th><th scope="col">Código</th><th scope="col">Materia</th><th scope="col">Ciclo</th><th scope="col">Año</th> </tr></thead><tbody>';
- 
+
                for (var i = 0;i<data.length;i++) {
                 body="";
                 body+='<tr><th scope="row">'+(i+1)+'</th>';
@@ -26,14 +26,14 @@ function getHistorialAcademico(idDcn){
                html+=' </tbody></table>';
                $("#seccionHistorial").append(html)
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 function getExperienciaDocente(idDcn){
@@ -60,14 +60,14 @@ function getExperienciaDocente(idDcn){
                 $("#seccionExperiencia").append(html);
                }
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obtener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 function getCertificacionesDocente(idDcn){
@@ -81,7 +81,7 @@ function getCertificacionesDocente(idDcn){
                 $("#seccionCertificaciones").append("<b>NO SE HAN REGISTRADO  CERTIFICACIONES</b>");
              }else{
                 var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Año</th><th scope="col">Institución</th><th scope="col">Idioma</th></tr></thead><tbody>';
- 
+
                for (var i = 0;i<data.length;i++) {
                 body="";
                 body+='<tr><th scope="row">'+(i+1)+'</th>';
@@ -95,16 +95,16 @@ function getCertificacionesDocente(idDcn){
              html+=' </tbody></table>';
              $("#seccionCertificaciones").append(html)
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
-  
+
 function getSkillsDocente(idDcn){
   $.ajax({
            type:'POST',
@@ -125,14 +125,14 @@ function getSkillsDocente(idDcn){
                html+='</ul>';
                $("#seccionSkills").append(html)
              }
-             
+
 
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 
@@ -161,13 +161,13 @@ function getInformacionDocente(idDcn){
             $("#linkFb_").attr("href",docente["link_fb"]);
 
 
-            
+
            },
         error : function(xhr, status) {
             alert("Hubo un problema al momento de obetener los datos de Docente");
-            
+
         }
-        });      
+        });
 }
 
 
@@ -246,5 +246,153 @@ function distribuirData(data) {
     }
     return sectionData;
 }
+// NUEVAS FUNCIONES DE AJAX PARA EL PERFIL PUBLICO GP04-2019
+function getDiplomadosDocente(idDcn){
+  $.ajax({
+           type:'POST',
+           url:ip+'/getDiplomados',
+           data:{'docente':idDcn},
+           success:function(data){
+           console.log(data);
 
-  
+         if (data.length == 1 && data[0]['id_dcn_dip'] == '') {
+                $("#seccionDiplomados").append("<b>NO SE HAN REGISTRADO  DIPLOMADOS</b>");
+             }else{
+              //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Descripción</th><th scope="col">Desde</th><th scope="col">Hasta</th><th scope="col">Institucion</th><th scope="col">Modalidad</th><th scope="col">Pais</th></tr></thead><tbody>';
+               var html= '<div class="col-md-12">';
+
+               for (var i = 0;i<data.length;i++) {
+                startD= new Date (data[i]['fecha_inicio_dip']);
+                endD= new Date (data[i]['fecha_fin_dip']);
+                d1= monthNames[startD.getMonth()]+' '+startD.getDate()+' del '+startD.getFullYear();
+                d2= monthNames[endD.getMonth()]+' '+endD.getDate()+' del '+endD.getFullYear();
+                body="";
+                body+='<div>';
+                body+='<h4>'+data[i]['nombre_diplomado']+'</h4>';
+                body+='<span>'+data[i]['nombre_ins']+', '+data[i]['nombre_pais']+'</span>'+'</br>';
+                body+='<span><b>Modalidad:</b> '+data[i]['nombre_modalidad']+'</span>'+'</br>'+'</br>';
+                body+='<p style="text-align:justify">'+data[i]['descripcion_dip']+'</p>';
+                body+='<div align="right"><span>'+d1+' - '+d2+'</span></div>';
+                body+='</div>';
+                if(i < data.length-1){
+                body+='<hr>';
+                }
+                html+=body;
+               }
+
+             //html+=' </tbody></table>';
+             html+='</div>';
+             $("#seccionDiplomados").append(html)
+           }
+
+
+           },
+        error : function(xhr, status) {
+            alert("Hubo un problema al momento de obetener los datos de Docente");
+
+        }
+        });
+}
+
+//Grupo 04
+function getPostgradosDocente(idDcn){
+  $.ajax({
+           type:'POST',
+           url:ip+'/getPostgrados',
+           data:{'docente':idDcn},
+           success:function(data){
+            //console.log(data.length);
+            if (data.length == 1 && data[0]['id_dcn_post'] == '') {
+                $("#seccionPostgrados").append("<b>NO SE HAN REGISTRADO  POSTGRADOS</b>");
+             }else{
+              //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
+              var html= '<div class="col-md-12">';
+
+               for (var i = 0;i<data.length;i++) {
+                body="";
+                start= new Date(data[i]['fecha_inicio']);
+                end= new Date(data[i]['fecha_fin']);
+                body+='<div>';
+                body+='<h4 style="display:inline;">'+data[i]['nombre_p_grado']+'</h4>'+'  <b>('+data[i]['abreviatura']+')</b>';
+                body+='</br><span>'+data[i]['nombre_ins_post']+', '+data[i]['nombre_pais_post']+'</span>'+'</br>';
+           //NO MOSTRAR LA DESCRIPCION DEL POSTGRADO
+                //body+='<p style="text-align:justify">'+data[i]['descripcion_p_grado']+'</p>';
+                body+='<span>'+start.getFullYear() +' - '+end.getFullYear()+'</span>';
+                body+='</div>';
+                if( i < data.length-1){
+                body+='<hr>';
+                }
+                html+=body;
+               }
+
+            // html+=' </tbody></table>';
+            html+='</div>';
+             $("#seccionPostgrados").append(html)
+             }
+
+
+           },
+        error : function(xhr, status) {
+            alert("Hubo un problema al momento de obetener los datos de Docente");
+
+        }
+        });
+}
+
+//Grupo 04
+function getRepresentacionesDocente(idDcn){
+  $.ajax({
+           type:'POST',
+           url:ip+'/getRepresentaciones',
+           data:{'docente':idDcn},
+           success:function(data){
+            //console.log(data.length);
+            if (data.length == 1 && data[0]['id_dcn_cer'] == '') {
+                $("#seccionPostgrados").append("<b>NO SE HAN REGISTRADO REPRESENTACIONES</b>");
+             }else{
+               //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
+               var html= '<div class="col-md-12">';
+
+               for (var i = 0;i<data.length;i++) {
+
+              startR= new Date (data[i]['fecha_inicio_rep']);
+              endR= new Date (data[i]['fecha_fin_rep']);
+              dt1= monthNames[startR.getMonth()]+' '+startR.getDate()+' del '+startR.getFullYear();
+              dt2= monthNames[endR.getMonth()]+' '+endR.getDate()+' del '+endR.getFullYear();
+              body="";
+              body+='<div>';
+              body+='<h4>'+data[i]['evento_re_ues']+'</h4>';
+              body+='<span>'+data[i]['nombre_ins_rep']+', '+data[i]['nombre_pais_rep']+'</span>'+'</br>';
+              body+='<span><b>Tipo de Participación:</b> '+data[i]['nombre_tip_repre_rep']+'</span>'+'</br>';
+              if(data[i]['mision_oficial']!=1){
+              body+='<span><b>Mision Oficial:</b> NO</span>'+'</br>'+'</br>';
+              }
+              else
+              body+='<span><b>Mision Oficial:</b> SI</span>'+'</br>'+'</br>';
+              body+='<p style="text-align:justify">'+data[i]['descripcion_re_ues']+'</p>';
+              body+='<div align="right"><span>'+dt1+' - '+dt2+'</span></div>';
+              body+='</div>';
+              if(i < data.length-1){
+              body+='<hr>';
+              }
+              html+=body;
+             }
+
+           //html+=' </tbody></table>';
+           html+='</div>';
+             $("#seccionRepresentaciones").append(html)
+             }
+
+
+           },
+        error : function(xhr, status) {
+            alert("Hubo un problema al momento de obetener los datos de Docente");
+
+        }
+        });
+
+
+}
+const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                     "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+                   ];
