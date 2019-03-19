@@ -64,11 +64,14 @@
       <li class="nav-item">
            <a class="nav-link js-scroll-trigger" href="#diplomados">Diplomados</a>
          </li>
-     <!--end Menú Diplomado GP04-2019-->
+     <!--GP04-2019-->
+     <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#investigaciones">Investigaciones</a>
+        </li>
      <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="#representaciones">Participación en Congresos/Talleres/otros</a>
         </li>
-        <!--end Menú Diplomado GP04-2019-->
+        <!--end GP04-2019-->
         </ul>
       </div>
     </nav>
@@ -155,6 +158,15 @@
       </section>
 
       <hr class="m-0">
+
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="investigaciones">
+        <div class="my-auto" id="seccionInvestigaciones">
+          <h2 class="mb-5">Investigaciones</h2>
+
+        </div>
+      </section>
+
+      <hr class="m-0">
 <!--end seccion Diplomado GP04-2019-->
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="representaciones">
       <div class="my-auto" id="seccionRepresentaciones">
@@ -188,11 +200,12 @@
     getHistorialAcademico({{$idDocente}});
 		getExperienciaDocente({{$idDocente}});
 		getCertificacionesDocente({{$idDocente}});
-    getPostgradosDocente({{$idDocente}});
-    getRepresentacionesDocente({{$idDocente}});
-		getSkillsDocente({{$idDocente}});
+    getSkillsDocente({{$idDocente}});
     getInformacionDocente({{$idDocente}});
     getDiplomadosDocente({{$idDocente}});//GP04-2019
+    getInvestigacionesDocente({{$idDocente}});//GP04-2019
+    getPostgradosDocente({{$idDocente}});//GP04-2019
+    getRepresentacionesDocente({{$idDocente}});//GP04-2019
 	});
 	</script>
   </body>

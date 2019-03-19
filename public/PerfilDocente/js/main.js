@@ -347,8 +347,8 @@ function getRepresentacionesDocente(idDcn){
            data:{'docente':idDcn},
            success:function(data){
             //console.log(data.length);
-            if (data.length == 1 && data[0]['id_dcn_cer'] == '') {
-                $("#seccionPostgrados").append("<b>NO SE HAN REGISTRADO REPRESENTACIONES</b>");
+            if (data.length == 1 && data[0]['id_dcn_rep'] == '') {
+                $("#seccionRepresentaciones").append("<b>NO SE HAN REGISTRADO REPRESENTACIONES</b>");
              }else{
                //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
                var html= '<div class="col-md-12">';
@@ -381,6 +381,69 @@ function getRepresentacionesDocente(idDcn){
            //html+=' </tbody></table>';
            html+='</div>';
              $("#seccionRepresentaciones").append(html)
+             }
+
+
+           },
+        error : function(xhr, status) {
+            alert("Hubo un problema al momento de obetener los datos de Docente");
+
+        }
+        });
+
+
+}
+
+function getInvestigacionesDocente(idDcn){
+  $.ajax({
+           type:'POST',
+           url:ip+'/getInvestigaciones',
+           data:{'docente':idDcn},
+           success:function(data){
+            //console.log(data.length);
+            if (data.length == 1 && data[0]['id_dcn_inv'] == '') {
+                $("#seccionInvestigaciones").append("<b>NO SE HAN REGISTRADO INVESTIGACIONES</b>");
+             }else{
+               //  var html = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Abreviatura</th><th scope="col">Nombre</th><th scope="col">Descripcion</th><th scope="col">Fecha de Inicio</th><th scope="col">Fecha de Finalización</th><th scope="col">Institución</th><th scope="col">País</th></tr></thead><tbody>';
+               var html= '<div class="col-md-12">';
+
+               for (var i = 0;i<data.length;i++) {
+
+              startR= new Date (data[i]['fecha_inicio_inv']);
+              endR= new Date (data[i]['fecha_fin_inv']);
+              dt1= monthNames[startR.getMonth()]+' '+startR.getDate()+' del '+startR.getFullYear();
+              dt2= monthNames[endR.getMonth()]+' '+endR.getDate()+' del '+endR.getFullYear();
+              body="";
+              body+='<div>';
+              body+='<h4>'+data[i]['tema_inv']+'</h4>';
+              body+='<span>'+data[i]['nombre_ins_inv']+', '+data[i]['nombre_pais_inv']+'</span>'+'</br>';
+              body+='<span><b>Tipo de Participación:</b> '+data[i]['tpoPartInv']+'</span>'+'</br>';
+              if(data[i]['alumno']!=1){
+              body+='<span><b>Alumno:</b> NO</span>'+'</br>';
+              }
+              else{
+              body+='<span><b>Alumno:</b> SI</span>'+'</br>';}
+              if(data[i]['publicado']!=1){
+              body+='<span><b>Publicada:</b> NO</span>'+'</br>';
+              }
+              else {
+              body+='<span><b>Publicada:</b> SI</span>'+'</br>';
+              }
+              body+='<span><b>Idioma:</b> </span>'+'</br>';
+              body+='<span><b>Revista:</b> </span>'+'</br>';
+              body+='<span><b>URL:</b> </span>'+'</br>'+'</br>';
+              body+='<p style="text-align:justify">'+data[i]['descripcion_inv']+'</p>';
+              body+='<div align="right"><span>'+dt1+' - '+dt2+'</span></div>';
+              body+='</div>';
+              if(i < data.length-1){
+              body+='<hr>';
+            }
+              html+=body;
+             }
+
+           //html+=' </tbody></table>';
+           html+='</div>';
+             $("#seccionInvestigaciones").append(html)
              }
 
 

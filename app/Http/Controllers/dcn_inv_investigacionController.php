@@ -26,14 +26,14 @@ class dcn_inv_investigacionController extends Controller
      */
     public function index()
     {
-        $userLogin = Auth::user();
+        /*$userLogin = Auth::user();
         if ($userLogin->can(['dcnInv.index'])) {
             $dcnInv = dcn_inv_investigacionModel::all();
             return view('dcnInv.index', compact('dcnInv'));
         } else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
             return view('template');
-        }
+        }*/
     }
 
     /**
@@ -43,17 +43,17 @@ class dcn_inv_investigacionController extends Controller
      */
     public function create()
     {
-        $userLogin = Auth::user();
-        if ($userLogin->can(['dcnInv.create'])) {
+        /*$userLogin = Auth::user();
+        if ($userLogin->can(['dcnInv.create'])) {*/
             $catInst = DB::table('cat_ins_institucion')->pluck("nombre_ins", "id_cat_inst");
             $catPais = DB::table('cat_pa_pais')->pluck("nombre_pais", "id_cat_pa");
             $catIdioma = cat_idi_idiomaModel::pluck("nombre_cat_idi", "id_cat_idi");
             $catTipPart = DB::table('cat_tip_part_inv_tipo_participacion_investigacion')->pluck("nombre_tip_part", "id_cat_tip_part");
             return view('dcnInv.create', compact('catInst', 'catPais', 'catIdioma', 'catTipPart'));
-        } else {
+      /*  } else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
             return view('template');
-        }
+        }*/
     }
 
     /**
@@ -116,7 +116,9 @@ class dcn_inv_investigacionController extends Controller
             'id_dcn' => $docente->id_pdg_dcn
         ]);
 
-        Return redirect('dcnInv')->with('message', 'Investigación registrada correctamente!');
+        Session::flash('apartado','8');
+        Session::flash('message','Registro de investigacion realizado correctamente!');
+        return Redirect::to('DashboardPerfilDocente');
     }
 
     /**
@@ -138,18 +140,28 @@ class dcn_inv_investigacionController extends Controller
      */
     public function edit($id)
     {
-        $userLogin = Auth::user();
-        if ($userLogin->can(['dcnInv.edit'])) {
+        /*$userLogin = Auth::user();
+        if ($userLogin->can(['dcnInv.edit'])) {*/
             $dcnInv = dcn_inv_investigacionModel::find($id);
             $catInst = DB::table('cat_ins_institucion')->pluck("nombre_ins", "id_cat_inst");
             $catPais = DB::table('cat_pa_pais')->pluck("nombre_pais", "id_cat_pa");
             $catIdioma = cat_idi_idiomaModel::pluck("nombre_cat_idi", "id_cat_idi");
             $catTipPart = DB::table('cat_tip_part_inv_tipo_participacion_investigacion')->pluck("nombre_tip_part", "id_cat_tip_part");
+
+            $userLogin = Auth::user();
+            $docente = pdg_dcn_docenteModel::where("id_gen_usuario","=",$userLogin->id)->first();
+            $idDocente = $docente->id_pdg_dcn;
+            if (empty($dcnInv->id_dcn_inv)){
+               return Redirect::to('/');
+            }else if ($idDocente != $dcnInv->id_dcn) {
+               return Redirect::to('/');
+            }else{
             return view('dcnInv.edit', compact('dcnInv', 'catInst', 'catPais', 'catIdioma', 'catTipPart'));
-        } else {
+          }
+        /*} else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
             return view('template');
-        }
+        }*/
     }
 
     /**
@@ -185,6 +197,10 @@ class dcn_inv_investigacionController extends Controller
             ]
         );
 
+        $userLogin = Auth::user();
+        $docente = pdg_dcn_docenteModel::where("id_gen_usuario","=",$userLogin->id)->first();
+        $idDocente = $docente->id_pdg_dcn;
+
         $dcnInv = dcn_inv_investigacionModel::find($id);
         $alumno = 0;
         $publicado = 0;
@@ -199,7 +215,9 @@ class dcn_inv_investigacionController extends Controller
         $dcnInv->publicado = $publicado;
         $dcnInv->save();
         // Session::flash('message','Tipo Documento Modificado correctamente!');
-        return Redirect::to('dcnInv');
+        Session::flash('apartado','8');
+        Session::flash('message','Registro de investigacion actulizado correctamente!');
+        return Redirect::to('DashboardPerfilDocente');
     }
 
     /**
@@ -210,7 +228,7 @@ class dcn_inv_investigacionController extends Controller
      */
     public function destroy($id)
     {
-        $userLogin = Auth::user();
+        /*$userLogin = Auth::user();
         if ($userLogin->can(['dcnInv.destroy'])) {
             try {
                 dcn_inv_investigacionModel::destroy($id);
@@ -225,6 +243,10 @@ class dcn_inv_investigacionController extends Controller
         } else {
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
             return view('template');
-        }
+        }*/
+        dcn_inv_investigacionModel::destroy($id);
+        Session::flash('message','Registro de investigacion  Eliminado Correctamente!');
+        Session::flash('apartado','8');
+        return Redirect::to('DashboardPerfilDocente');
     }
 }

@@ -305,6 +305,9 @@
         else if (this.id == "REP"){//GP04-2019
           titulo ="Eliminar Registro de Participaciones en Congreso/Talleres/otros";//GP04-2019
         }
+        else if (this.id == "INV"){//GP04-2019
+          titulo ="Eliminar Registro de Investigaciones";//GP04-2019
+        }
         else{//GP04-2019
    				titulo ="Eliminar Registro de Habilidades";
    			}
@@ -1014,6 +1017,85 @@
         </table>
        </div>
     </div>
+
+    <div class="tab-pane fade" id="investigaciones" role="tabpanel" aria-labelledby="investigaciones-tab">
+      <br>
+      <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3"></div>
+      @can('perfilDocente.create')
+        <div class="col-sm-3">
+          <a class="btn btn-primary" href="{{route('dcnInv.create')}}" ><i class="fa fa-plus"></i> Nuevo Registro</a>
+        </div>
+      @endcan
+      </div>
+      <br>
+    <div class="table-responsive">
+          <table class="table table-hover table-striped">
+
+            <thead class="bg-danger text-white">
+            <th>Tema</th>
+            <th>Descripcion</th>
+            <th>Tipo de Participación</th>
+            <th>Alumno</th>
+            <th>Publicado</th>
+            <th>Fecha</th>
+            <th>Institución</th>
+            <th>Revista</th>
+            <th>URL</th>
+            <th>Acciones</th>
+            </thead>
+            <tbody>
+            @if(empty($investigaciones[0]->tema_inv))
+            <tr><td colspan="5">NO SE ENCONTRARON REGISTROS DE INVESTIGACIONES</td></tr>
+            @else
+              @foreach($investigaciones as $investigacion)
+                <tr>
+                  <td>{{ $investigacion->tema_inv }}</td>
+                  <td>{{ $investigacion->descripcion_inv }}</td>
+                  <td>{{ $investigacion->tpoPartInv}}</td>
+                  @if($investigacion->alumno !=1)
+                  <!--<td><i class="fa fa-times fa-2x" style="color:#dc3545;"></i></td>-->
+                  <td>NO</td>
+                  @else
+                  <!--<td><i class="fa fa-check fa-2x" style="color:green;"></i></td>-->
+                  <td>SI</td>
+                  @endif
+                  @if($investigacion->publicado !=1)
+                  <!--<td><i class="fa fa-times fa-2x" style="color:#dc3545;"></i></td>-->
+                  <td>NO</td>
+                  @else
+                  <!--<td><i class="fa fa-check fa-2x" style="color:green;"></i></td>-->
+                  <td>SI</td>
+                  @endif
+                  <td>{{ $investigacion->fecha_fin_inv }}</td>
+                  <td>{{ $investigacion->nombre_ins_inv }}</td>
+                  <td>{{ $investigacion->revista_inv }}</td>
+                  <td>{{ $investigacion->url }}</td>
+              @can('perfilDocente.edit','perfilDocenteDestroy')
+                    <td>
+                      <fieldset>
+                        {!! Form::open(['route'=>['dcnInv.destroy',$investigacion->id_dcn_inv],'method'=>'DELETE','class' => 'deleteButton','id'=>'INV']) !!}
+                          @can('perfilDocente.edit')
+                            <a class="btn " style="background-color:  #102359;color: white" href="{{route('dcnInv.edit',$investigacion->id_dcn_inv)}}"><i class="fa fa-pencil"></i></a>
+                          @endcan
+                          @can('perfilDocente.destroy')
+                            <button type="submit" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
+                          @endcan
+                      {!! Form:: close() !!}
+                      </fieldset>
+
+                    </td>
+                @endcan
+              </tr>
+            @endforeach
+            @endif
+          </tbody>
+        </table>
+       </div>
+    </div>
+
 </div>
 <!--end participacion en Congresos/Talleres/otross->
 

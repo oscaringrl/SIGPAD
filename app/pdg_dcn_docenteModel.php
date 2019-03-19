@@ -389,7 +389,7 @@ class pdg_dcn_docenteModel extends Model
 public function getDataPostgradosDocente($idDocente){
 
     $data = DB::select("select distinct
-                        IFNULL(	id_dcn_post,'') as 	id_dcn_post,
+                        IFNULL(id_dcn_post,'') as 	id_dcn_post,
                         IFNULL(abreviatura,'') as abreviatura,
                         IFNULL(nombre_p_grado,'') as nombre_p_grado,
                         IFNULL(descripcion_p_grado,'') as descripcion_p_grado,
@@ -412,7 +412,7 @@ public function getDataPostgradosDocente($idDocente){
     public function getDataRepresentacionesDocente($idDocente){
 
         $data = DB::select("select distinct
-                            IFNULL(	id_dcn_rep,'') as 	id_dcn_rep,
+                            IFNULL(id_dcn_rep,'') as 	id_dcn_rep,
                             IFNULL(evento_re_ues,'') as evento_re_ues,
                             IFNULL(descripcion_re_ues,'') as descripcion_re_ues,
                             IFNULL(mision_oficial,'') as mision_oficial,
@@ -424,6 +424,32 @@ public function getDataPostgradosDocente($idDocente){
                             IFNULL(nombre_pais_rep,'') as nombre_pais_rep,
                             IFNULL(id_cat_tip_rep,'') as id_cat_tip_rep,
                             IFNULL(nombre_tip_repre_rep,'') as nombre_tip_repre_rep
+                            from view_dcn_perfildocente
+                            where id_pdg_dcn = :idDocente",
+            array(
+                $idDocente
+            )
+        );
+        return $data;
+    }
+
+    public function getDataInvestigacionesDocente($idDocente){
+
+        $data = DB::select("select distinct
+                            IFNULL(id_dcn_inv,'') as 	id_dcn_inv,
+                            IFNULL(tema_inv,'') as tema_inv,
+                            IFNULL(descripcion_inv,'') as descripcion_inv,
+                            IFNULL(alumno,'') as alumno,
+                            IFNULL(tpoPartInv,'') as tpoPartInv,
+                            IFNULL(publicado,'') as publicado,
+                            IFNULL(fecha_inicio_inv,'') as fecha_inicio_inv,
+                            IFNULL(fecha_fin_inv,'') as fecha_fin_inv,
+                            IFNULL(revista_inv,'') as revista_inv,
+                            IFNULL(url,'') as url,
+                            IFNULL(nombre_ins_inv,'') as nombre_ins_inv,
+                            IFNULL(nombre_pais_inv,'') as nombre_pais_inv,
+                            IFNULL(nombre_cat_idi_inv,'') as nombre_cat_idi_inv
+
                             from view_dcn_perfildocente
                             where id_pdg_dcn = :idDocente",
             array(

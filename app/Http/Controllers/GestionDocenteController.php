@@ -12,8 +12,6 @@ use \App\dcn_exp_experienciaModel;
 use \App\dcn_his_historial_academicoModel;
 use \App\cat_mat_materiaModel;
 use \App\dcn_cer_certificacionesModel;
-use \App\dcn_postg_postgradoModel; //Grupo 04
-use \App\dcn_rep_ues_representacion_uesModel; //Grupo 04
 use \App\cat_car_cargo_eisiModel;
 use \App\gen_UsuarioModel;
 use \App\cat_tpo_jrn_dcn_tipo_jornada_docenteModel;
@@ -21,9 +19,12 @@ use \App\cat_ski_skillModel;
 use \App\cat_tpo_doc_tipo_documentoModel;
 use \App\rel_ski_dcn_skill_docenteModel;
 use \App\User;
+use \App\dcn_postg_postgradoModel; //Grupo 04
+use \App\dcn_rep_ues_representacion_uesModel; //Grupo 04
 use \App\cat_ins_institucionModel;//GP04-2019
 use \App\cat_mod_modalidadModel;//GP04-2019
 use \App\dcn_dip_diplomadosModel;//GP04-2019
+use \App\dcn_inv_investigacionModel;//GP04-2019
 use File;;
 use Illuminate\Support\Facades\Storage;
 class GestionDocenteController extends Controller
@@ -43,6 +44,7 @@ class GestionDocenteController extends Controller
        $postgrados = $docente->getDataPostgradosDocente($idDocente);//GP04-2019
        $diplomados = $docente->getDataDiplomadosDocente($idDocente);//GP04-2019
        $representaciones = $docente->getDataRepresentacionesDocente($idDocente); //Grupo 04
+       $investigaciones = $docente->getDataInvestigacionesDocente($idDocente); //Grupo 04
        $habilidadesSelect = cat_ski_skillModel::pluck("nombre_cat_ski","id_cat_ski");
        $habilidades = $docente->getDataSkillsDocente($idDocente);
        $cargosPrincipal = cat_car_cargo_eisiModel::all();
@@ -75,7 +77,7 @@ class GestionDocenteController extends Controller
 
        }
        $niveles = cat_ski_skillModel::getNivelesSkills();
-       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles','postgrados','diplomados','representaciones'));//GP04-2019
+       return view('PerfilDocente.index', compact('info','academica','laboral','certificaciones','habilidades','bodySelectPrincipal','bodySelectSecundario','habilidadesSelect','niveles','postgrados','diplomados','representaciones','investigaciones'));//GP04-2019
     }
     function create(){
         return view('PerfilDocente.create');
@@ -316,7 +318,8 @@ class GestionDocenteController extends Controller
                         $bodyHtml .= '</tr>';
         }
 
-      
+
+        
 
         //INSERTANDO DIPLOMADO GP04-2019
 
@@ -750,6 +753,13 @@ class GestionDocenteController extends Controller
       function getRepresentaciones(Request $request){
         $docente = new pdg_dcn_docenteModel();
         $info = $docente->getDataRepresentacionesDocente($request['docente']);
+        return $info;
+
+      }
+
+      function getInvestigaciones(Request $request){
+        $docente = new pdg_dcn_docenteModel();
+        $info = $docente->getDataInvestigacionesDocente($request['docente']);
         return $info;
 
       }
