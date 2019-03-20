@@ -135,7 +135,7 @@ class cat_tip_part_inv_tipo_participacion_investigacionController extends Contro
                 return Redirect::to('$catTipoParticipacionInv');
             }
                 Session::flash('message','Tipo de Participación en Investigaciones Eliminada Correctamente!');
-                return Redirect::to('$catTipoParticipacionInv');
+                return Redirect::to('catTipoParticipacionInv');
 
         }else{
             Session::flash('message-error', 'No tiene permisos para acceder a esta opción');
