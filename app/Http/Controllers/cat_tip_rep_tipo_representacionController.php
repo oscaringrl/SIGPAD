@@ -55,8 +55,8 @@ class cat_tip_rep_tipo_representacionController extends Controller
           'nombre_tip_repre' => 'required|max:128'
       ],
           [
-              'nombre_tip_repre.required' => 'La representacion es requerida',
-              'nombre_tip_repre.max' => 'La representacion debe contener como maximo 128 caracteres'
+              'nombre_tip_repre.required' => 'El tipo de participación es requerida',
+              'nombre_tip_repre.max' => 'El tipo de participación debe contener como maximo 128 caracteres'
           ]
       );
 
