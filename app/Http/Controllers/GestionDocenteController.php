@@ -82,6 +82,7 @@ class GestionDocenteController extends Controller
     function create(){
         return view('PerfilDocente.create');
     }
+    //----------------------------------------------------------------------------------------------------------------------
     function store(Request $request){
         $validatedData = $request->validate([
             'documentoPerfil' => 'required',
@@ -104,11 +105,17 @@ class GestionDocenteController extends Controller
         $dataHabilidades = Excel::load($request->file('documentoPerfil'), function ($reader) {
             $reader->setSelectedSheetIndices(array(5));
         })->get();//G04
-        $dataPostgrados = Excel::load($request->file('documentoPerfil'), function ($reader) {//G04
-            $reader->setSelectedSheetIndices(array(5));//G04
+        $dataPostgrados = Excel::load($request->file('documentoPerfil'), function ($reader) {
+            $reader->setSelectedSheetIndices(array(9));
         })->get();
         $dataRepresentaciones = Excel::load($request->file('documentoPerfil'), function ($reader) {
-            $reader->setSelectedSheetIndices(array(5));
+            $reader->setSelectedSheetIndices(array(13));
+        })->get();
+        $dataDiplomados = Excel::load($request->file('documentoPerfil'), function ($reader) {
+            $reader->setSelectedSheetIndices(array(14));
+        })->get();
+        $dataInvestigaciones = Excel::load($request->file('documentoPerfil'), function ($reader) {
+            $reader->setSelectedSheetIndices(array(16));
         })->get();
         $experienciaLaboral = $dataLaboral->toArray();
         $experienciaAcademica = $dataAcademica->toArray();
@@ -116,6 +123,8 @@ class GestionDocenteController extends Controller
         $habilidades = $dataHabilidades->toArray();
         $postgrados = $dataPostgrados->toArray();
         $representaciones = $dataRepresentaciones->toArray();
+        $diplomados = $dataDiplomados->toArray();
+        $investigaciones = $dataInvestigaciones->toArray();
         //return var_dump($habilidades[0]);
         //INSERTANDO LA EXPERIENCIA LABORAL
         try {
@@ -306,20 +315,18 @@ class GestionDocenteController extends Controller
                 }
             }
             $bodyHtml .= '<tr>';
-                        $bodyHtml .= '<td>REPRESENTACIONES</td>';
+                        $bodyHtml .= '<td>PARTICIPACIÓN EN CONGRESO/TALLERES/OTROS</td>';
                         $bodyHtml .= '<td><span class="badge badge-success">OK</span></td>';
                         $bodyHtml .= '<td>Todos los registros válidos se realizaron exitosamente.</td>';
                         $bodyHtml .= '</tr>';
         } catch (\Exception $e) {
            $bodyHtml .= '<tr>';
-                        $bodyHtml .= '<td>REPRESENTACIONES</td>';
+                        $bodyHtml .= '<td>PARTICIPACIÓN EN CONGRESO/TALLERES/OTROS</td>';
                         $bodyHtml .= '<td><span class="badge badge-danger">Error</span></td>';
-                        $bodyHtml .= '<td>Ocurrió un problema en alguno de los registros de las representaciones</td>';
+                        $bodyHtml .= '<td>Ocurrió un problema en alguno de los registros de Participación en Congreso/Talleres/Otros</td>';
                         $bodyHtml .= '</tr>';
         }
 
-
-        
 
         //INSERTANDO DIPLOMADO GP04-2019
 
@@ -327,15 +334,15 @@ class GestionDocenteController extends Controller
             foreach ($diplomados as $diplomado) {
                 if (!is_null($diplomado["nombre_diplomado"]) && !is_null($diplomado["descripcion_dip"]) && !is_null($diplomado["fecha_inicio_dip"]) && !is_null($diplomado["fecha_fin_dip"]) && !is_null($diplomado["id_cat_mod"]) && !is_null($diplomado["id_cat_inst"]) && !is_null($diplomado["id_cat_pa"])) {
 
-                  $lastId = dcn_cer_certificacionesModel::create
+                  $lastId = dcn_dip_diplomadosModel::create
                    ([
-                     'nombre_diplomado'       => $request["nombre_diplomado"],
-                     'descripcion_dip'        => $request["descripcion_dip"],
-                     'fecha_inicio_dip'           => $request["fecha_inicio_dip"],
-                     'fecha_fin_dip'              => $request["fecha_fin_dip"],
-                     'id_cat_mod'             => $request["id_cat_mod"],
-                     'id_cat_inst'            => $request["id_cat_inst"],
-                     'id_cat_pa'              => $request["id_cat_pa"],//se debe tener el CRUD o listado de cat_pa_pais
+                     'nombre_diplomado'       => $diplomado["nombre_diplomado"],
+                     'descripcion_dip'        => $diplomado["descripcion_dip"],
+                     'fecha_inicio_dip'       => $diplomado["fecha_inicio_dip"],
+                     'fecha_fin_dip'          => $diplomado["fecha_fin_dip"],
+                     'id_cat_mod'             => $diplomado["id_cat_mod"],
+                     'id_cat_inst'            => $diplomado["id_cat_inst"],
+                     'id_cat_pa'              => $diplomado["id_cat_pa"],//se debe tener el CRUD o listado de cat_pa_pais
                      'id_dcn'                 => $idDocente
                    ]);
                }
@@ -354,6 +361,44 @@ class GestionDocenteController extends Controller
        }
 // end INSERTANDO DIPLOMADO GP04-2019
 
+//INSERTANDO INVESTIGACIONES GP04-2019
+
+try {
+    foreach ($investigaciones as $investigacion) {
+        if (!is_null($investigacion["alumno"]) && !is_null($investigacion["tema"]) && !is_null($investigacion["fecha_inicio_inv"]) && !is_null($investigacion["fecha_fin_inv"]) && !is_null($investigacion["publicado"]) && !is_null($investigacion["revista"]) && !is_null($investigacion["url"]) && !is_null($investigacion["descripcion_inv"]) && !is_null($investigacion["id_cat_inst"]) && !is_null($investigacion["id_cat_pa"]) && !is_null($investigacion["id_cat_idi"]) && !is_null($investigacion["id_cat_tip_part"])) {
+
+          $lastId = dcn_inv_investigacionModel::create
+           ([
+             'alumno'                 => $investigacion["alumno"],
+             'tema'                   => $investigacion["tema"],
+             'fecha_inicio_inv'       => $investigacion["fecha_inicio_inv"],
+             'fecha_fin_inv'          => $investigacion["fecha_fin_inv"],
+             'publicado'              => $investigacion["publicado"],
+             'revista'                => $investigacion["revista"],
+             'url'                    => $investigacion["url"],
+             'descripcion_inv'        => $investigacion["descripcion_inv"],
+             'id_cat_inst'            => $investigacion["id_cat_inst"],
+             'id_cat_pa'              => $investigacion["id_cat_pa"],
+             'id_cat_idi'             => $investigacion["id_cat_idi"],//se debe tener el CRUD o listado de cat_pa_pais
+             'id_cat_tip_part'        => $investigacion["id_cat_tip_part"],
+             'id_dcn'                 => $idDocente
+           ]);
+       }
+   }
+   $bodyHtml .= '<tr>';
+               $bodyHtml .= '<td>INVESTIGACIONES</td>';
+               $bodyHtml .= '<td><span class="badge badge-success">OK</span></td>';
+               $bodyHtml .= '<td>Todos los registros válidos se realizaron exitosamente.</td>';
+               $bodyHtml .= '</tr>';
+} catch (\Exception $e) {
+  $bodyHtml .= '<tr>';
+               $bodyHtml .= '<td>INVESTIGACIONES</td>';
+               $bodyHtml .= '<td><span class="badge badge-danger">Error</span></td>';
+               $bodyHtml .= '<td>Ocurrió un problema en alguno de los registros de las investigaciones</td>';
+               $bodyHtml .= '</tr>';
+}
+// end INSERTANDO DIPLOMADO GP04-2019
+
         $docenteObjeto = pdg_dcn_docenteModel::find($idDocente);
         if (isset($request["perfilPrivado"])) {
             $docenteObjeto->perfilPrivado='0'; //PERFIL DEBE SER PUBLICO
@@ -368,7 +413,7 @@ class GestionDocenteController extends Controller
 
         return view('PerfilDocente.resultadoCarga', compact('bodyHtml'));
     }
-
+//--------------------------------------------------------------------------------------------
     function getInfoDocente(Request $request){
     	$docente = new pdg_dcn_docenteModel();
     	$info = $docente->getDataGestionDocente($request['docente']);
