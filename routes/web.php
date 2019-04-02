@@ -228,4 +228,4 @@ Route::resource ('catTipoParticipacionInv','cat_tip_part_inv_tipo_participacion_
 Route::resource ('catPensum','cat_pensumController');
 Route::resource ('catEscuela','cat_escuelaController');
 Route::resource ('catCarrera','cat_carreraController');
-Route::resource ('catMateria','cat_materiaController');
+Route::resource ('catMaterias','cat_materiaController');
