@@ -224,3 +224,8 @@ Route::resource ('catGrado','cat_gra_gradoController');//GP04-2019
 Route::resource ('catPais','cat_pa_paisController');//GP04-2019
 Route::resource ('catTipoRepresentacion','cat_tip_rep_tipo_representacionController'); //Grupo 04
 Route::resource ('catTipoParticipacionInv','cat_tip_part_inv_tipo_participacion_investigacionController'); //Grupo 04
+
+Route::resource ('catPensum','cat_pensumController');
+Route::resource ('catEscuela','cat_escuelaController');
+Route::resource ('catCarrera','cat_carreraController');
+Route::resource ('catMateria','cat_materiaController');

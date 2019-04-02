@@ -9,7 +9,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="app-url" content="{{ env('APP_URL') }}" >
   <meta name="current-url" content="{{\Illuminate\Support\Facades\URL::to('/')}}">
-  <title>.::SIGPAD - EISI</title>
+  <title>.::PROYECTOS - EISI</title>
   <!-- CSS-->
   {!!Html::style('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')!!}
   {!!Html::style('css/sb-admin.css')!!}
@@ -18,7 +18,7 @@
   {!!Html::style('https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css')!!}
   {!!Html::script('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')!!}
 
-  
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
     {!!Html::style('css/multi-select.css')!!}
@@ -47,37 +47,37 @@
 }
 
   </style>
-   
-  
-    
+
+
+
 </head>
-<body class="fixed-nav sticky-footer " id="page-top" style="background-color: #29282b; ">
+<body class="fixed-nav sticky-footer " id="page-top" style="background-color: #9c9c9c; ">
   <!-- Navigation-->
-  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style="background-color: #29282b; color: #ffffff;">
-    <a class="navbar-brand" href="{{  url('/') }}" style="font-family: American_Captain; font-size: 2em; margin-left: -50px; color: #ffffff; text-decoration: underline; text-indent: 1em; text-decoration-style: solid;"><i class="fa fa-eercast fa-lg" aria-hidden="true">  </i>    S I G P A D   </a>
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" style="background-color: #9c9c9c; color: #ffffff;">
+    <a class="navbar-brand" href="{{  url('/') }}" style="font-family: American_Captain; font-size: 2em; margin-left: -50px; color: #0000ff; text-decoration: underline; text-indent: 1em; text-decoration-style: solid;"><i class="fa fa-eercast fa-lg" aria-hidden="true">  </i>    P R O Y E C T O S   </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon fa fa-bars" style="color: #ffffff"></span>
     </button>
     <div class="collapse navbar-collapse " id="navbarResponsive" style=" color: #ffffff; "  >
-      <ul class="navbar-nav navbar-sidenav " id="exampleAccordion" style="overflow: auto;background-color: #29282b;color: #ffffff; z-index: 0; margin-top: 73px;">
+      <ul class="navbar-nav navbar-sidenav " id="exampleAccordion" style="overflow: auto;background-color: #9c9c9c;color: #1c0d02; z-index: 0; margin-top: 73px;">
         @can('prePerfil.index')
            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Trabajo de graduación">
-            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTrabajoGraduacion" data-parent="#exampleAccordion" style="color: #ffffff; font-weight: bold; background-color: #DF1D20; ">
+            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTrabajoGraduacion" data-parent="#exampleAccordion" style="color: #1c0d02; font-weight: bold; background-color: #DF1D20; ">
               <i class="fa fa-fw fa fa-mortar-board"></i>
-              <span class="nav-link-text" style="color: #ffffff" >Trabajo de Graduacion</span>
+              <span class="nav-link-text" style="color: #1c0d02" >Trabajo de Graduacion</span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseTrabajoGraduacion">
               @can('grupotdg.create')
                 <li>
-                  <a class="nav-link" href="{{route('grupo.create')}}" style="color: #ffffff">
+                  <a class="nav-link" href="{{route('grupo.create')}}" style="color: #1c0d02">
                     <i class="fa fa-users"></i>
                     @if(Auth::user()->isRole('estudiante'))
                     <span class="nav-link-text">Conformar Grupo</span>
                     @else
                     <span class="nav-link-text">Grupos de TG</span>
                     @endif
-                    
-                  </a>  
+
+                  </a>
               </li>
               @endcan
               @can('grupoAsesor.index')
@@ -85,7 +85,7 @@
                   <a class="nav-link" href="{{route('listadoGrupos')}}" style="color: #ffffff">
                     <i class="fa fa-users"></i>
                     <span class="nav-link-text">Mis Grupos de TG</span>
-                  </a>  
+                  </a>
               </li>
               @endcan
               @can('prePerfil.index')
@@ -94,7 +94,7 @@
                   <i class="fa fa-file-o"></i>
                   <span class="nav-link-text">Pre-Perfil</span>
                 </a>
-                     
+
               </li>
               @endcan
                @can('prePerfil.index')
@@ -103,15 +103,15 @@
                   <i class="fa fa-file-o"></i>
                   <span class="nav-link-text">Perfil</span>
                 </a>
-                     
+
               </li>
               @endcan
               @can('dashboard.index')
                 <li>
-                  <a class="nav-link" href="{{route('dashboard')}}" style="color: #ffffff">
+                  <a class="nav-link" href="{{route('dashboard')}}" style="color: #1c0d02">
                     <i class="fa fa-area-chart"></i>
                     <span class="nav-link-text">Dashboard</span>
-                  </a>   
+                  </a>
               </li>
               @endcan
               @can('tribunal.edit')
@@ -140,7 +140,7 @@
                   </li>
               @endcan
             </ul>
-          
+
           </li>
         @endcan
         @can('publicacion.index')
@@ -156,13 +156,13 @@
                           <a class="nav-link" href="{{route('publicacion.index')}}" style="color: #ffffff">
                             <i class="fa fa-file-text"></i>
                             <span class="nav-link-text">Histórico de Publicaciones</span>
-                          </a>  
+                          </a>
                         </li>
                         <li>
                           <a class="nav-link" href="{{route('BuscarPublicaciones')}}" style="color: #ffffff">
                             <i class="fa fa-search"></i>
                             <span class="nav-link-text">Búsqueda de Publicaciones</span>
-                          </a>  
+                          </a>
                         </li>
 
                        @endcan
@@ -175,7 +175,7 @@
                           </li>
                       @endcan
             </ul>
-                     
+
           </li>
         @endcan
         @can('gestionDocente.index')
@@ -197,8 +197,8 @@
           </li>
         @endcan
         @can('catalogo.index','usuario.index', 'permiso.index', 'rol.index')
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administracion" style="color: #ffffff">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAdministracion" data-parent="#exampleAccordion" style="color: #ffffff; font-weight: bold; background-color: #DF1D20; margin-top: 20px">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Administracion" style="color: #0000ff">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAdministracion" data-parent="#exampleAccordion" style="color: #ffffff; font-weight: bold; background-color: #0000ff; margin-top: 20px">
             <i class="fa fa-slack"></i>
             <span class="nav-link-text" style="color: #ffffff">Administración</span>
           </a>
@@ -208,7 +208,7 @@
                   <a class="nav-link" href="{{route('usuario.index')}}" style="color: #ffffff">
                     <i class="fa fa-users"></i>
                     <span class="nav-link-text">Usuarios</span>
-                  </a>  
+                  </a>
               </li>
               @can('usuario.cargar')
                   <li>
@@ -224,7 +224,7 @@
                   <a class="nav-link" href="{{route('rol.index')}}" style="color: #ffffff">
                     <i class="fa fa-address-card"></i>
                     <span class="nav-link-text">Roles</span>
-                  </a>  
+                  </a>
               </li>
             @endcan
             @can('permiso.create','permiso.edit','permiso.destroy','permiso.index')
@@ -232,7 +232,7 @@
                   <a class="nav-link" href="{{route('permiso.index')}}" style="color: #ffffff" >
                     <i class="fa fa-lock"></i>
                     <span class="nav-link-text">Permisos</span>
-                  </a>  
+                  </a>
               </li>
             @endcan
             @can('catalogo.index')
@@ -268,14 +268,14 @@
                           </a>
                       </li>
                 </ul>
-                     
+
           </li>
         @endcan
-        
+
       </ul>
       <ul class="navbar-nav sidenav-toggler" >
         <li class="nav-item">
-          <a class="nav-link text-center" id="sidenavToggler" style="background-color :#0A122A" >
+          <a class="nav-link text-center" id="sidenavToggler" style="background-color :#1c0d02" >
             <i class="fa fa-fw fa-angle-left"></i>
           </a>
         </li>
@@ -298,12 +298,12 @@
   <div class="content-wrapper">
     <div class="row-fluid user-row">
         @include('alerts.errors')
-        
+
     </div>
     <div class="container-fluid">
       <!-- Breadcrumbs-->
       @yield('content')
-       
+
       </div>
     </div>
     <!-- /.container-fluid-->
@@ -311,7 +311,7 @@
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
-          <small>Copyright © SIGPAD 2018</small>
+          <small>Copyright © PROYECTOS 2019</small>
         </div>
       </div>
     </footer>
@@ -338,12 +338,12 @@
       </div>
     </div>
   </div>
-   
+
   {!!Html::script('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js')!!}
   {!!Html::script('js/sb-admin.min.js')!!}
   {!!Html::script('https://unpkg.com/sweetalert/dist/sweetalert.min.js')!!}
 
-  
+
 </body>
 
 </html>
