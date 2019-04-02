@@ -4,9 +4,9 @@
 
 <ol class="breadcrumb"  style="text-align: center; margin-top: 1em;z-index: 0" >
         <li class="breadcrumb-item">
-          <h5> <a href="{{ route('catPais.index') }}" style="margin-left: 0em"><i class="fa fa-arrow-left fa-lg" style="z-index: 1;margin-top: 0em;margin-right: 0.5em; color: black"></i></a>      Catálogo de Paises </h5>
+          <h5> <a href="{{ route('catPais.index') }}" style="margin-left: 0em"><i class="fa fa-arrow-left fa-lg" style="z-index: 1;margin-top: 0em;margin-right: 0.5em; color: black"></i></a>      Catálogo de Carreras</h5>
         </li>
-        <li class="breadcrumb-item active">Nuevo Pais</li>
+        <li class="breadcrumb-item active">Nueva Carrera</li>
 </ol>
 
    <div class="row">
@@ -24,8 +24,8 @@
               </ul>
           </div>
         @endif
-    		{!! Form:: open(['route'=>'catPais.store','method'=>'POST']) !!}
-    			@include('catPais.forms.formCreate')
+    		{!! Form:: open(['route'=>'catCarrera.store','method'=>'POST']) !!}
+    			@include('catCarrera.forms.formCreate')
         <div class="row">
           <div class="form-group col-sm-6">
             {!! Form::submit('Registrar',['class'=>'btn btn-primary']) !!}

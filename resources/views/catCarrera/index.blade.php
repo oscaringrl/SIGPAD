@@ -11,7 +11,7 @@
 <script type="text/javascript">
 	$( document ).ready(function() {
 		 $('.deleteButton').on('submit',function(e){
-        if(!confirm('Estas seguro que deseas eliminar pais')){
+        if(!confirm('Estas seguro que desea eliminar la carrera')){
 
               e.preventDefault();
         	}
@@ -26,30 +26,30 @@
            {
                 extend: 'excelHtml5',
                 exportOptions: {
-                    columns: [ 0]
+                    columns: [0,1,2]
                 },
-                title: 'Listado de paises'
+                title: 'Listado de carreras'
             },
             {
                 extend: 'pdfHtml5',
                 exportOptions: {
-                    columns: [ 0]
+                    columns: [0,1,2]
                 },
-                title: 'Listado de paises'
+                title: 'Listado de carreras'
             },
              {
                 extend: 'csvHtml5',
                 exportOptions: {
-                    columns: [ 0]
+                    columns: [0,1,2]
                 },
-                title: 'Listado de paises'
+                title: 'Listado de carreras'
             },
             {
                 extend: 'print',
                 exportOptions: {
-                    columns: [ 0]
+                    columns: [0,1,2]
                 },
-                title: 'Listado de paises'
+                title: 'Listado de carreras'
             }
 
 
@@ -66,17 +66,17 @@
 </script>
 		<ol class="breadcrumb"  style="text-align: center; margin-top: 1em">
 	        <li class="breadcrumb-item">
-	          <h5><a href="{{ route('catCatalogo.index') }}" style="margin-left: 0em"><i class="fa fa-arrow-left fa-lg" style="z-index: 1;margin-top: 0em;margin-right: 0.5em; color: black"></i></a>     PAISES</h5>
+	          <h5><a href="{{ route('catCatalogo.index') }}" style="margin-left: 0em"><i class="fa fa-arrow-left fa-lg" style="z-index: 1;margin-top: 0em;margin-right: 0.5em; color: black"></i></a>     Carreras</h5>
 	        </li>
-	        <li class="breadcrumb-item active">Listado Paises</li>
+	        <li class="breadcrumb-item active">Listado Carreras</li>
 		</ol>
 		 <div class="row">
   <div class="col-sm-3"></div>
   <div class="col-sm-3"></div>
    <div class="col-sm-3"></div>
-  @can('catPais.create')
+  @can('catCarrera.create')
     <div class="col-sm-3">
-      <a class="btn btn-primary" href="{{route('catPais.create')}}" ><i class="fa fa-plus"></i> Nuevo Pais</a>
+      <a class="btn btn-primary" href="{{route('catCarrera.create')}}" ><i class="fa fa-plus"></i> Nueva Carrera</a>
     </div>
   @endcan
   </div>
@@ -86,28 +86,33 @@
   			<table class="table table-hover table-striped  display" id="listTable">
 
   				<thead>
-					<th>Pais</th>
-                     @can('catPais.edit')
+          <th>Codigo</th>
+					<th>Carrera</th>
+          <th>Escuela</th>
+                     @can('catCarrera.edit')
                     <th style="text-align: center;">Acciones</th>
 
                     @endcan
-                    @can('catPais.destroy')
+                    @can('catCarrera.destroy')
                     @endcan
   				</thead>
   				<tbody>
-  				@foreach($catPais as $catPa)
+  				@foreach($catCarrera as $catCa)
 					<tr>
-						<td>{{ $catPa->nombre_pais}}</td>
+            <td>{{$catCa->codigo_carrera}}</td>
+						<td>{{$catCa->nombre_carrera}}</td>
+            <td>{{$catCa->id_escuela}}</td>
+
                         <td style="width: 160px">
                             <div class="row">
-                                @can('catPais.edit')
+                                @can('catCarrera.edit')
                                 <div class="col-6">
-                                    <a class="btn " style="background-color:  #102359;color: white" href="{{route('catPais.edit',$catPa->id_cat_pa)}}"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn " style="background-color:  #102359;color: white" href="{{route('catCarrera.edit',$catCa->id_carrera)}}"><i class="fa fa-pencil"></i></a>
                                 </div>
                                 @endcan
-                                @can('cargoEisi.destroy')
+                                @can('catCarrera.destroy')
                                     <div class="col-6">
-                                        {!! Form::open(['route'=>['catPais.destroy',$catPa->id_cat_pa],'method'=>'DELETE','class' => 'deleteButton']) !!}
+                                        {!! Form::open(['route'=>['catCarrera.destroy',$catCa->id_carrera],'method'=>'DELETE','class' => 'deleteButton']) !!}
                                         <div class="btn-group">
                                             <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                         </div>
